@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531766623881",
+    "project_id": "diplomst",
+    "storage_bucket": "diplomst.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531766623881:android:0dc544d18530988234d058",
+        "android_client_info": {
+          "package_name": "com.example.health_steshkin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531766623881-2m54g9u535qfhk30csra2d2511c0ppl3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY9gxFkN2iUTDSICa-EgfwmjIWJP1XKlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531766623881-2m54g9u535qfhk30csra2d2511c0ppl3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
