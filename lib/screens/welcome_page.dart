@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:health_steshkin/screens/reg.dart';
-import 'package:health_steshkin/screens/auth.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: WelcomePage(),
-    );
-  }
-}
+import 'package:health_steshkin/screens/reg_screen.dart';
+import 'package:health_steshkin/screens/auth_screen.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -44,10 +24,10 @@ class _WelcomePageState extends State {
                     height: 20,
                   ),
                   Image.asset(
-                      "assets/image/123.png",
-                      width: 260,
-                      height: 180,
-                      color: Colors.white,
+                    "assets/image/123.png",
+                    width: 260,
+                    height: 180,
+                    color: Colors.white,
                   ),
                   Expanded(
                     child: Align(
@@ -59,7 +39,7 @@ class _WelcomePageState extends State {
                             onPressed: (){
                               Navigator.push<void>(
                                 context,
-                                MaterialPageRoute(builder: (context) => const AuthRoute()),
+                                MaterialPageRoute(builder: (context) => const LoginScreen()),
                               );
                             },
                             child: Text('Есть аккаунт?',
@@ -80,7 +60,7 @@ class _WelcomePageState extends State {
                             onPressed: (){
                               Navigator.push<void>(
                                 context,
-                                MaterialPageRoute(builder: (context) => const RegRoute()),
+                                MaterialPageRoute(builder: (context) => RegScreen()),
                               );
                             },
                             child: Text('Нет аккаунта?',
@@ -136,9 +116,9 @@ Container _getHeader() {
       Text(
         'Трекер здоровья',
         style: TextStyle(
-            fontFamily: 'Rubik',
-            color: Colors.green,
-            fontSize: 37,
+          fontFamily: 'Rubik',
+          color: Colors.green,
+          fontSize: 37,
         ),
         textAlign: TextAlign.center,
       ),
