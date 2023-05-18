@@ -71,14 +71,14 @@ class _RegScreenState extends State {
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.green,
+                          color: Colors.blueGrey,
                           width: 3,
                         ),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.green,
+                          color: Colors.blueGrey,
                           width: 3,
                         ),
                         borderRadius: BorderRadius.circular(50),
@@ -113,14 +113,14 @@ class _RegScreenState extends State {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
-                            color: Colors.green,
+                            color: Colors.blueGrey,
                           ),
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
-                            color: Colors.green,
+                            color: Colors.blueGrey,
                           ),
                           borderRadius: BorderRadius.circular(50.0),
                         ),
@@ -160,14 +160,14 @@ class _RegScreenState extends State {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
-                            color: Colors.green,
+                            color: Colors.blueGrey,
                           ),
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
-                            color: Colors.green,
+                            color: Colors.blueGrey,
                           ),
                           borderRadius: BorderRadius.circular(50.0),
                         ),
@@ -254,9 +254,9 @@ class _RegScreenState extends State {
                       style: TextStyle(fontFamily: 'Rubik', fontSize: 22),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.blueGrey,
                       side: BorderSide(
-                        color: Color.fromARGB(255, 121, 110, 101),
+                        color: Colors.white,
                         width: 2,
                       ),
                       minimumSize: Size(150, 50),
@@ -284,7 +284,7 @@ class _RegScreenState extends State {
                           'Авторизоваться',
                           style: TextStyle(
                             fontFamily: 'Rubik',
-                            color: Colors.blueAccent,
+                            color: Colors.amber,
                           ),
                         ),
                       ),
@@ -333,7 +333,7 @@ AlertDialog _getAlertReg(String description, BuildContext context) {
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blueGrey,
         ),
       ),
       ElevatedButton(
@@ -348,7 +348,7 @@ AlertDialog _getAlertReg(String description, BuildContext context) {
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blueGrey,
         ),
       ),
     ],
@@ -385,7 +385,7 @@ AlertDialog _getAlertWarning(String text, String description, BuildContext conte
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.black12,
         ),
       ),
     ],

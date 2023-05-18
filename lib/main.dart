@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:health_steshkin/screens/email_verified_screen.dart';
-import 'package:health_steshkin/screens/welcome_page.dart';
+import 'package:health_steshkin/screens/reset_password_screen.dart';
 import 'firebase_options.dart';
 import 'package:health_steshkin/screens/reg_screen.dart';
 import 'package:health_steshkin/screens/auth_screen.dart';
@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/start': (context) => FirebaseUser(),
-        '/welcome': (context) => WelcomePage(),
         '/login': (context) => LoginScreen(),
         '/reg': (context) => RegScreen(),
         '/verified': (context) => VerifyEmailScreen(),
+        '/reset_password': (context) => ResetPasswordScreen(),
       },
       initialRoute: '/start',
     );

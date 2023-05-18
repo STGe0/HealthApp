@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/screens/main_screen.dart';
-import 'package:health_steshkin/screens/variables.dart';
+import 'package:health_steshkin/services/variables.dart';
 
 class VerifyEmailScreen extends StatefulWidget{
   const VerifyEmailScreen({super.key});

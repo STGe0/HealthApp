@@ -1,55 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:health_steshkin/screens/main_food.dart';
+import 'package:health_steshkin/screens/main_sleep.dart';
+import 'package:health_steshkin/screens/main_strength.dart';
+import 'package:health_steshkin/services/firebase_user.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  final user = FirebaseAuth.instance.currentUser;
-
-  Future<void> signOut() async {
-    final navigator = Navigator.of(context);
-
-    await FirebaseAuth.instance.signOut();
-
-    navigator.pushNamedAndRemoveUntil('/start', (route) => false);
-  }
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 27, 35, 36),
-      body: Center(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            reverse: true,
-            padding: EdgeInsets.all(32),
-            child: Column(
-              children: [
-                Text(
-                  'Главная страница',
-                  style: TextStyle(
-                      fontFamily: 'Rubik',
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontStyle: FontStyle.italic),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(onPressed: () => signOut(),
-                    child: Text('Выйти')
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    final navigator = Navigator.of(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/home': (context) => MainScreen(),
+        '/food': (context) => FoodScreen(),
+        '/sleep': (context) => SleepScreen(),
+        '/strength': (context) => StrengthScreen(),
+        '/start_main': (context) => FirebaseUser(),
+      },
+      initialRoute: '/food',
     );
   }
 }

@@ -20,13 +20,23 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/image/logo.png"
 
 flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/image/123.png
+    - assets/image/logo.png
+    - assets/image/food.png
+    - assets/image/sleep.png
+    - assets/image/strength.png
 
   fonts:
      - family: Rubik

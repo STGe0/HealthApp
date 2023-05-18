@@ -130,14 +130,14 @@ class _LoginScreenState extends State<LoginScreen>{
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.green,
+                                  color: Colors.blueGrey,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.green,
+                                  color: Colors.blueGrey,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
@@ -178,14 +178,14 @@ class _LoginScreenState extends State<LoginScreen>{
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 3,
-                                    color: Colors.green,
+                                    color: Colors.blueGrey,
                                   ),
                                   borderRadius: BorderRadius.circular(50.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 3,
-                                    color: Colors.green,
+                                    color: Colors.blueGrey,
                                   ),
                                   borderRadius: BorderRadius.circular(50.0),
                                 ),
@@ -220,9 +220,9 @@ class _LoginScreenState extends State<LoginScreen>{
                                   fontSize: 22),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.blueGrey,
                               side: BorderSide(
-                                color: Color.fromARGB(255, 121, 110, 101),
+                                color: Colors.white,
                                 width: 2,
                               ),
                               minimumSize: Size(150, 50),
@@ -231,22 +231,46 @@ class _LoginScreenState extends State<LoginScreen>{
                           SizedBox(
                             height: 15,
                           ),
-                          TextButton(onPressed: () => navigator.pushNamedAndRemoveUntil('/reg', (Route<dynamic> route) => false),
-                              child: Text(
-                                'Регистрация',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Нет аккаунта?',
                                 style: TextStyle(
                                   fontFamily: 'Rubik',
-                                  color: Colors.blueAccent,
+                                  color: Colors.white,
                                 ),
-                              ),),
-                          TextButton(onPressed: (){},
-                            child: Text(
-                              'Сбросить пароль',
-                              style: TextStyle(
-                                fontFamily: 'Rubik',
-                                color: Colors.blueAccent,
                               ),
-                            ),),
+                              TextButton(onPressed: () => navigator.pushNamedAndRemoveUntil('/reg', (Route<dynamic> route) => false),
+                                child: Text(
+                                  'Регистрация',
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik',
+                                    color: Colors.amber,
+                                  ),
+                                ),),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Забыли пароль?',
+                                style: TextStyle(
+                                  fontFamily: 'Rubik',
+                                  color: Colors.white,
+                                ),
+                              ),
+                              TextButton(onPressed: () => Navigator.of(context).pushNamed('/reset_password'),
+                                child: Text(
+                                  'Сбросить пароль',
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik',
+                                    color: Colors.amber,
+                                  ),
+                                ),),
+                            ],
+                          ),
                         ],
                       ),
                     ],
@@ -290,7 +314,7 @@ AlertDialog _getAlertWarning(String text, String description, BuildContext conte
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.black12,
         ),
       ),
     ],
