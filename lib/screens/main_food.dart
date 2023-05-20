@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/bottom_bar/bottom_bar.dart';
-import 'package:health_steshkin/screens/account_screen.dart';
+import 'package:health_steshkin/services/all_routes.dart';
+import 'package:health_steshkin/services/variables.dart';
 
 class FoodScreen extends StatefulWidget{
-  const FoodScreen({super.key});
+  final globalVar goTR;
+  const FoodScreen(this.goTR, {super.key});
 
   @override
   State<FoodScreen> createState() => _FoodScreenState();
@@ -32,11 +34,7 @@ class _FoodScreenState extends State<FoodScreen>{
             return IconButton(
                 splashRadius: 24,
                 onPressed: (){
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AccountScreen()),
-                  );
+                  widget.goTR.goToRoute(AllRoutes.account);
                 },
                 icon: Icon(Icons.account_circle)
             );
@@ -70,7 +68,7 @@ class _FoodScreenState extends State<FoodScreen>{
           ],
         ),
       ),
-      bottomNavigationBar: BottomWidget(),
+      bottomNavigationBar: BottomWidget(widget.goTR),
     );
   }
 }

@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:health_steshkin/services/all_routes.dart';
+import 'package:health_steshkin/services/variables.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class AccountScreen extends StatefulWidget{
-  const AccountScreen({super.key});
+  final globalVar  goTR;
+  const AccountScreen(this.goTR, {super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -27,7 +31,7 @@ class _AccountScreenState extends State<AccountScreen>{
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: Text(
-          'Аккаунт',
+          'Профиль',
           style: TextStyle(
               fontFamily: 'Rubik',
               color: Colors.white,
@@ -40,18 +44,139 @@ class _AccountScreenState extends State<AccountScreen>{
           builder: (BuildContext context){
             return IconButton(
                 splashRadius: 24,
-                onPressed: () => navigator.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
-                icon: Icon(Icons.keyboard_backspace)
+                onPressed: () {
+                  widget.goTR.goToRoute(AllRoutes.food);
+                },
+                icon: Icon(LineAwesomeIcons.angle_left)
             );
           },
         ),
-        actions: [
-          IconButton(
-              splashRadius: 22,
-              onPressed: () => signOut(),
-              icon: Icon(Icons.logout))
-        ],
       ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 120,
+                width: 120,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image(
+                    image: AssetImage('assets/image/account.jpg'),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text('Имя аккаунт',
+                style: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                ),
+              ),
+              Text('Почта аккаунта',
+                style: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 200,
+                child: ElevatedButton(onPressed: (){},
+                    child: Text('Редактировать',
+                      style: TextStyle(
+                        fontFamily: 'Rubik',
+                        color: Colors.white,
+                      ),
+                    ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                ),
+              ),
+              const Divider(
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              MenuProfileButton(title: 'Настройки', icon: LineAwesomeIcons.cog, textColor: Colors.white, onPress: (){},),
+              SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              MenuProfileButton(title: 'Информация', icon: LineAwesomeIcons.info, textColor: Colors.white, onPress: (){},),
+              SizedBox(
+                height: 10,
+              ),
+              MenuProfileButton(title: 'Выход', icon: LineAwesomeIcons.alternate_sign_out, textColor: Colors.red.shade300, onPress: () => signOut(), endIcon: false,),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MenuProfileButton extends StatelessWidget {
+  const MenuProfileButton({
+    Key? key,
+    required this.title,
+    required this.icon,
+    this.textColor,
+    required this.onPress,
+    this.endIcon = true,
+  }) : super(key: key);
+
+  final String title;
+  final IconData icon;
+  final VoidCallback onPress;
+  final bool endIcon;
+  final Color? textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onPress,
+      leading: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: Colors.blueGrey,
+        ),
+        child: Icon(icon,
+        color: Colors.white,
+        ),
+      ),
+      title: Text(title,
+        style: TextStyle(
+          fontFamily: 'Rubik',
+          color: textColor,
+        ),
+      ),
+      trailing: endIcon? Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: Colors.white.withOpacity(0.1),
+        ),
+        child: const Icon(LineAwesomeIcons.angle_right,
+          size: 18,
+          color: Colors.white,
+        ),
+      ) : null,
     );
   }
 }

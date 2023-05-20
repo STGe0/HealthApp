@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
 import 'package:health_steshkin/screens/auth_screen.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:health_steshkin/services/controllers.dart';
 
 class RegScreen extends StatefulWidget {
   @override
@@ -9,21 +13,8 @@ class RegScreen extends StatefulWidget {
 
 class _RegScreenState extends State {
   bool passwordHidden = true;
-  TextEditingController emailTextInputController = TextEditingController();
-  TextEditingController passwordTextInputController = TextEditingController();
-  TextEditingController passwordTextInputControllerRepeat =
-      TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    emailTextInputController.dispose();
-    passwordTextInputController.dispose();
-    passwordTextInputControllerRepeat.dispose();
-
-    super.dispose();
-  }
 
   void togglePasswordView() {
     setState(() {
@@ -34,6 +25,7 @@ class _RegScreenState extends State {
   @override
   Widget build(BuildContext context) {
     final navigator = Navigator.of(context);
+    final controller = Get.put(SignUpController());
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
@@ -42,7 +34,7 @@ class _RegScreenState extends State {
           key: formKey,
           child: SafeArea(
             child: SingleChildScrollView(
-              reverse: true,
+              reverse: false,
               padding: EdgeInsets.all(32),
               child: Column(
                 children: [
@@ -58,8 +50,53 @@ class _RegScreenState extends State {
                   SizedBox(
                     height: 20,
                   ),
+                  //Текстовое поле (Логин)
                   TextFormField(
-                    controller: emailTextInputController,
+                    controller: controller.fullNameController,
+                    keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    keyboardAppearance: Brightness.dark,
+                    style: TextStyle(
+                      fontFamily: 'Rubik',
+                      color: Colors.white,
+                    ),
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      suffixIconColor: Colors.white,
+                      suffixIcon: Icon(Icons.account_circle),
+                      labelStyle: TextStyle(
+                        fontFamily: 'Rubik',
+                        color: Colors.white,
+                      ),
+                      labelText: 'Логин',
+                      helperStyle: TextStyle(
+                        fontFamily: 'Rubik',
+                        color: Colors.white,
+                      ),
+                      helperText: 'Введите свой логин',
+                    ),
+                    enabled: true,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  //Текстовое поле (email)
+                  TextFormField(
+                    controller: controller.emailController,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     keyboardAppearance: Brightness.dark,
@@ -101,8 +138,89 @@ class _RegScreenState extends State {
                   SizedBox(
                     height: 15,
                   ),
+                  //Числовое поле (Рост)
                   TextFormField(
-                    controller: passwordTextInputController,
+                    controller: controller.heightController,
+                    keyboardAppearance: Brightness.dark,
+                    style: TextStyle(
+                      fontFamily: 'Rubik',
+                      color: Colors.white,
+                    ),
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.blueGrey,
+                          ),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.blueGrey,
+                          ),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        labelStyle: TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                        ),
+                        suffixIconColor: Colors.white,
+                        suffixIcon: Icon(Icons.height),
+                        labelText: 'Рост (см)',
+                        helperStyle: TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                        ),
+                        helperText: 'Введите свой рост'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  //Числовое поле (Вес)
+                  TextFormField(
+                    controller: controller.weightController,
+                    keyboardAppearance: Brightness.dark,
+                    style: TextStyle(
+                      fontFamily: 'Rubik',
+                      color: Colors.white,
+                    ),
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.blueGrey,
+                          ),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.blueGrey,
+                          ),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        labelStyle: TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                        ),
+                        suffixIconColor: Colors.white,
+                        suffixIcon: Icon(Icons.monitor_weight),
+                        labelText: 'Вес (кг)',
+                        helperStyle: TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                        ),
+                        helperText: 'Введите свой вес'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  //Текстовое поле (Пароль)
+                  TextFormField(
+                    controller: controller.passwordController,
                     keyboardAppearance: Brightness.dark,
                     style: TextStyle(
                       fontFamily: 'Rubik',
@@ -148,8 +266,9 @@ class _RegScreenState extends State {
                   SizedBox(
                     height: 15,
                   ),
+                  //Текстовое поле (Пароль (повтор))
                   TextFormField(
-                    controller: passwordTextInputControllerRepeat,
+                    controller: controller.passwordRepeatController,
                     keyboardAppearance: Brightness.dark,
                     style: TextStyle(
                       fontFamily: 'Rubik',
@@ -197,13 +316,13 @@ class _RegScreenState extends State {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (passwordTextInputController.text ==
-                          passwordTextInputControllerRepeat.text) {
+                      if (controller.passwordController.text ==
+                          controller.passwordRepeatController.text && formKey.currentState!.validate()) {
                         try {
                           final credential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
-                            email: emailTextInputController.text.trim(),
-                            password: passwordTextInputController.text.trim(),
+                            email: controller.emailController.text.trim(),
+                            password: controller.passwordController.text.trim(),
                           );
                           navigator.pushNamedAndRemoveUntil('/start', (Route<dynamic> route) => false);
                         } on FirebaseAuthException catch (e) {

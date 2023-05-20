@@ -11,10 +11,13 @@ dependencies:
     sdk: flutter
   lints: ^2.0.1
   cupertino_icons: ^1.0.2
-  firebase_core: ^2.10.0
+  firebase_core: ^2.13.0
   firebase_auth: ^4.5.0
   firebase_core_desktop: ^1.0.2
   email_validator: '^2.1.16'
+  cloud_firestore: ^4.7.1
+  get: ^4.6.5
+  line_awesome_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +40,7 @@ flutter:
     - assets/image/food.png
     - assets/image/sleep.png
     - assets/image/strength.png
+    - assets/image/account.jpg
 
   fonts:
      - family: Rubik

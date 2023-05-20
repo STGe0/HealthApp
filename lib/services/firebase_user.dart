@@ -23,7 +23,7 @@ class FirebaseUser extends StatelessWidget {
           }
           return MainScreen();
         } else {
-          return RegScreen();
+          return LoginScreen();
         }
       },
     );
