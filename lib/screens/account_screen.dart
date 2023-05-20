@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:health_steshkin/models/user_model.dart';
 import 'package:health_steshkin/services/all_routes.dart';
+import 'package:health_steshkin/services/profile_controller.dart';
 import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -27,7 +30,7 @@ class _AccountScreenState extends State<AccountScreen>{
   @override
   Widget build(BuildContext context){
     final navigator = Navigator.of(context);
-
+    final controller = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       appBar: AppBar(
@@ -57,93 +60,119 @@ class _AccountScreenState extends State<AccountScreen>{
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(30),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 120,
-                    width: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image(
-                        image: AssetImage('assets/image/account.jpg'),
+          child: FutureBuilder(
+            future: controller.getUserData(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.done){
+                if(snapshot.hasData){
+                  UserModel userData = snapshot.data as UserModel;
+                  return Column(
+                    children: [
+                      Stack(
+                        children: [
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image(
+                                image: AssetImage('assets/image/account.jpg'),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 35,
+                              height: 35,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.blueGrey),
+                              child: const Icon(LineAwesomeIcons.alternate_pencil,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.blueGrey),
-                      child: const Icon(LineAwesomeIcons.alternate_pencil,
-                      color: Colors.white,
-                      size: 20,
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text('Имя аккаунт',
-                style: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                ),
-              ),
-              Text('Почта аккаунта',
-                style: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 200,
-                child: ElevatedButton(onPressed: () {
-                  widget.goTR.goToRoute(AllRoutes.account_update);
-                },
-                    child: Text('Редактировать',
-                      style: TextStyle(
-                        fontFamily: 'Rubik',
+                      Text(userData.fullName.toString(),
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(userData.email.toString(),
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: ElevatedButton(onPressed: () {
+                          widget.goTR.goToRoute(AllRoutes.account_update);
+                        },
+                          child: Text('Редактировать',
+                            style: TextStyle(
+                              fontFamily: 'Rubik',
+                              color: Colors.white,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            side: BorderSide.none,
+                            shape: const StadiumBorder(),
+                            backgroundColor: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                      const Divider(
                         color: Colors.white,
                       ),
-                    ),
-                  style: ElevatedButton.styleFrom(
-                    side: BorderSide.none,
-                    shape: const StadiumBorder(),
-                    backgroundColor: Colors.blueGrey,
-                  ),
-                ),
-              ),
-              const Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              MenuProfileButton(title: 'Настройки', icon: LineAwesomeIcons.cog, textColor: Colors.white, onPress: (){},),
-              SizedBox(
-                height: 10,
-              ),
-              const Divider(
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              MenuProfileButton(title: 'Информация', icon: LineAwesomeIcons.info, textColor: Colors.white, onPress: (){},),
-              SizedBox(
-                height: 10,
-              ),
-              MenuProfileButton(title: 'Выход', icon: LineAwesomeIcons.alternate_sign_out, textColor: Colors.red.shade300, onPress: () => signOut(), endIcon: false,),
-            ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      MenuProfileButton(title: 'Настройки', icon: LineAwesomeIcons.cog, textColor: Colors.white, onPress: (){},),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      const Divider(
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      MenuProfileButton(title: 'Информация', icon: LineAwesomeIcons.info, textColor: Colors.white, onPress: (){},),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      MenuProfileButton(title: 'Выход', icon: LineAwesomeIcons.alternate_sign_out, textColor: Colors.red.shade300, onPress: () => signOut(), endIcon: false,),
+                    ],
+                  );
+                } else{
+                  if(snapshot.hasError){
+                    return Center(
+                      child: Text(
+                        snapshot.error.toString(),
+                      ),
+                    );
+                  } else{
+                    return const Center(
+                      child: Text("Что-то пошло не так"),
+                    );
+                  }
+                }
+              } else{
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           ),
         ),
       ),
@@ -179,7 +208,7 @@ class MenuProfileButton extends StatelessWidget {
           color: Colors.blueGrey,
         ),
         child: Icon(icon,
-        color: Colors.white,
+          color: Colors.white,
         ),
       ),
       title: Text(title,

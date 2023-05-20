@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:health_steshkin/repository/auth_rep.dart';
 import 'package:health_steshkin/screens/email_verified_screen.dart';
 import 'package:health_steshkin/screens/reset_password_screen.dart';
 import 'firebase_options.dart';
@@ -12,7 +15,7 @@ Future<void> main() async {
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  ).then((value) => Get.put(AuthRep()));
   runApp(MyApp());
 }
 
