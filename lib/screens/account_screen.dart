@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/services/all_routes.dart';
@@ -26,6 +27,7 @@ class _AccountScreenState extends State<AccountScreen>{
   @override
   Widget build(BuildContext context){
     final navigator = Navigator.of(context);
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       appBar: AppBar(
@@ -57,15 +59,32 @@ class _AccountScreenState extends State<AccountScreen>{
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              SizedBox(
-                height: 120,
-                width: 120,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image(
-                    image: AssetImage('assets/image/account.jpg'),
+              Stack(
+                children: [
+                  SizedBox(
+                    height: 120,
+                    width: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image(
+                        image: AssetImage('assets/image/account.jpg'),
+                      ),
+                    ),
                   ),
-                ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.blueGrey),
+                      child: const Icon(LineAwesomeIcons.alternate_pencil,
+                      color: Colors.white,
+                      size: 20,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -87,7 +106,9 @@ class _AccountScreenState extends State<AccountScreen>{
               ),
               SizedBox(
                 width: 200,
-                child: ElevatedButton(onPressed: (){},
+                child: ElevatedButton(onPressed: () {
+                  widget.goTR.goToRoute(AllRoutes.account_update);
+                },
                     child: Text('Редактировать',
                       style: TextStyle(
                         fontFamily: 'Rubik',
@@ -95,6 +116,8 @@ class _AccountScreenState extends State<AccountScreen>{
                       ),
                     ),
                   style: ElevatedButton.styleFrom(
+                    side: BorderSide.none,
+                    shape: const StadiumBorder(),
                     backgroundColor: Colors.blueGrey,
                   ),
                 ),

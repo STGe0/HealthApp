@@ -5,4 +5,5 @@ class AllRoutes{
   static const String strength = '/strength';
   static const String start_main = '/start_main';
   static const String account = '/account';
+  static const String account_update = '/account_update';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -128,6 +129,8 @@ class _LoginScreenState extends State<LoginScreen>{
                             ),
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
+                              prefixIconColor: Colors.white,
+                              prefixIcon: Icon(Icons.email),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.blueGrey,
@@ -142,8 +145,6 @@ class _LoginScreenState extends State<LoginScreen>{
                                 ),
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              suffixIconColor: Colors.white,
-                              suffixIcon: Icon(Icons.email),
                               labelStyle: TextStyle(
                                 fontFamily: 'Rubik',
                                 color: Colors.white,
@@ -175,6 +176,8 @@ class _LoginScreenState extends State<LoginScreen>{
                             ),
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
+                                prefixIconColor: Colors.white,
+                                prefixIcon: Icon(LineAwesomeIcons.fingerprint),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 3,

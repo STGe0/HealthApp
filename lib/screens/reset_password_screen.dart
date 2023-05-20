@@ -130,6 +130,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>{
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                      prefixIconColor: Colors.white,
+                      prefixIcon: Icon(Icons.email),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.blueGrey,
@@ -144,8 +146,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>{
                         ),
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      suffixIconColor: Colors.white,
-                      suffixIcon: Icon(Icons.email),
                       labelStyle: TextStyle(
                         fontFamily: 'Rubik',
                         color: Colors.white,

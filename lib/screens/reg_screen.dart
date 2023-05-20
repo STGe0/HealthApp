@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
+import 'package:health_steshkin/models/user_model.dart';
+import 'package:health_steshkin/repository/user_repository/user_repository.dart';
 import 'package:health_steshkin/screens/auth_screen.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/services/controllers.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class RegScreen extends StatefulWidget {
   @override
@@ -62,6 +65,8 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.account_circle),
+                      prefixIconColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.blueGrey,
@@ -76,8 +81,6 @@ class _RegScreenState extends State {
                         ),
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      suffixIconColor: Colors.white,
-                      suffixIcon: Icon(Icons.account_circle),
                       labelStyle: TextStyle(
                         fontFamily: 'Rubik',
                         color: Colors.white,
@@ -106,6 +109,8 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      prefixIconColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.blueGrey,
@@ -120,8 +125,6 @@ class _RegScreenState extends State {
                         ),
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      suffixIconColor: Colors.white,
-                      suffixIcon: Icon(Icons.email),
                       labelStyle: TextStyle(
                         fontFamily: 'Rubik',
                         color: Colors.white,
@@ -142,12 +145,15 @@ class _RegScreenState extends State {
                   TextFormField(
                     controller: controller.heightController,
                     keyboardAppearance: Brightness.dark,
+                    keyboardType: TextInputType.number,
                     style: TextStyle(
                       fontFamily: 'Rubik',
                       color: Colors.white,
                     ),
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(LineAwesomeIcons.alternate_long_arrow_up),
+                        prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
@@ -166,8 +172,6 @@ class _RegScreenState extends State {
                           fontFamily: 'Rubik',
                           color: Colors.white,
                         ),
-                        suffixIconColor: Colors.white,
-                        suffixIcon: Icon(Icons.height),
                         labelText: 'Рост (см)',
                         helperStyle: TextStyle(
                           fontFamily: 'Rubik',
@@ -182,12 +186,15 @@ class _RegScreenState extends State {
                   TextFormField(
                     controller: controller.weightController,
                     keyboardAppearance: Brightness.dark,
+                    keyboardType: TextInputType.number,
                     style: TextStyle(
                       fontFamily: 'Rubik',
                       color: Colors.white,
                     ),
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(LineAwesomeIcons.weight),
+                        prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
@@ -206,8 +213,6 @@ class _RegScreenState extends State {
                           fontFamily: 'Rubik',
                           color: Colors.white,
                         ),
-                        suffixIconColor: Colors.white,
-                        suffixIcon: Icon(Icons.monitor_weight),
                         labelText: 'Вес (кг)',
                         helperStyle: TextStyle(
                           fontFamily: 'Rubik',
@@ -228,6 +233,8 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(LineAwesomeIcons.fingerprint),
+                        prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
@@ -276,6 +283,8 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
+                        prefixIcon: Icon(LineAwesomeIcons.fingerprint),
+                        prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 3,
@@ -316,14 +325,28 @@ class _RegScreenState extends State {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (controller.passwordController.text ==
-                          controller.passwordRepeatController.text && formKey.currentState!.validate()) {
+                      if(controller.passwordController.text.trim() == controller.passwordRepeatController.text.trim()
+                          && formKey.currentState!.validate() && !controller.passwordController.text.trim().isEmpty
+                          && !controller.passwordRepeatController.text.trim().isEmpty && !controller.fullNameController.text.trim().isEmpty
+                          && !controller.emailController.text.trim().isEmpty && !controller.heightController.text.trim().isEmpty
+                          && !controller.weightController.text.trim().isEmpty) {
+                        final userM = UserModel(
+                          fullName: controller.fullNameController.text.trim(),
+                          email: controller.emailController.text.trim(),
+                          password: controller.passwordController.text.trim(),
+                          height_user: controller.heightController.text.trim(),
+                          weight_user_now: controller.weightController.text.trim(),
+                        );
+                        //Создаем запись в БД пользователей (user)
                         try {
                           final credential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                             email: controller.emailController.text.trim(),
                             password: controller.passwordController.text.trim(),
                           );
+                          //Создаем запись в БД (user)
+                          final userRepo = Get.put(UserRepository());
+                          userRepo.createUser(userM);
                           navigator.pushNamedAndRemoveUntil('/start', (Route<dynamic> route) => false);
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'weak-password') {
@@ -356,15 +379,15 @@ class _RegScreenState extends State {
                                       context);
                                 });
                           }
-                        } catch (e) {
+                        } catch(e){
                           print(e);
                         }
                       } else {
                         showDialog<void>(
                             context: context,
                             builder: (BuildContext context) {
-                              return _getAlertWarning('Пароли не совпадают',
-                                  'Пароли не совпадают', context);
+                              return _getAlertWarning('Неверные данные',
+                                  'Введены неверные данные (пустые поля или неверный формат) или введенные пароли не совпадают', context);
                             });
                       }
                     },

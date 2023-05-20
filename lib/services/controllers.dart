@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:health_steshkin/repository/user_repository/user_repository.dart';
 
 class SignUpController extends GetxController{
   static SignUpController get instance => Get.find();

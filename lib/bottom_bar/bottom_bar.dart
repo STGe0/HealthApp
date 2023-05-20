@@ -53,7 +53,6 @@ class _BottomWidgetState extends State<BottomWidget>{
                 top: Radius.circular(15)
             ),
             onTap: () {
-
               widget.goTR.goToRoute(AllRoutes.sleep);
             },
             child: SizedBox(
