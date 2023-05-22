@@ -16,4 +16,12 @@ class ProfileController extends GetxController{
     final email = _authRepo.firebaseUser.value?.email;
     return _userRepo.getUserDetails(email!);
   }
+
+  Future<void> updateAccount(UserModel user) async{
+     await _userRepo.updateUserAccount(user);
+  }
+
+  Future<void> deleteAccount(UserModel user) async{
+    await _userRepo.deleteUserAccount(user);
+  }
 }

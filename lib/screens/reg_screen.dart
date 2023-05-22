@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,8 @@ import 'package:health_steshkin/repository/user_repository/user_repository.dart'
 import 'package:health_steshkin/screens/auth_screen.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/services/controllers.dart';
+import 'package:health_steshkin/services/profile_controller.dart';
+import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class RegScreen extends StatefulWidget {
@@ -29,7 +32,6 @@ class _RegScreenState extends State {
   Widget build(BuildContext context) {
     final navigator = Navigator.of(context);
     final controller = Get.put(SignUpController());
-
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       body: Center(
@@ -330,13 +332,6 @@ class _RegScreenState extends State {
                           && !controller.passwordRepeatController.text.trim().isEmpty && !controller.fullNameController.text.trim().isEmpty
                           && !controller.emailController.text.trim().isEmpty && !controller.heightController.text.trim().isEmpty
                           && !controller.weightController.text.trim().isEmpty) {
-                        final userM = UserModel(
-                          fullName: controller.fullNameController.text.trim(),
-                          email: controller.emailController.text.trim(),
-                          password: controller.passwordController.text.trim(),
-                          height_user: controller.heightController.text.trim(),
-                          weight_user_now: controller.weightController.text.trim(),
-                        );
                         //Создаем запись в БД пользователей (user)
                         try {
                           final credential = await FirebaseAuth.instance
@@ -344,10 +339,8 @@ class _RegScreenState extends State {
                             email: controller.emailController.text.trim(),
                             password: controller.passwordController.text.trim(),
                           );
-                          //Создаем запись в БД (user)
-                          final userRepo = Get.put(UserRepository());
-                          userRepo.createUser(userM);
-                          navigator.pushNamedAndRemoveUntil('/start', (Route<dynamic> route) => false);
+                          navigator.pushNamedAndRemoveUntil(
+                              '/start', (Route<dynamic> route) => false);
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'weak-password') {
                             showDialog<void>(
@@ -440,61 +433,6 @@ class _RegScreenState extends State {
       ),
     );
   }
-}
-
-AlertDialog _getAlertReg(String description, BuildContext context) {
-  return AlertDialog(
-    backgroundColor: Colors.blueGrey,
-    title: Text(
-      'Успех!',
-      style: TextStyle(
-        fontFamily: 'Rubik',
-        color: Colors.white,
-      ),
-    ),
-    content: Text(
-      description,
-      style: TextStyle(
-        fontFamily: 'Rubik',
-        color: Colors.white,
-      ),
-    ),
-    actions: [
-      ElevatedButton(
-        onPressed: () {
-          Navigator.push<void>(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
-          );
-        },
-        child: Text(
-          'Ок',
-          style: TextStyle(
-            fontFamily: 'Rubik',
-            color: Colors.white,
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
-        ),
-      ),
-      ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: Text(
-          'Закрыть',
-          style: TextStyle(
-            fontFamily: 'Rubik',
-            color: Colors.white,
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
-        ),
-      ),
-    ],
-  );
 }
 
 AlertDialog _getAlertWarning(String text, String description, BuildContext context) {

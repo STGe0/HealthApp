@@ -1,7 +1,13 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:health_steshkin/models/user_model.dart';
+import 'package:health_steshkin/repository/user_repository/user_repository.dart';
 import 'package:health_steshkin/screens/main_screen.dart';
+import 'package:health_steshkin/services/controllers.dart';
+import 'package:health_steshkin/services/profile_controller.dart';
 import 'package:health_steshkin/services/variables.dart';
 
 class VerifyEmailScreen extends StatefulWidget{
@@ -15,6 +21,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>{
   bool isEmailVerified = false; //Переменная в которой хранится информация о подтверждении email (да/нет)
   bool canResendEmail = false;
   Timer? timer;
+
+  final controller = Get.put(SignUpController());
+
 
   @override
   void initState(){
@@ -44,7 +53,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>{
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
 
-    if (isEmailVerified) timer?.cancel();
+    if (isEmailVerified)
+      {
+        final userM = UserModel(
+          fullName: controller.fullNameController.text.trim(),
+          email: controller.emailController.text.trim(),
+          height_user: controller.heightController.text.trim(),
+          weight_user_now: controller.weightController.text.trim(),
+        );
+
+        final userRepo = Get.put(UserRepository());
+        userRepo.createUser(userM);
+
+        timer?.cancel();
+      }
   }
 
   Future<void> sendVerificationEmail() async {
