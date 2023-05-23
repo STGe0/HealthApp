@@ -7,7 +7,3 @@ class globalVar{
 
   globalVar(this.thisRoute, this.goToRoute);
 }
-
-class isReg{
-  static bool isRegis = false;
-}

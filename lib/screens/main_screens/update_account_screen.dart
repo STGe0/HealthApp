@@ -74,7 +74,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
                                 child: Image(
-                                  image: AssetImage('assets/image/account.jpg'),
+                                  image: AssetImage('assets/image/logo.png'),
                                 ),
                               ),
                             ),
@@ -231,6 +231,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 height: 40,
                                 child: ElevatedButton(
                                   onPressed: () async{
+                                    if(fullName.text.trim().length >=4 && weight.text.length >= 2 && height.text.length >= 3){
                                     final userMod = UserModel(
                                       id: id.text,
                                       email: userData.email,
@@ -239,6 +240,84 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                       weight_user_now: weight.text.trim(),
                                     );
                                     await controller.updateAccount(userMod);
+                                    showDialog<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors.blueGrey,
+                                            title: Text(
+                                              'Успешно',
+                                              style: TextStyle(
+                                                fontFamily: 'Rubik',
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            content: Text(
+                                              'Аккаунт успешно отредактирован',
+                                              style: TextStyle(
+                                                fontFamily: 'Rubik',
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            actions: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  'Ок',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Rubik',
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.black12,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  } else {
+                                      showDialog<void>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors.blueGrey,
+                                              title: Text(
+                                                'Неверный формат',
+                                                style: TextStyle(
+                                                  fontFamily: 'Rubik',
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              content: Text(
+                                                'Неверный формат или поля пустые',
+                                                style: TextStyle(
+                                                  fontFamily: 'Rubik',
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              actions: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    'Ок',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Rubik',
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.black12,
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    };
                                   },
                                   child: Text(
                                     'Редактировать',
@@ -304,6 +383,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                                     try{
                                                       await FirebaseAuth.instance.currentUser!.delete();
                                                       controller.deleteAccount(userMod);
+                                                      Navigator.of(context).pop();
                                                     }
                                                     catch(e){
                                                     }

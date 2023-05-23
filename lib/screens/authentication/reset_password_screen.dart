@@ -61,7 +61,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>{
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey,
+                    backgroundColor: Colors.black12,
                   ),
                 ),
               ],
@@ -228,7 +228,7 @@ AlertDialog _getAlertWarning(String text, String description, BuildContext conte
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black12,
+          backgroundColor: Colors.black26,
         ),
       ),
     ],

@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
-import 'package:health_steshkin/models/user_model.dart';
-import 'package:health_steshkin/repository/user_repository/user_repository.dart';
-import 'package:health_steshkin/screens/auth_screen.dart';
+import 'package:health_steshkin/screens/authentication/auth_screen.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/services/controllers.dart';
-import 'package:health_steshkin/services/profile_controller.dart';
-import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class RegScreen extends StatefulWidget {
@@ -19,7 +14,6 @@ class RegScreen extends StatefulWidget {
 
 class _RegScreenState extends State {
   bool passwordHidden = true;
-
   final formKey = GlobalKey<FormState>();
 
   void togglePasswordView() {
@@ -66,7 +60,29 @@ class _RegScreenState extends State {
                       color: Colors.white,
                     ),
                     textInputAction: TextInputAction.next,
+                    //Вызов пустого "setState" для обновления валидации при изменении текстового поля
+                    onChanged: (_) => setState(() {
+                    }),
                     decoration: InputDecoration(
+                      errorText: _errorText(controller.fullNameController.text.trim()),
+                      errorStyle: TextStyle(
+                        color: Colors.red.shade400,
+                        fontFamily: 'Rubik',
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.redAccent,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                       prefixIcon: Icon(Icons.account_circle),
                       prefixIconColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -88,11 +104,6 @@ class _RegScreenState extends State {
                         color: Colors.white,
                       ),
                       labelText: 'Логин',
-                      helperStyle: TextStyle(
-                        fontFamily: 'Rubik',
-                        color: Colors.white,
-                      ),
-                      helperText: 'Введите свой логин',
                     ),
                     enabled: true,
                   ),
@@ -101,6 +112,7 @@ class _RegScreenState extends State {
                   ),
                   //Текстовое поле (email)
                   TextFormField(
+                    onChanged: (_) => setState(() {}),
                     controller: controller.emailController,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
@@ -111,6 +123,25 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                      errorText: _errorEmail(controller.emailController.text.trim()),
+                      errorStyle: TextStyle(
+                        color: Colors.red.shade400,
+                        fontFamily: 'Rubik',
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blueGrey,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.redAccent,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                       prefixIcon: Icon(Icons.email),
                       prefixIconColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
@@ -132,11 +163,6 @@ class _RegScreenState extends State {
                         color: Colors.white,
                       ),
                       labelText: 'Email',
-                      helperStyle: TextStyle(
-                        fontFamily: 'Rubik',
-                        color: Colors.white,
-                      ),
-                      helperText: 'Формат: 123qwe@mail.com',
                     ),
                     enabled: true,
                   ),
@@ -145,6 +171,8 @@ class _RegScreenState extends State {
                   ),
                   //Числовое поле (Рост)
                   TextFormField(
+                    onChanged: (_) => setState(() {}),
+                    maxLength: 3,
                     controller: controller.heightController,
                     keyboardAppearance: Brightness.dark,
                     keyboardType: TextInputType.number,
@@ -154,7 +182,26 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(LineAwesomeIcons.alternate_long_arrow_up),
+                        errorText: _errorHeight(controller.heightController.text.trim()),
+                        errorStyle: TextStyle(
+                          color: Colors.red.shade400,
+                          fontFamily: 'Rubik',
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.redAccent,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      prefixIcon: Icon(LineAwesomeIcons.alternate_long_arrow_up),
                         prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -175,17 +222,19 @@ class _RegScreenState extends State {
                           color: Colors.white,
                         ),
                         labelText: 'Рост (см)',
-                        helperStyle: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
-                        ),
-                        helperText: 'Введите свой рост'),
+                      helperStyle: TextStyle(
+                        fontFamily: 'Rubik',
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   //Числовое поле (Вес)
                   TextFormField(
+                    onChanged: (_) => setState(() {}),
+                    maxLength: 3,
                     controller: controller.weightController,
                     keyboardAppearance: Brightness.dark,
                     keyboardType: TextInputType.number,
@@ -195,6 +244,25 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
+                        errorText: _errorWeight(controller.weightController.text.trim()),
+                        errorStyle: TextStyle(
+                          color: Colors.red.shade400,
+                          fontFamily: 'Rubik',
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.redAccent,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                         prefixIcon: Icon(LineAwesomeIcons.weight),
                         prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
@@ -220,13 +288,14 @@ class _RegScreenState extends State {
                           fontFamily: 'Rubik',
                           color: Colors.white,
                         ),
-                        helperText: 'Введите свой вес'),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   //Текстовое поле (Пароль)
                   TextFormField(
+                    onChanged: (_) => setState(() {}),
                     controller: controller.passwordController,
                     keyboardAppearance: Brightness.dark,
                     style: TextStyle(
@@ -235,7 +304,25 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(LineAwesomeIcons.fingerprint),
+                        errorText: _errorPass(controller.passwordController.text.trim()),
+                        errorStyle: TextStyle(
+                          color: Colors.red.shade400,
+                          fontFamily: 'Rubik',
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.redAccent,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),                        prefixIcon: Icon(LineAwesomeIcons.fingerprint),
                         prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -265,11 +352,7 @@ class _RegScreenState extends State {
                           color: Colors.white,
                         ),
                         labelText: 'Пароль',
-                        helperStyle: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
-                        ),
-                        helperText: 'Обязательно 6 символов'),
+                    ),
                     obscureText: passwordHidden,
                   ),
                   SizedBox(
@@ -277,6 +360,7 @@ class _RegScreenState extends State {
                   ),
                   //Текстовое поле (Пароль (повтор))
                   TextFormField(
+                    onChanged: (_) => setState(() {}),
                     controller: controller.passwordRepeatController,
                     keyboardAppearance: Brightness.dark,
                     style: TextStyle(
@@ -285,6 +369,25 @@ class _RegScreenState extends State {
                     ),
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
+                        errorText: _errorPassRep(controller.passwordController.text.trim(), controller.passwordRepeatController.text.trim()),
+                        errorStyle: TextStyle(
+                          color: Colors.red.shade400,
+                          fontFamily: 'Rubik',
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.redAccent,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                         prefixIcon: Icon(LineAwesomeIcons.fingerprint),
                         prefixIconColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
@@ -315,11 +418,7 @@ class _RegScreenState extends State {
                           color: Colors.white,
                         ),
                         labelText: 'Пароль (повтор)',
-                        helperStyle: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
-                        ),
-                        helperText: 'Повторите пароль'),
+                    ),
                     obscureText: passwordHidden,
                   ),
                   SizedBox(
@@ -331,8 +430,8 @@ class _RegScreenState extends State {
                           && formKey.currentState!.validate() && !controller.passwordController.text.trim().isEmpty
                           && !controller.passwordRepeatController.text.trim().isEmpty && !controller.fullNameController.text.trim().isEmpty
                           && !controller.emailController.text.trim().isEmpty && !controller.heightController.text.trim().isEmpty
-                          && !controller.weightController.text.trim().isEmpty) {
-                        //Создаем запись в БД пользователей (user)
+                          && !controller.weightController.text.trim().isEmpty && controller.weightController.text.trim().length >= 2
+                          && controller.heightController.text.trim().length >= 3 && controller.fullNameController.text.trim().length >= 4) {
                         try {
                           final credential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
@@ -435,6 +534,65 @@ class _RegScreenState extends State {
   }
 }
 
+//Функции проверки текстовых полей (валидации полей)
+String? _errorText(String text) {
+  if(text.isEmpty){
+    return 'Введите Ваш логин';
+  } else{
+    if(text.length < 4){
+      return 'Минимум 4 символа';
+    }
+  } return null;
+}
+
+String? _errorEmail(String text) {
+  final bool isEmail = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(text);
+  if(text.isEmpty){
+    return 'Введите адрес электронной почты';
+  } else{
+    if(!isEmail){
+      return 'Введите верный формат адреса';
+    }
+  } return null;
+}
+
+String? _errorWeight(String text) {
+  if(text.isEmpty || text.length < 2){
+    return 'Введите Ваш вес (кг)';
+  } return null;
+}
+
+String? _errorHeight(String text) {
+  if(text.isEmpty || text.length < 3){
+    return 'Введите Ваш рост (см)';
+  } return null;
+}
+
+String? _errorPass(String text) {
+  if(text.isEmpty){
+    return 'Введите пароль';
+  } else{
+    if(text.length < 6){
+      return 'Минимум 6 символов';
+    }
+  } return null;
+}
+
+String? _errorPassRep(String pass1, String pass2) {
+  if(pass2.isEmpty){
+    return 'Повторите пароль';
+  } else{
+    if(pass2.length < 6){
+      return 'Минимум 6 символов';
+    } else{
+      if(pass1 != pass2){
+        return 'Пароли не совпадают';
+      }
+    }
+  } return null;
+}
+
+//Функция вывода на экран диалог. окна
 AlertDialog _getAlertWarning(String text, String description, BuildContext context) {
   return AlertDialog(
     backgroundColor: Colors.blueGrey,

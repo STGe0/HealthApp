@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:health_steshkin/screens/account_screen.dart';
-import 'package:health_steshkin/screens/main_food.dart';
-import 'package:health_steshkin/screens/main_sleep.dart';
-import 'package:health_steshkin/screens/main_strength.dart';
-import 'package:health_steshkin/screens/update_account_screen.dart';
+import 'package:health_steshkin/screens/main_screens/account_screen.dart';
+import 'package:health_steshkin/screens/main_screens/main_food.dart';
+import 'package:health_steshkin/screens/main_screens/main_sleep.dart';
+import 'package:health_steshkin/screens/main_screens/main_strength.dart';
+import 'package:health_steshkin/screens/main_screens/update_account_screen.dart';
 import 'package:health_steshkin/services/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 

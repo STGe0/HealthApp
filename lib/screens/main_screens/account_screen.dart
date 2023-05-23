@@ -76,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen>{
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Image(
-                                image: AssetImage('assets/image/account.jpg'),
+                                image: AssetImage('assets/image/logo.png'),
                               ),
                             ),
                           ),
@@ -151,7 +151,71 @@ class _AccountScreenState extends State<AccountScreen>{
                       SizedBox(
                         height: 10,
                       ),
-                      MenuProfileButton(title: 'Выход', icon: LineAwesomeIcons.alternate_sign_out, textColor: Colors.red.shade300, onPress: () => signOut(), endIcon: false,),
+                      MenuProfileButton(
+                        title: 'Выход',
+                        icon: LineAwesomeIcons.alternate_sign_out,
+                        textColor: Colors.red.shade300,
+                        onPress: () {
+                          showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: Colors.blueGrey,
+                                  title: Text(
+                                    'Удаления аккаунта',
+                                    style: TextStyle(
+                                      fontFamily: 'Rubik',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  content: const Text(
+                                    'Вы точно хотите выйти из аккаунта?',
+                                    style: TextStyle(
+                                      fontFamily: 'Rubik',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        try{
+                                          signOut();
+                                          Navigator.of(context).pop();
+                                        }
+                                        catch(e){
+                                        }
+                                      },
+                                      child: Text(
+                                        'Да',
+                                        style: TextStyle(
+                                          fontFamily: 'Rubik',
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black12,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        'Отменить',
+                                        style: TextStyle(
+                                          fontFamily: 'Rubik',
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black12,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                          },
+                        endIcon: false,),
                     ],
                   );
                 } else{

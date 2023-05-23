@@ -19,6 +19,7 @@ dependencies:
   get: ^4.6.5
   line_awesome_flutter: ^2.0.0
   intl: ^0.18.1
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -41,7 +42,6 @@ flutter:
     - assets/image/food.png
     - assets/image/sleep.png
     - assets/image/strength.png
-    - assets/image/account.jpg
 
   fonts:
      - family: Rubik
