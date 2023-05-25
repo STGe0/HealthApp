@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:health_steshkin/bottom_bar/bottom_bar.dart';
-import 'package:health_steshkin/services/all_routes.dart';
+import 'package:health_steshkin/custom_widgets/bottom_bar.dart';
+import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 
-class StrengthScreen extends StatefulWidget{
+class FoodScreen extends StatefulWidget{
   final globalVar goTR;
-  const StrengthScreen(this.goTR, {super.key});
+  const FoodScreen(this.goTR, {super.key});
 
   @override
-  State<StrengthScreen> createState() => _StrengthScreenState();
+  State<FoodScreen> createState() => _FoodScreenState();
 }
 
-class _StrengthScreenState extends State<StrengthScreen>{
+class _FoodScreenState extends State<FoodScreen>{
 
   @override
   Widget build(BuildContext context){
@@ -49,7 +49,7 @@ class _StrengthScreenState extends State<StrengthScreen>{
               padding: EdgeInsets.all(25),
               child: Center(
                 child: Text(
-                  'Физическая активность',
+                  'Питание',
                   style: TextStyle(
                       fontFamily: 'Rubik',
                       color: Colors.white,

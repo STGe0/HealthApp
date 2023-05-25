@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_steshkin/services/all_routes.dart';
+import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 
 class BottomWidget extends StatefulWidget {

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/models/user_model.dart';
-import 'package:health_steshkin/services/all_routes.dart';
-import 'package:health_steshkin/services/profile_controller.dart';
+import 'package:health_steshkin/services/navigation/all_routes.dart';
+import 'package:health_steshkin/services/controllers/profile_controller.dart';
 import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 

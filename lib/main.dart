@@ -3,12 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/repository/auth_rep.dart';
-import 'package:health_steshkin/screens/authentication/email_verified_screen.dart';
-import 'package:health_steshkin/screens/authentication/reset_password_screen.dart';
+import 'package:health_steshkin/screens/authentication/registration_screen/email_verified_screen.dart';
+import 'package:health_steshkin/screens/authentication/authorization_screen/reset_password_screen.dart';
 import 'firebase_options.dart';
-import 'package:health_steshkin/screens/authentication/reg_screen.dart';
-import 'package:health_steshkin/screens/authentication/auth_screen.dart';
-import 'package:health_steshkin/services/firebase_user.dart';
+import 'package:health_steshkin/screens/authentication/registration_screen/reg_screen.dart';
+import 'package:health_steshkin/screens/authentication/authorization_screen/auth_screen.dart';
+import 'package:health_steshkin/services/navigation/firebase_user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/screens/authentication/splash_screen.dart';
 import 'package:health_steshkin/screens/main_screens/main_screen.dart';
-import 'package:health_steshkin/screens/authentication/email_verified_screen.dart';
+import 'package:health_steshkin/screens/authentication/registration_screen/email_verified_screen.dart';
 
-import '../screens/authentication/auth_screen.dart';
+import '../../screens/authentication/authorization_screen/auth_screen.dart';
 
 class FirebaseUser extends StatelessWidget {
   const FirebaseUser({super.key});

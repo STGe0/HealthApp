@@ -3,8 +3,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:health_steshkin/models/user_model.dart';
 import 'package:health_steshkin/repository/auth_rep.dart';
-
-import '../repository/user_repository/user_repository.dart';
+import '../../repository/user_repository/user_repository.dart';
 
 class ProfileController extends GetxController{
   static ProfileController get instance => Get.find();

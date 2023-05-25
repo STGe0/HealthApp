@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
-import 'package:health_steshkin/screens/authentication/auth_screen.dart';
+import 'package:health_steshkin/screens/authentication/authorization_screen/auth_screen.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:health_steshkin/services/controllers.dart';
+import 'package:health_steshkin/services/controllers/controllers.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class RegScreen extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/models/user_model.dart';
 import 'package:health_steshkin/repository/user_repository/user_repository.dart';
 import 'package:health_steshkin/screens/main_screens/main_screen.dart';
-import 'package:health_steshkin/services/controllers.dart';
+import 'package:health_steshkin/services/controllers/controllers.dart';
 
 class VerifyEmailScreen extends StatefulWidget{
   const VerifyEmailScreen({super.key});

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:health_steshkin/screens/main_screens/account_screen.dart';
-import 'package:health_steshkin/screens/main_screens/main_food.dart';
-import 'package:health_steshkin/screens/main_screens/main_sleep.dart';
-import 'package:health_steshkin/screens/main_screens/main_strength.dart';
-import 'package:health_steshkin/screens/main_screens/update_account_screen.dart';
-import 'package:health_steshkin/services/all_routes.dart';
+import 'package:health_steshkin/screens/main_screens/account_screen/account_screen.dart';
+import 'package:health_steshkin/screens/main_screens/food_screen/main_food.dart';
+import 'package:health_steshkin/screens/main_screens/sleep_screen/main_sleep.dart';
+import 'package:health_steshkin/screens/main_screens/sleep_screen/sleep_add.dart';
+import 'package:health_steshkin/screens/main_screens/strength_screen/main_strength.dart';
+import 'package:health_steshkin/screens/main_screens/account_screen/update_account_screen.dart';
+import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 
 class MainScreen extends StatefulWidget{
@@ -42,6 +43,10 @@ class _MainScreenState extends State<MainScreen>{
           if(thisRoute == AllRoutes.sleep)
             MaterialPage<void>(
               child: SleepScreen(goTR),
+            ),
+          if(thisRoute == AllRoutes.sleep_add)
+            MaterialPage<void>(
+              child: AddSleepScreen(goTR),
             ),
           if(thisRoute == AllRoutes.strength)
             MaterialPage<void>(
