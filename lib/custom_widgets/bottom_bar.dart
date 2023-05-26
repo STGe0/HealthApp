@@ -14,9 +14,9 @@ class _BottomWidgetState extends State<BottomWidget>{
 
   Color activeButtonColor(String route){
     if(route == widget.goTR.thisRoute){
-      return const Color.fromARGB(35, 255, 255, 255);
+      return const Color.fromARGB(255, 125, 125, 119);
     }
-    return Colors.transparent;
+    return Color.fromARGB(255, 27, 35, 36);
   }
 
   @override
@@ -25,13 +25,7 @@ class _BottomWidgetState extends State<BottomWidget>{
       children: [
         Material(
           color: activeButtonColor(AllRoutes.food),
-          borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(15)
-          ),
           child: InkWell(
-            borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(15)
-            ),
             onTap: () {
               widget.goTR.goToRoute(AllRoutes.food);
             },
@@ -47,11 +41,7 @@ class _BottomWidgetState extends State<BottomWidget>{
         ),
         Material(
           color: activeButtonColor(AllRoutes.sleep),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
           child: InkWell(
-            borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(15)
-            ),
             onTap: () {
               widget.goTR.goToRoute(AllRoutes.sleep);
             },
@@ -67,12 +57,7 @@ class _BottomWidgetState extends State<BottomWidget>{
         ),
         Material(
     color: activeButtonColor(AllRoutes.strength),
-    borderRadius: const BorderRadius.vertical(
-    top: Radius.circular(15)),
           child: InkWell(
-            borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(15)
-            ),
             onTap: () {
               widget.goTR.goToRoute(AllRoutes.strength);
             },

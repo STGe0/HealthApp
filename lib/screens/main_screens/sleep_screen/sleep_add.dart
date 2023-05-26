@@ -24,106 +24,134 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
   final user = FirebaseAuth.instance.currentUser;
   TimeOfDay time = TimeOfDay(hour: 08, minute: 00);
 
+  DateTime _value = DateTime.now();
+  DateTime today = DateTime.now();
+
+  Future _selectDate() async{
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _value,
+      firstDate: new DateTime(2023),
+      lastDate: new DateTime.now(),
+    );
+    if(picked != null){
+      setState(() {
+        _value = picked;
+      });
+    }
+  }
+
+  String _dateFormatter(DateTime tm){
+    DateTime today = new DateTime.now();
+    Duration oneDay = new Duration(days: 1);
+    Duration twoDay = new Duration(days: 2);
+    late String month;
+
+    switch(tm.month){
+      case 1:
+        month = 'Января';
+        break;
+      case 2:
+        month = 'Ферваля';
+        break;
+      case 3:
+        month = 'Марта';
+        break;
+      case 4:
+        month = 'Апреля';
+        break;
+      case 5:
+        month = 'Мая';
+        break;
+      case 6:
+        month = 'Июня';
+        break;
+      case 7:
+        month = 'Июля';
+        break;
+      case 8:
+        month = 'Августа';
+        break;
+      case 9:
+        month = 'Сентября';
+        break;
+      case 10:
+        month = 'Октября';
+        break;
+      case 11:
+        month = 'Ноября';
+        break;
+      case 12:
+        month = 'Декабря';
+        break;
+    }
+    Duration difference = today.difference(tm);
+
+    return "${tm.day} $month ${tm.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
-    String day_date = DateFormat.EEEE().format(DateTime.now());
-      switch(day_date){
-        case 'Monday':
-          setState(() {
-            day_date = 'Понедельник';
-          });
-          break;
-        case 'Tuesday':
-          setState(() {
-            day_date = 'Вторник';
-          });
-          break;
-        case 'Wednesday':
-          setState(() {
-            day_date = 'Среда';
-          });
-          break;
-        case 'Thursday':
-          setState(() {
-            day_date = 'Четверг';
-          });
-          break;
-        case 'Friday':
-          setState(() {
-            day_date = 'Пятница';
-          });
-          break;
-        case 'Saturday':
-          setState(() {
-            day_date = 'Суббота';
-          });
-          break;
-        case 'Sunday':
-          setState(() {
-            day_date = 'Воскресенье';
-          });
-          break;
-      }
-    String day_mounth = DateFormat.LLLL().format(DateTime.now());
-    switch(day_mounth){
+    String day_month = DateFormat.LLLL().format(DateTime.now());
+    switch(day_month){
       case 'January':
         setState(() {
-          day_mounth = 'Января';
+          day_month = 'Января';
         });
         break;
       case 'February':
         setState(() {
-          day_mounth = 'Ферваля';
+          day_month = 'Ферваля';
         });
         break;
       case 'March':
         setState(() {
-          day_mounth = 'Марта';
+          day_month = 'Марта';
         });
         break;
       case 'April':
         setState(() {
-          day_mounth = 'Апреля';
+          day_month = 'Апреля';
         });
         break;
       case 'May':
         setState(() {
-          day_mounth = 'Мая';
+          day_month = 'Мая';
         });
         break;
       case 'June':
         setState(() {
-          day_mounth = 'Июня';
+          day_month = 'Июня';
         });
         break;
       case 'July':
         setState(() {
-          day_mounth = 'Июля';
+          day_month = 'Июля';
         });
         break;
       case 'August':
         setState(() {
-          day_mounth = 'Августа';
+          day_month = 'Августа';
         });
         break;
       case 'September':
         setState(() {
-          day_mounth = 'Сентября';
+          day_month = 'Сентября';
         });
         break;
       case 'October':
         setState(() {
-          day_mounth = 'Октября';
+          day_month = 'Октября';
         });
         break;
       case 'November':
         setState(() {
-          day_mounth = 'Ноября';
+          day_month = 'Ноября';
         });
         break;
       case 'December':
         setState(() {
-          day_mounth = 'Декабря';
+          day_month = 'Декабря';
         });
         break;
     }
@@ -169,13 +197,54 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Выберите количество часов и минут, которые вы провели сегодня во сне',
+                      'Выберите дату и количество часов:минут, которые вы провели во сне',
                       style: TextStyle(
                         fontSize: 22,
                         fontFamily: 'Rubik',
                         color: Colors.white,
                       ),
                       textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 35,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_left, size: 25,),
+                          color: Colors.white,
+                          onPressed: (){
+                            setState(() {
+                              _value = _value.subtract(Duration(days: 1));
+                            });
+                          },
+                        ),
+                        TextButton(
+                          onPressed: (){
+                          },
+                          child: Text(_dateFormatter(_value),
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'Rubik',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.arrow_right, size: 25,),
+                          color: Colors.white,
+                          onPressed: (){
+                            if(today.difference(_value).compareTo(Duration(days: 1)) == -1){
+                            } else {
+                              setState(() {
+                                _value = _value.add(Duration(days: 1));
+                              });
+                            }
+                          },
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 35,
@@ -239,13 +308,13 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                           } else{
                             if(int.parse(hours) >= 10){
                               setState(() {
-                                status = 'Продолжительность сна выше нормы';
+                                status = 'Выше нормы';
                               });
                             }
                           }
                           final sleepRecord = SleepModel(
                               Email_user: userData.email.toString(),
-                              Date_record: DateFormat.d().format(DateTime.now()).toString() + " " + day_mounth + ", " + day_date,
+                              Date_record: _dateFormatter(_value),
                               Duration: '${hours}:${minutes}',
                               Status: status,
                           );

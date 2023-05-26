@@ -20,4 +20,8 @@ class SleepController extends GetxController{
     final email = _authRepo.firebaseUser.value?.email;
     return await _sleepRepo.allSleepRecords(email!);
   }
+
+  Future<void> deleteSleep(SleepModel sleep) async{
+    await _sleepRepo.deleteSleepRecord(sleep);
+  }
 }

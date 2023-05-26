@@ -342,7 +342,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 children: [
                                   Text.rich(
                                     TextSpan(
-                                      text: 'Зарегистрирован ' + dateSignUp,
+                                      text: dateSignUp,
                                       style: TextStyle(
                                         fontFamily: 'Rubik',
                                         color: Colors.white,

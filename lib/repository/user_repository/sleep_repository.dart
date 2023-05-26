@@ -27,7 +27,9 @@ class SleepRepository extends GetxController{
   }
   
   Future<List<SleepModel>> allSleepRecords(String email) async{
-    final snapshot = await _db.collection("sleep").where("Email_user", isEqualTo: email).get();
+    final snapshot = await _db.collection("sleep")
+        .where("Email_user", isEqualTo: email)
+        .get();
     final sleepRecords = snapshot.docs.map((e) => SleepModel.fromSnapshot(e)).toList();
 
     return sleepRecords;

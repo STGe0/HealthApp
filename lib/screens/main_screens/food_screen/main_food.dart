@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/custom_widgets/bottom_bar.dart';
 import 'package:health_steshkin/services/navigation/all_routes.dart';
@@ -19,14 +20,47 @@ class _FoodScreenState extends State<FoodScreen>{
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text(
-          'HealthApp',
-          style: TextStyle(
-              fontFamily: 'Rubik',
-              color: Colors.white,
-              fontSize: 24,
-              fontStyle: FontStyle.italic),
-          textAlign: TextAlign.center,
+        title: AnimatedTextKit(
+          totalRepeatCount: 1,
+          repeatForever: true,
+          pause: Duration(milliseconds: 500),
+          animatedTexts: [
+            FlickerAnimatedText('Health App',
+              textStyle: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontStyle: FontStyle.italic),
+            ),
+            RotateAnimatedText('Питание',
+              textStyle: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontStyle: FontStyle.italic),
+            ),
+            RotateAnimatedText('Сон',
+              textStyle: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontStyle: FontStyle.italic),
+            ),
+            RotateAnimatedText('Активность',
+              textStyle: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontStyle: FontStyle.italic),
+            ),
+            FlickerAnimatedText('Трекер здоровья',
+              textStyle: TextStyle(
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontStyle: FontStyle.italic),
+            ),
+          ],
         ),
         centerTitle: true,
         leading: Builder(
@@ -40,6 +74,12 @@ class _FoodScreenState extends State<FoodScreen>{
             );
           },
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                widget.goTR.goToRoute(AllRoutes.sleep_add);
+              }, splashRadius: 24, icon: Icon(Icons.food_bank_outlined))
+        ],
       ),
       body:SafeArea(
         child: Column(
