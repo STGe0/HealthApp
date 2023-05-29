@@ -5,6 +5,7 @@ import 'package:health_steshkin/screens/main_screens/sleep_screen/main_sleep.dar
 import 'package:health_steshkin/screens/main_screens/sleep_screen/sleep_add.dart';
 import 'package:health_steshkin/screens/main_screens/strength_screen/main_strength.dart';
 import 'package:health_steshkin/screens/main_screens/account_screen/update_account_screen.dart';
+import 'package:health_steshkin/screens/main_screens/strength_screen/workout_page.dart';
 import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 
@@ -51,6 +52,10 @@ class _MainScreenState extends State<MainScreen>{
           if(thisRoute == AllRoutes.strength)
             MaterialPage<void>(
               child: StrengthScreen(goTR),
+            ),
+          if(thisRoute == AllRoutes.workout_page)
+            MaterialPage<void>(
+              child: WorkoutPage(goTR),
             ),
           if(thisRoute == AllRoutes.account_update)
             MaterialPage<void>(

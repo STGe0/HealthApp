@@ -185,179 +185,193 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
           },
         ),
       ),
-      body: FutureBuilder(
-        future: controllerUser.getUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              UserModel userData = snapshot.data as UserModel;
-              return Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Выберите дату и количество часов:минут, которые вы провели во сне',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontFamily: 'Rubik',
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.arrow_left, size: 25,),
-                          color: Colors.white,
-                          onPressed: (){
-                            setState(() {
-                              _value = _value.subtract(Duration(days: 1));
-                            });
-                          },
+      body: SingleChildScrollView(
+        child: FutureBuilder(
+          future: controllerUser.getUserData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                UserModel userData = snapshot.data as UserModel;
+                return Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Выберите дату и количество часов:минут, которые вы провели во сне',
+                        style: TextStyle(
+                            fontFamily: 'Ubuntu',
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold
                         ),
-                        TextButton(
-                          onPressed: (){
-                          },
-                          child: Text(_dateFormatter(_value),
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: 'Rubik',
-                              color: Colors.white,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_left, size: 25,),
+                            color: Colors.white,
+                            onPressed: (){
+                              setState(() {
+                                _value = _value.subtract(Duration(days: 1));
+                              });
+                            },
+                          ),
+                          TextButton(
+                            onPressed: (){
+                            },
+                            child: Text(_dateFormatter(_value),
+                              style: TextStyle(
+                                fontFamily: 'Ubuntu',
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.arrow_right, size: 25,),
-                          color: Colors.white,
-                          onPressed: (){
-                            if(today.difference(_value).compareTo(Duration(days: 1)) == -1){
-                            } else {
-                              setState(() {
-                                _value = _value.add(Duration(days: 1));
-                              });
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Text(
-                      '${hours}:${minutes}',
-                      style: TextStyle(
-                        fontSize: 48,
-                        fontFamily: 'Rubik',
-                        color: Colors.white,
+                          IconButton(
+                            icon: Icon(Icons.arrow_right, size: 25,),
+                            color: Colors.white,
+                            onPressed: (){
+                              if(today.difference(_value).compareTo(Duration(days: 1)) == -1){
+                              } else {
+                                setState(() {
+                                  _value = _value.add(Duration(days: 1));
+                                });
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        TimeOfDay? newTime = await showTimePicker(
-                            context: context,
-                            initialTime: time,
-                            //24-ех часовой формат ввода "часов"
-                            builder: (context, child) {
-                              return MediaQuery(
-                                data: MediaQuery.of(context)
-                                    .copyWith(alwaysUse24HourFormat: true),
-                                child: child ?? Container(),
-                              );
-                            });
-                        //Если пользователь нажмет кнопку "Cancel" - время останется прежним
-                        if (newTime == null) return;
-                        //Если пользователь нажмет кнопку "Ок" время изменится
-                        setState(() {
-                          time = newTime;
-                        });
-                      },
-                      child: Text(
-                        'Выбрать время',
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Text(
+                        '${hours}:${minutes}',
                         style: TextStyle(
-                          fontFamily: 'Rubik',
+                          fontFamily: 'Ubuntu',
                           color: Colors.white,
+                          fontSize: 54,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          TimeOfDay? newTime = await showTimePicker(
+                              context: context,
+                              initialTime: time,
+                              //24-ех часовой формат ввода "часов"
+                              builder: (context, child) {
+                                return MediaQuery(
+                                  data: MediaQuery.of(context)
+                                      .copyWith(alwaysUse24HourFormat: true),
+                                  child: child ?? Container(),
+                                );
+                              });
+                          //Если пользователь нажмет кнопку "Cancel" - время останется прежним
+                          if (newTime == null) return;
+                          //Если пользователь нажмет кнопку "Ок" время изменится
+                          setState(() {
+                            time = newTime;
+                          });
+                        },
+                        child: Text(
+                          'Выбрать время',
+                          style: TextStyle(
+                              fontFamily: 'Ubuntu',
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          side: BorderSide.none,
+                          shape: const StadiumBorder(),
+                          backgroundColor: Colors.grey,
+                          minimumSize: Size(250, 50),
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        side: BorderSide.none,
-                        shape: const StadiumBorder(),
-                        backgroundColor: Colors.grey,
-                        minimumSize: Size(250, 50),
+                      SizedBox(
+                        height: 55,
                       ),
-                    ),
-                    SizedBox(
-                      height: 55,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        try {
-                          if(int.parse(hours) <= 6){
-                            setState(() {
-                              status = 'Недостаток сна';
-                            });
-                          } else{
-                            if(int.parse(hours) >= 10){
+                      ElevatedButton(
+                        onPressed: () {
+                          try {
+                            if(int.parse(hours) <= 6){
                               setState(() {
-                                status = 'Выше нормы';
+                                status = 'Недостаток сна';
                               });
+                            } else{
+                              if(int.parse(hours) >= 10){
+                                setState(() {
+                                  status = 'Выше нормы';
+                                });
+                              }
                             }
-                          }
-                          final sleepRecord = SleepModel(
-                              Email_user: userData.email.toString(),
-                              Date_record: _dateFormatter(_value),
-                              Duration: '${hours}:${minutes}',
-                              Status: status,
-                          );
-                          final sleepRepo = Get.put(SleepRepository());
-                          sleepRepo.createSleepRecord(sleepRecord);
+                            final sleepRecord = SleepModel(
+                                Email_user: userData.email.toString(),
+                                Date_record: _dateFormatter(_value),
+                                Duration: '${hours}:${minutes}',
+                                Status: status,
+                            );
+                            final sleepRepo = Get.put(SleepRepository());
+                            sleepRepo.createSleepRecord(sleepRecord);
 
-                          widget.goTR.goToRoute(AllRoutes.sleep);
-                        } catch (e) {}
-                      },
-                      child: Text(
-                        'Добавить',
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
+                            widget.goTR.goToRoute(AllRoutes.sleep);
+                          } catch (e) {}
+                        },
+                        child: Text(
+                          'Добавить',
+                          style: TextStyle(
+                              fontFamily: 'Ubuntu',
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          side: BorderSide.none,
+                          shape: const StadiumBorder(),
+                          backgroundColor: Colors.blueGrey,
+                          minimumSize: Size(150, 50),
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        side: BorderSide.none,
-                        shape: const StadiumBorder(),
-                        backgroundColor: Colors.blueGrey,
-                        minimumSize: Size(150, 50),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    snapshot.error.toString(),
+                  ),
+                );
+              } else
+                return Center(
+                  child: Text('Неизвестная ошибка, обратитесь в поддержку'),
+                );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
               );
             }
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  snapshot.error.toString(),
-                ),
-              );
-            } else
-              return Center(
-                child: Text('Неизвестная ошибка, обратитесь в поддержку'),
-              );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+          },
+        ),
       ),
     );
   }

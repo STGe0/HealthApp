@@ -108,8 +108,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 autocorrect: false,
                                 keyboardAppearance: Brightness.dark,
                                 style: TextStyle(
-                                  fontFamily: 'Rubik',
-                                  color: Colors.white,
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
@@ -130,13 +133,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   labelStyle: TextStyle(
-                                    fontFamily: 'Rubik',
-                                    color: Colors.white,
+                                      fontFamily: 'Ubuntu',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold
                                   ),
                                   labelText: 'Логин',
                                   helperStyle: TextStyle(
-                                    fontFamily: 'Rubik',
-                                    color: Colors.white,
+                                      fontFamily: 'Ubuntu',
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold
                                   ),
                                   helperText: 'Введите свой логин',
                                 ),
@@ -150,8 +159,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 keyboardAppearance: Brightness.dark,
                                 keyboardType: TextInputType.number,
                                 style: TextStyle(
-                                  fontFamily: 'Rubik',
-                                  color: Colors.white,
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
@@ -173,13 +185,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                       borderRadius: BorderRadius.circular(50.0),
                                     ),
                                     labelStyle: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     labelText: 'Рост (см)',
                                     helperStyle: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     helperText: 'Введите свой рост'),
                               ),
@@ -191,8 +209,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 keyboardAppearance: Brightness.dark,
                                 keyboardType: TextInputType.number,
                                 style: TextStyle(
-                                  fontFamily: 'Rubik',
-                                  color: Colors.white,
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
@@ -213,13 +234,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                       borderRadius: BorderRadius.circular(50.0),
                                     ),
                                     labelStyle: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     labelText: 'Вес (кг)',
                                     helperStyle: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     helperText: 'Введите свой вес'),
                               ),
@@ -248,15 +275,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                             title: Text(
                                               'Успешно',
                                               style: TextStyle(
-                                                fontFamily: 'Rubik',
-                                                color: Colors.white,
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 28,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                             content: Text(
                                               'Аккаунт успешно отредактирован',
                                               style: TextStyle(
-                                                fontFamily: 'Rubik',
-                                                color: Colors.white,
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontStyle: FontStyle.normal,
                                               ),
                                             ),
                                             actions: [
@@ -267,8 +299,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                                 child: Text(
                                                   'Ок',
                                                   style: TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    color: Colors.white,
+                                                      fontFamily: 'Ubuntu',
+                                                      color: Colors.white,
+                                                      fontSize: 22,
+                                                      fontStyle: FontStyle.normal,
+                                                      fontWeight: FontWeight.bold
                                                   ),
                                                 ),
                                                 style: ElevatedButton.styleFrom(
@@ -287,15 +322,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                               title: Text(
                                                 'Неверный формат',
                                                 style: TextStyle(
-                                                  fontFamily: 'Rubik',
-                                                  color: Colors.white,
+                                                    fontFamily: 'Ubuntu',
+                                                    color: Colors.white,
+                                                    fontSize: 28,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.bold
                                                 ),
                                               ),
                                               content: Text(
                                                 'Неверный формат или поля пустые',
                                                 style: TextStyle(
-                                                  fontFamily: 'Rubik',
-                                                  color: Colors.white,
+                                                    fontFamily: 'Ubuntu',
+                                                    color: Colors.white,
+                                                    fontSize: 22,
+                                                    fontStyle: FontStyle.normal,
                                                 ),
                                               ),
                                               actions: [
@@ -306,8 +346,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                                   child: Text(
                                                     'Ок',
                                                     style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      color: Colors.white,
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                        fontWeight: FontWeight.bold
                                                     ),
                                                   ),
                                                   style: ElevatedButton.styleFrom(
@@ -322,8 +365,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                   child: Text(
                                     'Редактировать',
                                     style: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold
                                     ),
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -344,8 +390,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                     TextSpan(
                                       text: dateSignUp,
                                       style: TextStyle(
-                                        fontFamily: 'Rubik',
-                                        color: Colors.white,
+                                          fontFamily: 'Ubuntu',
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.bold
                                       ),
                                     ),
                                   ),
@@ -366,15 +415,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                               title: Text(
                                                 'Удаления аккаунта',
                                                 style: TextStyle(
-                                                  fontFamily: 'Rubik',
-                                                  color: Colors.white,
+                                                    fontFamily: 'Ubuntu',
+                                                    color: Colors.white,
+                                                    fontSize: 28,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.bold
                                                 ),
                                               ),
                                               content: const Text(
                                                 'Вы точно хотите удалить аккаунт?',
                                                 style: TextStyle(
-                                                  fontFamily: 'Rubik',
-                                                  color: Colors.white,
+                                                    fontFamily: 'Ubuntu',
+                                                    color: Colors.white,
+                                                    fontSize: 22,
+                                                    fontStyle: FontStyle.normal,
                                                 ),
                                               ),
                                               actions: [
@@ -391,8 +445,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                                   child: Text(
                                                     'Да',
                                                     style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      color: Colors.white,
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                        fontWeight: FontWeight.bold
                                                     ),
                                                   ),
                                                   style: ElevatedButton.styleFrom(
@@ -406,8 +463,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                                   child: Text(
                                                     'Отменить',
                                                     style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      color: Colors.white,
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                        fontWeight: FontWeight.bold
                                                     ),
                                                   ),
                                                   style: ElevatedButton.styleFrom(
@@ -421,8 +481,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                     child: Text(
                                       'Удалить',
                                       style: TextStyle(
-                                        fontFamily: 'Rubik',
-                                        color: Colors.white,
+                                          fontFamily: 'Ubuntu',
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.bold
                                       ),
                                     ),
                                     style: ElevatedButton.styleFrom(

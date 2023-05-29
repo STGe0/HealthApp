@@ -196,9 +196,11 @@ class _SleepScreenState extends State<SleepScreen> {
                       children: [
                         Text('Сон',
                           style: TextStyle(
-                            fontSize: 37,
-                            fontFamily: 'Rubik',
-                            color: Colors.white,
+                              fontFamily: 'Ubuntu',
+                              color: Colors.white,
+                              fontSize: 44,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         Divider(
@@ -241,9 +243,11 @@ class _SleepScreenState extends State<SleepScreen> {
                               },
                               child: Text(_dateFormatter(_value),
                                 style: TextStyle(
-                                  fontSize: 24,
-                                  fontFamily: 'Rubik',
-                                  color: Colors.white,
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 32,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                               ),
                             ),
@@ -295,9 +299,11 @@ class _SleepScreenState extends State<SleepScreen> {
                               Text(
                                 '${title}',
                                 style: TextStyle(
-                                  fontFamily: 'Rubik',
-                                  color: Colors.white,
-                                  fontSize: 24,
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                               ),
                               IconButton(
@@ -315,17 +321,22 @@ class _SleepScreenState extends State<SleepScreen> {
                                           return AlertDialog(
                                             backgroundColor: Colors.blueGrey,
                                             title: Text(
-                                              'Удаления аккаунта',
+                                              'Удаления записи',
                                               style: TextStyle(
-                                                fontFamily: 'Rubik',
-                                                color: Colors.white,
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 28,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                             content: const Text(
-                                              'Вы точно хотите удалить аккаунт?',
+                                              'Вы точно хотите удалить запись?',
                                               style: TextStyle(
-                                                fontFamily: 'Rubik',
-                                                color: Colors.white,
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 22,
+                                                  fontStyle: FontStyle.normal,
                                               ),
                                             ),
                                             actions: [
@@ -344,8 +355,11 @@ class _SleepScreenState extends State<SleepScreen> {
                                                 child: Text(
                                                   'Да',
                                                   style: TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    color: Colors.white,
+                                                      fontFamily: 'Ubuntu',
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                      fontStyle: FontStyle.normal,
+                                                      fontWeight: FontWeight.bold
                                                   ),
                                                 ),
                                                 style: ElevatedButton.styleFrom(
@@ -359,8 +373,11 @@ class _SleepScreenState extends State<SleepScreen> {
                                                 child: Text(
                                                   'Отменить',
                                                   style: TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    color: Colors.white,
+                                                      fontFamily: 'Ubuntu',
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                      fontStyle: FontStyle.normal,
+                                                      fontWeight: FontWeight.bold
                                                   ),
                                                 ),
                                                 style: ElevatedButton.styleFrom(
@@ -381,16 +398,20 @@ class _SleepScreenState extends State<SleepScreen> {
                             children: [
                               Text("${time_rec}",
                                 style: TextStyle(
-                                    fontFamily: 'Rubik',
+                                    fontFamily: 'Ubuntu',
                                     color: Colors.white,
-                                    fontWeight: FontWeight.normal
+                                    fontSize: 22,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                               ),
                               Text("${status_rec}",
                                 style: TextStyle(
-                                    fontFamily: 'Rubik',
+                                    fontFamily: 'Ubuntu',
                                     color: Colors.white,
-                                    fontWeight: FontWeight.normal
+                                    fontSize: 22,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
                                 ),
                               ),
                             ],
@@ -407,9 +428,11 @@ class _SleepScreenState extends State<SleepScreen> {
                         children: [
                           Text('Сон',
                             style: TextStyle(
-                              fontSize: 37,
-                              fontFamily: 'Rubik',
-                              color: Colors.white,
+                                fontFamily: 'Ubuntu',
+                                color: Colors.white,
+                                fontSize: 44,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
                           Divider(
@@ -417,17 +440,21 @@ class _SleepScreenState extends State<SleepScreen> {
                           ),
                           Text('Нет записей',
                             style: TextStyle(
-                              fontSize: 32,
-                              fontFamily: 'Rubik',
+                              fontFamily: 'Ubuntu',
                               color: Colors.white,
+                              fontSize: 44,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(height: 35,),
                           Text('Нажмите на кнопку "+" в верхней части экрана, чтобы добавить новую запись',
                               style: TextStyle(
-                                fontSize: 22,
-                                fontFamily: 'Rubik',
-                                color: Colors.white,
+                                  fontFamily: 'Ubuntu',
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.bold
                               ),
                               textAlign: TextAlign.center
                           ),

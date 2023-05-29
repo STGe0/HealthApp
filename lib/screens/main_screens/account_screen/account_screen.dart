@@ -100,18 +100,27 @@ class _AccountScreenState extends State<AccountScreen>{
                       ),
                       Text(userData.fullName.toString(),
                         style: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(userData.email.toString(),
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.white,
+                            fontFamily: 'Ubuntu',
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
+                      ),
+                      Text(userData.email.toString(),
+                        style: TextStyle(
+                            fontFamily: 'Ubuntu',
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       SizedBox(
                         width: 200,
@@ -120,8 +129,11 @@ class _AccountScreenState extends State<AccountScreen>{
                         },
                           child: Text('Редактировать',
                             style: TextStyle(
-                              fontFamily: 'Rubik',
-                              color: Colors.white,
+                                fontFamily: 'Ubuntu',
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -162,17 +174,22 @@ class _AccountScreenState extends State<AccountScreen>{
                                 return AlertDialog(
                                   backgroundColor: Colors.blueGrey,
                                   title: Text(
-                                    'Удаления аккаунта',
+                                    'Выход из аккаунта',
                                     style: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.bold
                                     ),
                                   ),
                                   content: const Text(
                                     'Вы точно хотите выйти из аккаунта?',
                                     style: TextStyle(
-                                      fontFamily: 'Rubik',
-                                      color: Colors.white,
+                                        fontFamily: 'Ubuntu',
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontStyle: FontStyle.normal,
                                     ),
                                   ),
                                   actions: [
@@ -188,8 +205,11 @@ class _AccountScreenState extends State<AccountScreen>{
                                       child: Text(
                                         'Да',
                                         style: TextStyle(
-                                          fontFamily: 'Rubik',
-                                          color: Colors.white,
+                                            fontFamily: 'Ubuntu',
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.bold
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
@@ -203,8 +223,11 @@ class _AccountScreenState extends State<AccountScreen>{
                                       child: Text(
                                         'Отменить',
                                         style: TextStyle(
-                                          fontFamily: 'Rubik',
-                                          color: Colors.white,
+                                            fontFamily: 'Ubuntu',
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.bold
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
@@ -277,9 +300,11 @@ class MenuProfileButton extends StatelessWidget {
       ),
       title: Text(title,
         style: TextStyle(
-          fontFamily: 'Rubik',
-          color: textColor,
-        ),
+            fontFamily: 'Ubuntu',
+            color: textColor,
+            fontSize: 22,
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold),
       ),
       trailing: endIcon? Container(
         width: 30,

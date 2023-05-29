@@ -14,7 +14,7 @@ class _BottomWidgetState extends State<BottomWidget>{
 
   Color activeButtonColor(String route){
     if(route == widget.goTR.thisRoute){
-      return const Color.fromARGB(255, 125, 125, 119);
+      return const Color.fromARGB(105, 115, 95, 124);
     }
     return Color.fromARGB(255, 27, 35, 36);
   }

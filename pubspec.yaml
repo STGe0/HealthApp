@@ -21,12 +21,17 @@ dependencies:
   intl: ^0.18.1
   sizer: ^2.0.15
   animated_text_kit: ^4.2.2
+  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   flutter_launcher_icons: ^0.13.1
+  hive_generator: ^2.0.0
+  build_runner: ^2.4.4
+  path_provider: ^2.0.15
+
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -43,8 +48,30 @@ flutter:
     - assets/image/food.png
     - assets/image/sleep.png
     - assets/image/strength.png
+    - assets/image/2.png
+    - assets/image/3.png
+    - assets/image/5.png
+    - assets/image/6.png
+    - assets/image/Low_workout.png
+    - assets/image/top_workout.png
+    - assets/image/fullbody.png
+    - assets/image/workout_pages/water.png
+    - assets/image/workout_pages/gan.png
+    - assets/image/workout_pages/mat.png
+    - assets/image/workout_pages/ot.png
+    - assets/image/workout_pages/planka.png
+    - assets/image/workout_pages/press.png
+    - assets/image/workout_pages/bic.png
+    - assets/image/workout_pages/jim.png
+    - assets/image/workout_pages/w2.png
+    - assets/image/workout_pages/w3.png
+    - assets/image/workout_pages/rez.png
 
   fonts:
      - family: Rubik
        fonts:
          - asset: assets/fonts/RubikDistressed-Regular.ttf
+     - family: Ubuntu
+       fonts:
+         - asset: assets/fonts/UbuntuMono-Regular.ttf
+         - asset: assets/fonts/UbuntuMono-Bold.ttf

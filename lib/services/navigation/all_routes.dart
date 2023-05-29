@@ -7,4 +7,5 @@ class AllRoutes{
   static const String account = '/account';
   static const String account_update = '/account_update';
   static const String sleep_add = '/sleep_add';
+  static const String workout_page = '/workout_page';
 }

@@ -91,10 +91,11 @@ class _FoodScreenState extends State<FoodScreen>{
                 child: Text(
                   'Питание',
                   style: TextStyle(
-                      fontFamily: 'Rubik',
+                      fontFamily: 'Ubuntu',
                       color: Colors.white,
-                      fontSize: 24,
-                      fontStyle: FontStyle.italic),
+                      fontSize: 34,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
               ),
