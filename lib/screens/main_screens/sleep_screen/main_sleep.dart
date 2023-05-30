@@ -88,7 +88,7 @@ class _SleepScreenState extends State<SleepScreen> {
 
     return "${tm.day} $month ${tm.year}";
   }
-  String title = 'Нет записей';
+  String title = 'Нет записи';
   String time_rec = '';
   String status_rec = '';
   dynamic id = '123';
@@ -108,47 +108,12 @@ class _SleepScreenState extends State<SleepScreen> {
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: AnimatedTextKit(
-          totalRepeatCount: 1,
-          repeatForever: true,
-          pause: Duration(milliseconds: 500),
-          animatedTexts: [
-            FlickerAnimatedText('Health App',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            RotateAnimatedText('Питание',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            RotateAnimatedText('Сон',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            RotateAnimatedText('Активность',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            FlickerAnimatedText('Трекер здоровья',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontStyle: FontStyle.italic),
-            ),
-          ],
+        title: Text('Health App',
+          style: TextStyle(
+              fontFamily: 'Rubik',
+              color: Colors.white,
+              fontSize: 32,
+              fontStyle: FontStyle.italic),
         ),
         centerTitle: true,
         leading: Builder(
@@ -175,7 +140,7 @@ class _SleepScreenState extends State<SleepScreen> {
               if(snapshotSleep.connectionState == ConnectionState.done){
                 if(snapshotSleep.data!.length > 0 && snapshotSleep.hasData){
                   for(int i = 0; i < snapshotSleep.data!.length; i++){
-                    title = 'Нет записей';
+                    title = 'Нет записи';
                     time_rec = '-';
                     status_rec = '-';
                     if (snapshotSleep.data![i].Date_record.toString() == _dateFormatter(_value)) {
@@ -221,7 +186,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                   _value = _value.subtract(Duration(days: 1));
                                 });
                                 for(int i = 0; i < snapshotSleep.data!.length; i++){
-                                  title = 'Нет записей';
+                                  title = 'Нет записи';
                                   time_rec = '-';
                                   status_rec = '-';
                                   if (snapshotSleep.data![i].Date_record.toString() == _dateFormatter(_value)) {
@@ -262,7 +227,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                   });
                                 }
                                 for(int i = 0; i < snapshotSleep.data!.length; i++){
-                                  title = 'Нет записей';
+                                  title = 'Нет записи';
                                   time_rec = '-';
                                   status_rec = '-';
                                   if (snapshotSleep.data![i].Date_record.toString() == _dateFormatter(_value)) {
@@ -283,13 +248,17 @@ class _SleepScreenState extends State<SleepScreen> {
                         ),
                         SizedBox(height: 25,),
                         ListTile(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                          ),
                           iconColor: Colors.white,
-                          tileColor: Colors.blueGrey,
+                          tileColor: Colors.grey.shade600,
                           leading: Container(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const[
-                                Icon(LineAwesomeIcons.clock),
+                                SizedBox(height: 8,),
+                                Icon(LineAwesomeIcons.clock, size: 42,),
                               ],
                             ),
                           ),
@@ -405,6 +374,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                     fontWeight: FontWeight.bold
                                 ),
                               ),
+                              SizedBox(height: 2,),
                               Text("${status_rec}",
                                 style: TextStyle(
                                     fontFamily: 'Ubuntu',
@@ -465,7 +435,12 @@ class _SleepScreenState extends State<SleepScreen> {
                 }
               } else{
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 25,),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
                 );
               }
             }

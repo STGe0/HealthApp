@@ -3,6 +3,7 @@ import 'package:health_steshkin/screens/main_screens/account_screen/account_scre
 import 'package:health_steshkin/screens/main_screens/food_screen/main_food.dart';
 import 'package:health_steshkin/screens/main_screens/sleep_screen/main_sleep.dart';
 import 'package:health_steshkin/screens/main_screens/sleep_screen/sleep_add.dart';
+import 'package:health_steshkin/screens/main_screens/strength_screen/cardio_page.dart';
 import 'package:health_steshkin/screens/main_screens/strength_screen/main_strength.dart';
 import 'package:health_steshkin/screens/main_screens/account_screen/update_account_screen.dart';
 import 'package:health_steshkin/screens/main_screens/strength_screen/workout_page.dart';
@@ -56,6 +57,10 @@ class _MainScreenState extends State<MainScreen>{
           if(thisRoute == AllRoutes.workout_page)
             MaterialPage<void>(
               child: WorkoutPage(goTR),
+            ),
+          if(thisRoute == AllRoutes.workout_cardio)
+            MaterialPage<void>(
+              child: CardioPage(goTR),
             ),
           if(thisRoute == AllRoutes.account_update)
             MaterialPage<void>(

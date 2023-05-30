@@ -66,6 +66,25 @@ flutter:
     - assets/image/workout_pages/w2.png
     - assets/image/workout_pages/w3.png
     - assets/image/workout_pages/rez.png
+    - assets/image/workout_pages/gan2.png
+    - assets/image/workout_pages/gan3.png
+    - assets/image/workout_pages/v1.png
+    - assets/image/workout_pages/jump.png
+    - assets/image/workout_pages/stul.png
+    - assets/image/workout_pages/walk.png
+    - assets/image/workout_pages/running.gif
+    - assets/image/workout_pages/cros.png
+    - assets/image/workout_gym/barbell.png
+    - assets/image/workout_gym/bpress.png
+    - assets/image/workout_gym/pr.png
+    - assets/image/workout_gym/pullups.png
+    - assets/image/workout_gym/gym.png
+    - assets/image/workout_gym/per.png
+    - assets/image/workout_gym/pistol.png
+    - assets/image/workout_gym/workm.png
+    - assets/image/workout_gym/stun.png
+    - assets/image/workout_gym/l1.png
+    - assets/image/workout_gym/gl.png
 
   fonts:
      - family: Rubik

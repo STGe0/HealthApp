@@ -20,47 +20,12 @@ class _FoodScreenState extends State<FoodScreen>{
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: AnimatedTextKit(
-          totalRepeatCount: 1,
-          repeatForever: true,
-          pause: Duration(milliseconds: 500),
-          animatedTexts: [
-            FlickerAnimatedText('Health App',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            RotateAnimatedText('Питание',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            RotateAnimatedText('Сон',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            RotateAnimatedText('Активность',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontStyle: FontStyle.italic),
-            ),
-            FlickerAnimatedText('Трекер здоровья',
-              textStyle: TextStyle(
-                  fontFamily: 'Rubik',
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontStyle: FontStyle.italic),
-            ),
-          ],
+        title: Text('Health App',
+          style: TextStyle(
+              fontFamily: 'Rubik',
+              color: Colors.white,
+              fontSize: 32,
+              fontStyle: FontStyle.italic),
         ),
         centerTitle: true,
         leading: Builder(
