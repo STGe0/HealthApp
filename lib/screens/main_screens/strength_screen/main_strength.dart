@@ -380,43 +380,41 @@ class _StrengthScreenState extends State<StrengthScreen>{
           )
         ],
       ),
-      body:SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(25),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Тренировки',
-                        style: TextStyle(
-                            fontFamily: 'Ubuntu',
-                            color: Colors.white,
-                            fontSize: 34,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 5,),
-                      Divider(color: Colors.white,),
-                      SizedBox(height: 5,),
-                      WorkoutWidget('Бег', '30 минут 5 км. | 300 ккал', "assets/image/5.png", _onPressCardio),
-                      WorkoutWidget('Ходьба', '60 минут или 6000 тыс. шагов | 300 ккал', "assets/image/workout_pages/walk.png", _onPressWalk),
-                      WorkoutWidget('FullBody тренировка', '30 минут | 180 ккал', "assets/image/fullbody.png", _onPressFull),
-                      WorkoutWidget('Силовая тренировка', '60 минут | 400 ккал', "assets/image/workout_pages/bic.png", _onPressStr),
-                      WorkoutWidget('Гимнастика', '15 минут | 90 ккал', "assets/image/3.png", _onPressGym),
-                      WorkoutWidget('Тренировка верха тела', '30 минут | 200 ккал', "assets/image/top_workout.png", _onPressTop),
-                      WorkoutWidget('Тренировка низа тела', '30 минут | 200 ккал', "assets/image/Low_workout.png", _onPressLow),
-                      //WorkoutWidget('Custom-тренировка', 'Описание Custom-тренировки', "assets/image/6.png", _onPressCustom),
-                    ],
-                  ),
+      body:SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(25),
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Тренировки',
+                      style: TextStyle(
+                          fontFamily: 'Ubuntu',
+                          color: Colors.white,
+                          fontSize: 34,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 5,),
+                    Divider(color: Colors.white,),
+                    SizedBox(height: 5,),
+                    WorkoutWidget('Бег', '30 минут 5 км. | 300 ккал', "assets/image/5.png", _onPressCardio),
+                    WorkoutWidget('Ходьба', '60 минут или 6000 тыс. шагов | 300 ккал', "assets/image/workout_pages/walk.png", _onPressWalk),
+                    WorkoutWidget('FullBody тренировка', '30 минут | 180 ккал', "assets/image/fullbody.png", _onPressFull),
+                    WorkoutWidget('Силовая тренировка', '60 минут | 400 ккал', "assets/image/workout_pages/bic.png", _onPressStr),
+                    WorkoutWidget('Гимнастика', '15 минут | 90 ккал', "assets/image/3.png", _onPressGym),
+                    WorkoutWidget('Тренировка верха тела', '30 минут | 200 ккал', "assets/image/top_workout.png", _onPressTop),
+                    WorkoutWidget('Тренировка низа тела', '30 минут | 200 ккал', "assets/image/Low_workout.png", _onPressLow),
+                    //WorkoutWidget('Custom-тренировка', 'Описание Custom-тренировки', "assets/image/6.png", _onPressCustom),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+
+          ],
         ),
       ),
       bottomNavigationBar: BottomWidget(widget.goTR),

@@ -1,17 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:health_steshkin/services/controllers/profile_controller.dart';
-import 'package:health_steshkin/services/controllers/sleep_controller.dart';
 import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class WorkoutPage extends StatefulWidget {
   final globalVar goTR;
-
   const WorkoutPage(this.goTR, {super.key});
 
   @override
@@ -19,11 +13,6 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
-  final user = FirebaseAuth.instance.currentUser;
-
-  final controller = Get.put(SleepController());
-  final controllerUser = Get.put(ProfileController());
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

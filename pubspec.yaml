@@ -18,10 +18,11 @@ dependencies:
   cloud_firestore: ^4.7.1
   get: ^4.6.5
   line_awesome_flutter: ^2.0.0
-  intl: ^0.18.1
   sizer: ^2.0.15
   animated_text_kit: ^4.2.2
   hive: ^2.2.3
+  intl: ^0.17.0
+  fl_chart: ^0.62.0
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +32,7 @@ dev_dependencies:
   hive_generator: ^2.0.0
   build_runner: ^2.4.4
   path_provider: ^2.0.15
+  calendar_appbar: ^0.0.6
 
 
 flutter_launcher_icons:
@@ -85,6 +87,10 @@ flutter:
     - assets/image/workout_gym/stun.png
     - assets/image/workout_gym/l1.png
     - assets/image/workout_gym/gl.png
+    - assets/image/food_page/sunrise.png
+    - assets/image/food_page/sun.png
+    - assets/image/food_page/uj.png
+    - assets/image/food_page/moon.png
 
   fonts:
      - family: Rubik

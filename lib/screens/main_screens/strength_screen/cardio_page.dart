@@ -10,7 +10,6 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class CardioPage extends StatefulWidget {
   final globalVar goTR;
-
   const CardioPage(this.goTR, {super.key});
 
   @override
