@@ -8,7 +8,6 @@ import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/controllers/sleep_controller.dart';
 import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SleepScreen extends StatefulWidget {
   final globalVar goTR;

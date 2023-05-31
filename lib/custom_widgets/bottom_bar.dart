@@ -24,6 +24,22 @@ class _BottomWidgetState extends State<BottomWidget>{
     return Row(
       children: [
         Material(
+          color: activeButtonColor(AllRoutes.strength),
+          child: InkWell(
+            onTap: () {
+              widget.goTR.goToRoute(AllRoutes.strength);
+            },
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              height: 65,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Image.asset('assets/image/strength.png'),
+              ),
+            ),
+          ),
+        ),
+        Material(
           color: activeButtonColor(AllRoutes.food),
           child: InkWell(
             onTap: () {
@@ -51,22 +67,6 @@ class _BottomWidgetState extends State<BottomWidget>{
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Image.asset('assets/image/sleep.png'),
-              ),
-            ),
-          ),
-        ),
-        Material(
-    color: activeButtonColor(AllRoutes.strength),
-          child: InkWell(
-            onTap: () {
-              widget.goTR.goToRoute(AllRoutes.strength);
-            },
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 3,
-              height: 65,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Image.asset('assets/image/strength.png'),
               ),
             ),
           ),

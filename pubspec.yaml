@@ -34,7 +34,6 @@ dev_dependencies:
   path_provider: ^2.0.15
   calendar_appbar: ^0.0.6
 
-
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true

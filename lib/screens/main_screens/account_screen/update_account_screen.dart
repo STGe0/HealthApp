@@ -63,41 +63,32 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     final fullName = TextEditingController(text: userData.fullName.toString());
                     final height = TextEditingController(text: userData.height_user.toString());
                     final weight = TextEditingController(text: userData.weight_user_now.toString());
-
                     return Column(
                       children: [
-                        Stack(
-                          children: [
-                            SizedBox(
-                              height: 120,
-                              width: 120,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image(
-                                  image: AssetImage('assets/image/logo.png'),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.blueGrey),
-                                child: const Icon(
-                                  LineAwesomeIcons.camera,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ],
+                        Text('Ваш Профиль',
+                          style: TextStyle(
+                            fontFamily: 'Ubuntu',
+                            color: Colors.white,
+                            fontSize: 34,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 120,
+                          width: 120,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image(
+                              image: AssetImage('assets/image/logo.png'),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Form(
                           child: Column(
@@ -265,6 +256,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                       fullName: fullName.text.trim(),
                                       height_user: height.text.trim(),
                                       weight_user_now: weight.text.trim(),
+                                      imt: (int.parse(weight.text) / (int.parse(height.text) * int.parse(height.text) / 10000)).toStringAsFixed(1),
+                                      calorie: (int.parse(weight.text) * 20.6).toStringAsFixed(0),
                                     );
                                     await controller.updateAccount(userMod);
                                     showDialog<void>(
@@ -406,6 +399,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                         fullName: fullName.text.trim(),
                                         height_user: height.text.trim(),
                                         weight_user_now: weight.text.trim(),
+                                        imt: (int.parse(weight.text) / (int.parse(height.text) * int.parse(height.text) / 10000)).toStringAsFixed(1),
+                                        calorie: (int.parse(weight.text) * 20.6).toStringAsFixed(0),
                                       );
                                       showDialog<void>(
                                           context: context,

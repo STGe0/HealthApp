@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -17,7 +18,6 @@ class AccountScreen extends StatefulWidget{
 }
 
 class _AccountScreenState extends State<AccountScreen>{
-  final user = FirebaseAuth.instance.currentUser;
 
   Future<void> signOut() async{
     final navigator = Navigator.of(context);
@@ -27,9 +27,28 @@ class _AccountScreenState extends State<AccountScreen>{
     navigator.pushNamedAndRemoveUntil('/start_main', (route) => false);
   }
 
+  Color imtColor(double imt){
+    if(imt >= 25){
+      return const Color.fromARGB(244, 255, 0, 0);
+    } else{
+      if(imt <= 24.9 && imt >=18.4){
+        return const Color.fromARGB(255, 2, 181, 49);
+      } else return const Color.fromARGB(255, 234, 37, 37);
+    }
+  }
+
+  String imtTitle(double imt){
+    if(imt >= 25){
+      return 'Повышенная масса тела';
+    } else{
+      if(imt <= 24.9 && imt >=18.4){
+        return 'Нормальная масса тела';
+      } else return 'Недостаточная масса тела';
+    }
+  }
+
   @override
   Widget build(BuildContext context){
-    final navigator = Navigator.of(context);
     final controller = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
@@ -68,37 +87,53 @@ class _AccountScreenState extends State<AccountScreen>{
                   UserModel userData = snapshot.data as UserModel;
                   return Column(
                     children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            height: 120,
-                            width: 120,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image(
-                                image: AssetImage('assets/image/logo.png'),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.blueGrey),
-                              child: const Icon(LineAwesomeIcons.alternate_pencil,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Center(
+                        child: Text('ИМТ',
+                          style: TextStyle(
+                            fontFamily: 'Ubuntu',
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold
+                        ),),
                       ),
-                      SizedBox(
-                        height: 10,
+                      Center(
+                        child: SizedBox(
+                          height: 110,
+                          child: PieChart(
+                              PieChartData(
+                                  centerSpaceRadius: 24,
+                                  centerSpaceColor: Colors.white,
+                                  borderData: FlBorderData(show: false),
+                                  sections: [
+                                    PieChartSectionData(
+                                        value: (
+                                            double.parse(userData.imt.toString())/10),
+                                        color: imtColor(double.parse(userData.imt.toString())),
+                                        radius: 18, title:
+                                    userData.imt.toString(),
+                                        titleStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10)
+                                    ),
+                                    PieChartSectionData(value: 2, color: Colors.transparent, radius: 18, title: ''),
+                                  ]
+                              )
+                          ),
+                        ),
                       ),
-                      Text(userData.fullName.toString(),
+                      Center(
+                        child: Text(imtTitle(double.parse(userData.imt.toString())),
+                          style: TextStyle(
+                              fontFamily: 'Ubuntu',
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontStyle: FontStyle.normal,
+                          ),),
+                      ),
+                      SizedBox(height: 20,),
+                      Text('Логин: ' + userData.fullName.toString(),
                         style: TextStyle(
                             fontFamily: 'Ubuntu',
                             color: Colors.white,
@@ -110,7 +145,7 @@ class _AccountScreenState extends State<AccountScreen>{
                       SizedBox(
                         height: 10,
                       ),
-                      Text(userData.email.toString(),
+                      Text('Почта: ' + userData.email.toString(),
                         style: TextStyle(
                             fontFamily: 'Ubuntu',
                             color: Colors.white,
@@ -147,7 +182,7 @@ class _AccountScreenState extends State<AccountScreen>{
                         color: Colors.white,
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       MenuProfileButton(title: 'Настройки', icon: LineAwesomeIcons.cog, textColor: Colors.white, onPress: (){},),
                       SizedBox(
@@ -159,7 +194,9 @@ class _AccountScreenState extends State<AccountScreen>{
                       SizedBox(
                         height: 10,
                       ),
-                      MenuProfileButton(title: 'Информация', icon: LineAwesomeIcons.info, textColor: Colors.white, onPress: (){},),
+                      MenuProfileButton(title: 'Информация', icon: LineAwesomeIcons.info, textColor: Colors.white, onPress: (){
+                        widget.goTR.goToRoute(AllRoutes.info_page);
+                      },),
                       SizedBox(
                         height: 10,
                       ),

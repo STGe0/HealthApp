@@ -65,3 +65,7 @@ class workoutVarGym{
   static String asset8 = '';
   static String asset9 = '';
 }
+
+class imtSector{
+  final String colIMT = 'red';
+}

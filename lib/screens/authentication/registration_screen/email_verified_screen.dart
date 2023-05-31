@@ -58,6 +58,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>{
           email: controller.emailController.text.trim(),
           height_user: controller.heightController.text.trim(),
           weight_user_now: controller.weightController.text.trim(),
+          imt: (int.parse(controller.weightController.text) / (int.parse(controller.heightController.text) * int.parse(controller.heightController.text) / 10000)).toStringAsFixed(1),
+          calorie: (int.parse(controller.weightController.text) * 20.6).toStringAsFixed(0),
         );
 
         final userRepo = Get.put(UserRepository());

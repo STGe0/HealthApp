@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/screens/main_screens/account_screen/account_screen.dart';
+import 'package:health_steshkin/screens/main_screens/account_screen/info.dart';
 import 'package:health_steshkin/screens/main_screens/food_screen/main_food.dart';
 import 'package:health_steshkin/screens/main_screens/sleep_screen/main_sleep.dart';
 import 'package:health_steshkin/screens/main_screens/sleep_screen/sleep_add.dart';
@@ -10,6 +11,8 @@ import 'package:health_steshkin/screens/main_screens/strength_screen/workout_pag
 import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 
+import 'food_screen/add_food.dart';
+
 class MainScreen extends StatefulWidget{
   const MainScreen({Key? key}) : super(key: key);
 
@@ -18,7 +21,7 @@ class MainScreen extends StatefulWidget{
 }
 
 class _MainScreenState extends State<MainScreen>{
-  String thisRoute = AllRoutes.food;
+  String thisRoute = AllRoutes.strength;
   bool is404 = false;
 
   void _goToRoute(String route){
@@ -65,6 +68,14 @@ class _MainScreenState extends State<MainScreen>{
           if(thisRoute == AllRoutes.account_update)
             MaterialPage<void>(
               child: UpdateProfileScreen(goTR),
+            ),
+          if(thisRoute == AllRoutes.info_page)
+            MaterialPage<void>(
+              child: InfoScreen(goTR),
+            ),
+          if(thisRoute == AllRoutes.add_food)
+            MaterialPage<void>(
+              child: AddFoodScreen(goTR),
             ),
           if(is404 == true)
             MaterialPage<void>(
