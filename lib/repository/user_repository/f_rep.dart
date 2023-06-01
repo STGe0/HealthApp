@@ -26,10 +26,10 @@ class FRep extends GetxController{
     await _db.collection("food").doc(fM.id).delete();
   }
 
-  Future<List<FModel>> allFRecords(String email) async{
+  Future<List<FModel>> allFRecords(String email, String date) async{
     final snapshot = await _db.collection("food")
         .where("email", isEqualTo: email).
-    where("date_record", isEqualTo: '31 Мая 2023')
+    where("date_record", isEqualTo: date)
         .get();
     final fRecords = snapshot.docs.map((e) => FModel.fromSnapshot(e)).toList();
 

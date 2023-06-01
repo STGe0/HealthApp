@@ -21,8 +21,32 @@ class FoodController extends GetxController{
     return FoodData;
   }
 
-  Future<FoodModel> getFRecordData(){
+  Future<FoodModel> getFoodRecordData(){
     final email = _authRepo.firebaseUser.value?.email;
     return _fRepo.getFoodDetails(getFDetails(email!).toString());
+  }
+
+  Future<List<FoodModel>> getAllFoodRecords(String id) async{
+    final email = _authRepo.firebaseUser.value?.email;
+
+    return await _fRepo.allFoodRecords(id);
+  }
+
+  Future<List<FoodModel>> getAllFoodRecordsO(String id) async{
+    final email = _authRepo.firebaseUser.value?.email;
+
+    return await _fRepo.allFoodRecordsO(id);
+  }
+
+  Future<List<FoodModel>> getAllFoodRecordsU(String id) async{
+    final email = _authRepo.firebaseUser.value?.email;
+
+    return await _fRepo.allFoodRecordsU(id);
+  }
+
+  Future<List<FoodModel>> getAllFoodRecordsP(String id) async{
+    final email = _authRepo.firebaseUser.value?.email;
+
+    return await _fRepo.allFoodRecordsP(id);
   }
 }

@@ -12,4 +12,7 @@ class AllRoutes{
   static const String info_page = '/info_page';
   static const String add_food = '/add_food';
   static const String add_nav = '/add_nav';
+  static const String add_o = '/add_o';
+  static const String add_u = '/add_u';
+  static const String add_p = '/add_p';
 }

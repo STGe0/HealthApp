@@ -17,4 +17,62 @@ class FoodRepository extends GetxController{
     final FoodData = snapshotFoodRecords.docs.map((e) => FoodModel.fromSnapshot(e)).single;
     return FoodData;
   }
+
+  Future<List<FoodModel>> allFoodRecords(String id) async{
+    final snapshot = await _db.collection("food").doc(id).collection("breakfast").get();
+    final foodRecords = snapshot.docs.map((e) => FoodModel.fromSnapshot(e)).toList();
+
+    return foodRecords;
+  }
+  Future<void> createFoodRecordO(FoodModel foodModel, String id) async {
+    await _db.collection("food").doc(id).collection("ob").add(foodModel.toJson());
+  }
+
+  Future<FoodModel> getFoodDetailsO(String id) async{
+    final snapshotFoodRecords = await _db.collection("food").doc(id).collection("ob").get();
+
+    final FoodData = snapshotFoodRecords.docs.map((e) => FoodModel.fromSnapshot(e)).single;
+    return FoodData;
+  }
+
+  Future<List<FoodModel>> allFoodRecordsO(String id) async{
+    final snapshot = await _db.collection("food").doc(id).collection("ob").get();
+    final foodRecords = snapshot.docs.map((e) => FoodModel.fromSnapshot(e)).toList();
+
+    return foodRecords;
+  }
+  Future<void> createFoodRecordU(FoodModel foodModel, String id) async {
+    await _db.collection("food").doc(id).collection("u").add(foodModel.toJson());
+  }
+
+  Future<FoodModel> getFoodDetailsU(String id) async{
+    final snapshotFoodRecords = await _db.collection("food").doc(id).collection("u").get();
+
+    final FoodData = snapshotFoodRecords.docs.map((e) => FoodModel.fromSnapshot(e)).single;
+    return FoodData;
+  }
+
+  Future<List<FoodModel>> allFoodRecordsU(String id) async{
+    final snapshot = await _db.collection("food").doc(id).collection("u").get();
+    final foodRecords = snapshot.docs.map((e) => FoodModel.fromSnapshot(e)).toList();
+
+    return foodRecords;
+  }
+  Future<void> createFoodRecordP(FoodModel foodModel, String id) async {
+    await _db.collection("food").doc(id).collection("p").add(foodModel.toJson());
+  }
+
+  Future<FoodModel> getFoodDetailsP(String id) async{
+    final snapshotFoodRecords = await _db.collection("food").doc(id).collection("p").get();
+
+    final FoodData = snapshotFoodRecords.docs.map((e) => FoodModel.fromSnapshot(e)).single;
+    return FoodData;
+  }
+
+  Future<List<FoodModel>> allFoodRecordsP(String id) async{
+    final snapshot = await _db.collection("food").doc(id).collection("p").get();
+    final foodRecords = snapshot.docs.map((e) => FoodModel.fromSnapshot(e)).toList();
+
+    return foodRecords;
+  }
 }

@@ -14,6 +14,11 @@ class StrengthScreen extends StatefulWidget{
 }
 
 class _StrengthScreenState extends State<StrengthScreen>{
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
 
   void _onPressFull(){
     workoutVar.workoutTitle = 'FullBody тренировка';

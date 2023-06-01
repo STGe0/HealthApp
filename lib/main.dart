@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/repository/auth_rep.dart';
 import 'package:health_steshkin/screens/authentication/registration_screen/email_verified_screen.dart';
 import 'package:health_steshkin/screens/authentication/authorization_screen/reset_password_screen.dart';
-import 'package:health_steshkin/services/hive_service.dart';
 import 'firebase_options.dart';
 import 'package:health_steshkin/screens/authentication/registration_screen/reg_screen.dart';
 import 'package:health_steshkin/screens/authentication/authorization_screen/auth_screen.dart';
@@ -17,8 +16,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(AuthRep()));
-
-  await HiveService.initHive();
   runApp(MyApp());
 }
 

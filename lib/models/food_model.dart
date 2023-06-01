@@ -7,6 +7,7 @@ class FoodModel{
   final dynamic protein;
   final dynamic carb;
   final dynamic fats;
+  final dynamic calorie;
 
   FoodModel({
     this.id,
@@ -15,6 +16,7 @@ class FoodModel{
     required this.protein,
     required this.carb,
     required this.fats,
+    required this.calorie,
   });
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -23,6 +25,7 @@ class FoodModel{
     "protein": protein,
     "carb": carb,
     "fats": fats,
+    "calorie": calorie,
   };
 
   factory FoodModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document){
@@ -34,6 +37,7 @@ class FoodModel{
       protein: data["protein"],
       carb: data["carb"],
       fats: data["fats"],
+      calorie: data["calorie"],
     );
   }
 }

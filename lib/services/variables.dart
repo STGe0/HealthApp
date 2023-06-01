@@ -69,3 +69,23 @@ class workoutVarGym{
 class imtSector{
   final String colIMT = 'red';
 }
+
+class userEmail{
+  static String emailUs = '';
+}
+
+class foodPageCal{
+  static int PageCal = 0;
+  static int PageCal_breakfast = 0;
+  static int PageCal_o = 0;
+  static int PageCal_u = 0;
+  static int PageCal_p = 0;
+  static int PageCal_protein = 0;
+  static int PageCal_carb = 0;
+  static int PageCal_fats = 0;
+  static int PageCal_all = 0;
+  static String PageCal_protein_perc = '0';
+  static String PageCal_carb_perc = '0';
+  static String PageCal_fats_perc = '0';
+  static bool blbl = true;
+}

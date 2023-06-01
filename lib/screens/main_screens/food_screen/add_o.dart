@@ -10,15 +10,15 @@ import 'package:health_steshkin/services/navigation/all_routes.dart';
 import 'package:health_steshkin/services/variables.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-class AddFoodScreen extends StatefulWidget{
+class AddFoodScreenO extends StatefulWidget{
   final globalVar goTR;
-  const AddFoodScreen(this.goTR, {super.key});
+  const AddFoodScreenO(this.goTR, {super.key});
 
   @override
-  State<AddFoodScreen> createState() => _AddFoodScreenState();
+  State<AddFoodScreenO> createState() => _AddFoodScreenOState();
 }
 
-class _AddFoodScreenState extends State<AddFoodScreen>{
+class _AddFoodScreenOState extends State<AddFoodScreenO>{
   TextEditingController txtCon = TextEditingController();
   TextEditingController wCon = TextEditingController();
   TextEditingController pCon = TextEditingController();
@@ -133,7 +133,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>{
                     padding: const EdgeInsets.all(25.0),
                     child: Column(
                       children: [
-                        Text('Продукт на завтрак',
+                        Text('Продукт на обед',
                           style: TextStyle(
                             fontFamily: 'Ubuntu',
                             color: Colors.white,
@@ -440,7 +440,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>{
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
                           ),
-                          textInputAction: TextInputAction.next,
+                          textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                             helperStyle: TextStyle(
                                 fontFamily: 'Ubuntu',
@@ -496,7 +496,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>{
                               calorie: calCon.text.trim(),
                             );
                             final foodRepo = Get.put(FoodRepository());
-                            foodRepo.createFoodRecord(foodRecord, id.toString());
+                            foodRepo.createFoodRecordO(foodRecord, id.toString());
                             widget.goTR.goToRoute(AllRoutes.food);
                           },
                           child: Text(
