@@ -49,4 +49,20 @@ class FoodController extends GetxController{
 
     return await _fRepo.allFoodRecordsP(id);
   }
+
+  Future<void> deleteFoodB(String id, String id_f) async{
+    await _fRepo.deleteFoodB(id, id_f);
+  }
+
+  Future<void> deleteFoodO(String id, String id_f) async{
+    await _fRepo.deleteFoodO(id, id_f);
+  }
+
+  Future<void> deleteFoodU(String id, String id_f) async{
+    await _fRepo.deleteFoodU(id, id_f);
+  }
+
+  Future<void> deleteFoodP(String id, String id_f) async{
+    await _fRepo.deleteFoodP(id, id_f);
+  }
 }

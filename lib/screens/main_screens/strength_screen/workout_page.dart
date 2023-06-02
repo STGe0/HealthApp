@@ -420,23 +420,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           ],),
                         ),
                         SizedBox(height: 20,),
-                        ElevatedButton(onPressed: (){},
-                          child: Text('Записать',
-                          style: TextStyle(
-                              fontFamily: 'Ubuntu',
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                          style: ElevatedButton.styleFrom(
-                            side: BorderSide.none,
-                            shape: const StadiumBorder(),
-                            backgroundColor: Colors.grey,
-                            minimumSize: Size(250, 50),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -942,23 +925,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           ],),
                         ),
                         SizedBox(height: 20,),
-                        ElevatedButton(onPressed: (){},
-                          child: Text('Записать',
-                            style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            side: BorderSide.none,
-                            shape: const StadiumBorder(),
-                            backgroundColor: Colors.grey,
-                            minimumSize: Size(250, 50),
-                          ),
-                        ),
+
                       ],
                     ),
                   ),

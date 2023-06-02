@@ -75,4 +75,20 @@ class FoodRepository extends GetxController{
 
     return foodRecords;
   }
+
+  Future<void> deleteFoodB(String id, String id_f) async{
+    await _db.collection("food").doc(id_f).collection("breakfast").doc(id).delete();
+  }
+
+  Future<void> deleteFoodO(String id, String id_f) async{
+    await _db.collection("food").doc(id_f).collection("ob").doc(id).delete();
+  }
+
+  Future<void> deleteFoodU(String id, String id_f) async{
+    await _db.collection("food").doc(id_f).collection("u").doc(id).delete();
+  }
+
+  Future<void> deleteFoodP(String id, String id_f) async{
+    await _db.collection("food").doc(id_f).collection("p").doc(id).delete();
+  }
 }

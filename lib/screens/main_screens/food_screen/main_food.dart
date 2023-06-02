@@ -329,7 +329,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
                                         });
                                         return SizedBox(
-                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -343,14 +343,94 @@ class _FoodScreenState extends State<FoodScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      IconButton(
-                                                        onPressed: () {},
-                                                        icon: Icon(LineAwesomeIcons.minus_circle),
-                                                        color: Colors.red,
-                                                        splashRadius: 16,
+                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
+                                                      SizedBox(
+                                                        height: 35,
+                                                        width: 35,
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            showDialog<void>(
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor: Colors.blueGrey,
+                                                                    title: Text(
+                                                                      'Удаления записи',
+                                                                      style: TextStyle(
+                                                                          fontFamily: 'Ubuntu',
+                                                                          color: Colors.white,
+                                                                          fontSize: 28,
+                                                                          fontStyle: FontStyle.normal,
+                                                                          fontWeight: FontWeight.bold
+                                                                      ),
+                                                                    ),
+                                                                    content: const Text(
+                                                                      'Вы точно хотите удалить запись?',
+                                                                      style: TextStyle(
+                                                                        fontFamily: 'Ubuntu',
+                                                                        color: Colors.white,
+                                                                        fontSize: 22,
+                                                                        fontStyle: FontStyle.normal,
+                                                                      ),
+                                                                    ),
+                                                                    actions: [
+                                                                      ElevatedButton(
+                                                                        onPressed: () async {
+                                                                          try{
+                                                                            controllerFoodB.deleteFoodB(snapshotB.data![index].id.toString(), id.toString());
+                                                                            Navigator.of(context).pop();
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                          }
+                                                                          catch(e){
+                                                                          }
+                                                                        },
+                                                                        child: Text(
+                                                                          'Да',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed: () {
+                                                                          Navigator.of(context).pop();
+                                                                        },
+                                                                        child: Text(
+                                                                          'Отменить',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                });
+                                                          },
+                                                          icon: Icon(LineAwesomeIcons.minus_circle),
+                                                          color: Colors.red,
+                                                          splashRadius: 16,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -564,7 +644,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
                                         });
                                         return SizedBox(
-                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -578,14 +658,94 @@ class _FoodScreenState extends State<FoodScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      IconButton(
-                                                        onPressed: () {},
-                                                        icon: Icon(LineAwesomeIcons.minus_circle),
-                                                        color: Colors.red,
-                                                        splashRadius: 16,
+                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
+                                                      SizedBox(
+                                                        height: 35,
+                                                        width: 35,
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            showDialog<void>(
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor: Colors.blueGrey,
+                                                                    title: Text(
+                                                                      'Удаления записи',
+                                                                      style: TextStyle(
+                                                                          fontFamily: 'Ubuntu',
+                                                                          color: Colors.white,
+                                                                          fontSize: 28,
+                                                                          fontStyle: FontStyle.normal,
+                                                                          fontWeight: FontWeight.bold
+                                                                      ),
+                                                                    ),
+                                                                    content: const Text(
+                                                                      'Вы точно хотите удалить запись?',
+                                                                      style: TextStyle(
+                                                                        fontFamily: 'Ubuntu',
+                                                                        color: Colors.white,
+                                                                        fontSize: 22,
+                                                                        fontStyle: FontStyle.normal,
+                                                                      ),
+                                                                    ),
+                                                                    actions: [
+                                                                      ElevatedButton(
+                                                                        onPressed: () async {
+                                                                          try{
+                                                                            controllerFoodB.deleteFoodO(snapshotB.data![index].id.toString(), id.toString());
+                                                                            Navigator.of(context).pop();
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                          }
+                                                                          catch(e){
+                                                                          }
+                                                                        },
+                                                                        child: Text(
+                                                                          'Да',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed: () {
+                                                                          Navigator.of(context).pop();
+                                                                        },
+                                                                        child: Text(
+                                                                          'Отменить',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                });
+                                                          },
+                                                          icon: Icon(LineAwesomeIcons.minus_circle),
+                                                          color: Colors.red,
+                                                          splashRadius: 16,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -799,7 +959,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
                                         });
                                         return SizedBox(
-                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -813,14 +973,94 @@ class _FoodScreenState extends State<FoodScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      IconButton(
-                                                        onPressed: () {},
-                                                        icon: Icon(LineAwesomeIcons.minus_circle),
-                                                        color: Colors.red,
-                                                        splashRadius: 16,
+                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
+                                                      SizedBox(
+                                                        height: 35,
+                                                        width: 35,
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            showDialog<void>(
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor: Colors.blueGrey,
+                                                                    title: Text(
+                                                                      'Удаления записи',
+                                                                      style: TextStyle(
+                                                                          fontFamily: 'Ubuntu',
+                                                                          color: Colors.white,
+                                                                          fontSize: 28,
+                                                                          fontStyle: FontStyle.normal,
+                                                                          fontWeight: FontWeight.bold
+                                                                      ),
+                                                                    ),
+                                                                    content: const Text(
+                                                                      'Вы точно хотите удалить запись?',
+                                                                      style: TextStyle(
+                                                                        fontFamily: 'Ubuntu',
+                                                                        color: Colors.white,
+                                                                        fontSize: 22,
+                                                                        fontStyle: FontStyle.normal,
+                                                                      ),
+                                                                    ),
+                                                                    actions: [
+                                                                      ElevatedButton(
+                                                                        onPressed: () async {
+                                                                          try{
+                                                                            controllerFoodB.deleteFoodU(snapshotB.data![index].id.toString(), id.toString());
+                                                                            Navigator.of(context).pop();
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                          }
+                                                                          catch(e){
+                                                                          }
+                                                                        },
+                                                                        child: Text(
+                                                                          'Да',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed: () {
+                                                                          Navigator.of(context).pop();
+                                                                        },
+                                                                        child: Text(
+                                                                          'Отменить',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                });
+                                                          },
+                                                          icon: Icon(LineAwesomeIcons.minus_circle),
+                                                          color: Colors.red,
+                                                          splashRadius: 16,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -1021,8 +1261,9 @@ class _FoodScreenState extends State<FoodScreen> {
                                   future: controllerFoodB.getAllFoodRecordsP(id.toString()),
                                   builder: (context, snapshotB) {
                                     if (snapshotB.connectionState == ConnectionState.done) {
-                                      if (snapshotB.data!.length > 0 && snapshotB.hasData) {
+                                      if (true) {
                                         Future.delayed(const Duration(milliseconds: 1), () {
+                                          print('123');
                                           for (int i = 0; i < snapshotB.data!.length; i++) {
                                             foodPageCal.PageCal_p = foodPageCal.PageCal_p + int.parse(snapshotB.data![i].calorie.toString());
                                             foodPageCal.PageCal = foodPageCal.PageCal + int.parse(snapshotB.data![i].calorie.toString());
@@ -1042,7 +1283,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           }
                                         });
                                         return SizedBox(
-                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -1056,14 +1297,91 @@ class _FoodScreenState extends State<FoodScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      IconButton(
-                                                        onPressed: () {},
-                                                        icon: Icon(LineAwesomeIcons.minus_circle),
-                                                        color: Colors.red,
-                                                        splashRadius: 16,
+                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
+                                                      SizedBox(
+                                                        height: 35,
+                                                        width: 35,
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            showDialog<void>(
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor: Colors.blueGrey,
+                                                                    title: Text(
+                                                                      'Удаления записи',
+                                                                      style: TextStyle(
+                                                                          fontFamily: 'Ubuntu',
+                                                                          color: Colors.white,
+                                                                          fontSize: 28,
+                                                                          fontStyle: FontStyle.normal,
+                                                                          fontWeight: FontWeight.bold
+                                                                      ),
+                                                                    ),
+                                                                    content: const Text(
+                                                                      'Вы точно хотите удалить запись?',
+                                                                      style: TextStyle(
+                                                                        fontFamily: 'Ubuntu',
+                                                                        color: Colors.white,
+                                                                        fontSize: 22,
+                                                                        fontStyle: FontStyle.normal,
+                                                                      ),
+                                                                    ),
+                                                                    actions: [
+                                                                      ElevatedButton(
+                                                                        onPressed: () async {
+                                                                          try{
+                                                                            controllerFoodB.deleteFoodP(snapshotB.data![index].id.toString(), id.toString());
+                                                                            Navigator.of(context).pop();
+                                                                            setState(() {
+                                                                              foodPageCal.blbl = true;
+                                                                            });
+                                                                          }
+                                                                          catch(e){
+                                                                          }
+                                                                        },
+                                                                        child: Text(
+                                                                          'Да',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed: () {
+                                                                          Navigator.of(context).pop();
+                                                                        },
+                                                                        child: Text(
+                                                                          'Отменить',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Ubuntu',
+                                                                              color: Colors.white,
+                                                                              fontSize: 22,
+                                                                              fontStyle: FontStyle.normal,
+                                                                              fontWeight: FontWeight.bold
+                                                                          ),
+                                                                        ),
+                                                                        style: ElevatedButton.styleFrom(
+                                                                          backgroundColor: Colors.black12,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                });
+                                                          },
+                                                          icon: Icon(LineAwesomeIcons.minus_circle),
+                                                          color: Colors.red,
+                                                          splashRadius: 16,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -1159,9 +1477,6 @@ class _FoodScreenState extends State<FoodScreen> {
                                     }
                                   });
                             }),
-                        SizedBox(
-                          height: 10,
-                        ),
                         Text(
                           'Подробности',
                           style: TextStyle(
