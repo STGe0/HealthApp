@@ -315,7 +315,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>{
                         SizedBox(height: 15,),
                         TextFormField(
                           maxLength: 3,
-                          controller: cCon,
+                          controller: fCon,
                           keyboardType: TextInputType.number,
                           autocorrect: false,
                           keyboardAppearance: Brightness.dark,
@@ -372,7 +372,7 @@ class _AddFoodScreenState extends State<AddFoodScreen>{
                         SizedBox(height: 15,),
                         TextFormField(
                           maxLength: 3,
-                          controller: fCon,
+                          controller: cCon,
                           keyboardType: TextInputType.number,
                           autocorrect: false,
                           keyboardAppearance: Brightness.dark,
@@ -495,6 +495,8 @@ class _AddFoodScreenState extends State<AddFoodScreen>{
                               fats: fCon.text.trim(),
                               calorie: calCon.text.trim(),
                             );
+                            print(foodRecord.fats);
+                            print(foodRecord.carb);
                             final foodRepo = Get.put(FoodRepository());
                             foodRepo.createFoodRecord(foodRecord, id.toString());
                             widget.goTR.goToRoute(AllRoutes.food);

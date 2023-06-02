@@ -43,6 +43,7 @@ class _BottomWidgetState extends State<BottomWidget>{
           color: activeButtonColor(AllRoutes.food),
           child: InkWell(
             onTap: () {
+              foodPageCal.blbl = true;
               widget.goTR.goToRoute(AllRoutes.food);
             },
             child: SizedBox(

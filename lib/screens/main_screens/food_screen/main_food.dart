@@ -329,7 +329,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
                                         });
                                         return SizedBox(
-                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -644,7 +644,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
                                         });
                                         return SizedBox(
-                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -959,7 +959,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
                                         });
                                         return SizedBox(
-                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
@@ -1263,7 +1263,6 @@ class _FoodScreenState extends State<FoodScreen> {
                                     if (snapshotB.connectionState == ConnectionState.done) {
                                       if (true) {
                                         Future.delayed(const Duration(milliseconds: 1), () {
-                                          print('123');
                                           for (int i = 0; i < snapshotB.data!.length; i++) {
                                             foodPageCal.PageCal_p = foodPageCal.PageCal_p + int.parse(snapshotB.data![i].calorie.toString());
                                             foodPageCal.PageCal = foodPageCal.PageCal + int.parse(snapshotB.data![i].calorie.toString());
@@ -1283,7 +1282,7 @@ class _FoodScreenState extends State<FoodScreen> {
                                           }
                                         });
                                         return SizedBox(
-                                          height: 100 * double.parse(snapshotB.data!.length.toString()),
+                                          height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
                                             shrinkWrap: true,
                                             physics: NeverScrollableScrollPhysics(),
