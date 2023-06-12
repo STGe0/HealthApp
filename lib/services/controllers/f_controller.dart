@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:health_steshkin/models/f_model.dart';
 import 'package:health_steshkin/repository/auth_rep.dart';
 import 'package:health_steshkin/repository/user_repository/f_rep.dart';
+import 'package:health_steshkin/services/variables.dart';
 
 class FController extends GetxController{
   static FController get instance => Get.find();
@@ -18,7 +19,7 @@ class FController extends GetxController{
 
   Future<List<FModel>> getAllFRecords() async{
     final email = _authRepo.firebaseUser.value?.email;
-    DateTime _value = DateTime.now();
+
     String _dateFormatter(DateTime tm){
       DateTime today = new DateTime.now();
       Duration oneDay = new Duration(days: 1);
@@ -67,8 +68,8 @@ class FController extends GetxController{
 
       return "${tm.day} $month ${tm.year}";
     }
-    
-    return await _fRepo.allFRecords(email!, _dateFormatter(_value));
+
+    return await _fRepo.allFRecords(email!, _dateFormatter(foodPageCal.valueF));
   }
 
   Future<void> deleteF(FModel fM) async{

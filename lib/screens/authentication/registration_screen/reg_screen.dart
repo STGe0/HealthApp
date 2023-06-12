@@ -432,6 +432,16 @@ class _RegScreenState extends State {
                           && !controller.emailController.text.trim().isEmpty && !controller.heightController.text.trim().isEmpty
                           && !controller.weightController.text.trim().isEmpty && controller.weightController.text.trim().length >= 2
                           && controller.heightController.text.trim().length >= 3 && controller.fullNameController.text.trim().length >= 4) {
+                        if(_Pass(controller.passwordController.text.trim())==false){
+                          showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return _getAlertWarning(
+                                    'Слабый пароль',
+                                    'Слабый пароль, постарайтесь придумать другой',
+                                    context);
+                              });
+                        } else
                         try {
                           final credential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
@@ -441,16 +451,7 @@ class _RegScreenState extends State {
                           navigator.pushNamedAndRemoveUntil(
                               '/start', (Route<dynamic> route) => false);
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            showDialog<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return _getAlertWarning(
-                                      'Слабый пароль',
-                                      'Слабый пароль, постарайтесь придумать другой',
-                                      context);
-                                });
-                          } else if (e.code == 'email-already-in-use') {
+                          if (e.code == 'email-already-in-use') {
                             showDialog<void>(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -569,13 +570,35 @@ String? _errorHeight(String text) {
 }
 
 String? _errorPass(String text) {
+  String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp rg = new RegExp(pattern);
   if(text.isEmpty){
-    return 'Введите пароль';
+    return 'Введите пароль (qW123!)';
   } else{
     if(text.length < 6){
-      return 'Минимум 6 символов';
+      return 'Минимум 6 символов (qW123!)';
+    } else{
+      if(rg.hasMatch(text) == false){
+        return 'Спец. символ, заглавная и строчная буква (qW123!)';
+      }
     }
   } return null;
+}
+
+bool _Pass(String text) {
+  String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp rg = new RegExp(pattern);
+  if(text.isEmpty){
+    return false;
+  } else{
+    if(text.length < 6){
+      return false;
+    } else{
+      if(rg.hasMatch(text) == false){
+        return false;
+      }
+    }
+  } return true;
 }
 
 String? _errorPassRep(String pass1, String pass2) {

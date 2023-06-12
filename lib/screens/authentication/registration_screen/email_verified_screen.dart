@@ -73,6 +73,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>{
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
+      print(user);
 
       setState(() {
         canResendEmail = false;

@@ -408,7 +408,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                             return AlertDialog(
                                               backgroundColor: Colors.blueGrey,
                                               title: Text(
-                                                'Удаления аккаунта',
+                                                'Удаление аккаунта',
                                                 style: TextStyle(
                                                     fontFamily: 'Ubuntu',
                                                     color: Colors.white,

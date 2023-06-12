@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_steshkin/screens/main_screens/account_screen/account_screen.dart';
 import 'package:health_steshkin/screens/main_screens/account_screen/info.dart';
+import 'package:health_steshkin/screens/main_screens/account_screen/settings.dart';
 import 'package:health_steshkin/screens/main_screens/food_screen/add_o.dart';
 import 'package:health_steshkin/screens/main_screens/food_screen/add_p.dart';
 import 'package:health_steshkin/screens/main_screens/food_screen/add_u.dart';
@@ -55,6 +56,10 @@ class _MainScreenState extends State<MainScreen>{
           if(thisRoute == AllRoutes.add_p)
             MaterialPage<void>(
               child: AddFoodScreenP(goTR),
+            ),
+          if(thisRoute == AllRoutes.settings)
+            MaterialPage<void>(
+              child: SettingsScreen(goTR),
             ),
           if(thisRoute == AllRoutes.account)
             MaterialPage<void>(

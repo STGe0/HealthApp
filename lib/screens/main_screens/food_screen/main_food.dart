@@ -1,9 +1,15 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_steshkin/custom_widgets/bottom_bar.dart';
+import 'package:health_steshkin/models/cal_b_model.dart';
+import 'package:health_steshkin/models/cal_o_model.dart';
+import 'package:health_steshkin/models/cal_p_model.dart';
+import 'package:health_steshkin/models/cal_u_model.dart';
 import 'package:health_steshkin/models/f_model.dart';
+import 'package:health_steshkin/models/pfc_value_model.dart';
 import 'package:health_steshkin/models/user_model.dart';
 import 'package:health_steshkin/repository/user_repository/f_rep.dart';
 import 'package:health_steshkin/services/controllers/f_controller.dart';
@@ -25,20 +31,55 @@ class FoodScreen extends StatefulWidget {
 
 class _FoodScreenState extends State<FoodScreen> {
   final controller = Get.put(ProfileController());
-  DateTime _value = DateTime.now();
-  String? id = '123';
+  DateTime _value = foodPageCal.valueF;
+  String id = '0';
+  int le = 0;
+  int le_PFC = 0;
+
+  String? id_b = '0';
+  String? id_o = '0';
+  String? id_u = '0';
+  String? id_p = '0';
+  String? id_pfc = '0';
+  String? cal_break = '0';
+  String? cal_o = '0';
+  String? cal_u = '0';
+  String? cal_p = '0';
+  String? prot_value = '0';
+  String? carb_value = '0';
+  String? fats_value = '0';
+  String? calories_value = '0';
+
+  String prot_nan = '0';
+  String fats_nan = '0';
+  String carb_nan = '0';
+
   final controllerF = Get.put(FController());
   final controllerFoodB = Get.put(FoodController());
 
-  @override
-  void initState() {
-    super.initState();
+  DateTime today = DateTime.now();
+
+  Future _selectDate() async{
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _value,
+      firstDate: new DateTime(2023),
+      lastDate: new DateTime.now(),
+    );
+    if(picked != null){
+      setState(() {
+        _value = picked;
+      });
+    }
   }
 
-  String _dateFormatter(DateTime tm) {
+  String _dateFormatter(DateTime tm){
+    DateTime today = new DateTime.now();
+    Duration oneDay = new Duration(days: 1);
+    Duration twoDay = new Duration(days: 2);
     late String month;
 
-    switch (tm.month) {
+    switch(tm.month){
       case 1:
         month = 'Января';
         break;
@@ -76,7 +117,25 @@ class _FoodScreenState extends State<FoodScreen> {
         month = 'Декабря';
         break;
     }
+    Duration difference = today.difference(tm);
+
     return "${tm.day} $month ${tm.year}";
+  }
+  String title = 'Нет записи';
+  String time_rec = '';
+  String status_rec = '';
+
+  void forFunc(String date, String dur, String status) {
+    if (date == _dateFormatter(_value)) {
+      title = date;
+      time_rec = dur;
+      status_rec = status;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -140,6 +199,59 @@ class _FoodScreenState extends State<FoodScreen> {
                         SizedBox(
                           height: 15,
                         ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.arrow_left, size: 25,),
+                              color: Colors.white,
+                              onPressed: (){
+                                setState(() {
+                                  _value = _value.subtract(Duration(days: 1));
+                                  foodPageCal.valueF = _value;
+                                  foodPageCal.blbl = true;
+                                  id = '1000';
+                                });
+                              },
+                            ),
+                            TextButton(
+                              onPressed: (){
+                              },
+                              child: Text(_dateFormatter(_value),
+                                style: TextStyle(
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 32,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.arrow_right, size: 25,),
+                              color: Colors.white,
+                              onPressed: (){
+                                if(today.difference(_value).compareTo(Duration(days: 1)) == -1){
+                                } else {
+                                  setState(() {
+                                    _value = _value.add(Duration(days: 1));
+                                    foodPageCal.valueF = _value;
+                                    foodPageCal.blbl = true;
+                                    id = '1000';
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          color: Colors.white,
+                        ),
+                        SizedBox(height: 15,),
                         Padding(
                           padding: const EdgeInsets.only(right: 12, left: 12),
                           child: Row(
@@ -186,16 +298,39 @@ class _FoodScreenState extends State<FoodScreen> {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              Text(
-                                foodPageCal.PageCal.toString(),
-                                style: TextStyle(
-                                  fontFamily: 'Ubuntu',
-                                  color: Colors.grey,
-                                  fontSize: 18,
-                                  fontStyle: FontStyle.normal,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
+                              FutureBuilder(
+                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                  builder: (context, snapshotS) {
+                                    if (snapshotS.connectionState == ConnectionState.done) {
+                                      if (snapshotS.hasData) {
+                                        return Text(
+                                          snapshotS.data!.calories_value.toString(),
+                                          style: TextStyle(
+                                            fontFamily: 'Ubuntu',
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        );
+                                      } else {
+                                        return Text(
+                                          '0.0',
+                                          style: TextStyle(
+                                            fontFamily: 'Ubuntu',
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        );
+                                      }
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  }),
                             ],
                           ),
                         ),
@@ -234,16 +369,39 @@ class _FoodScreenState extends State<FoodScreen> {
                                   )),
                               Column(
                                 children: [
-                                  Text(
-                                    foodPageCal.PageCal_breakfast.toString(),
-                                    style: TextStyle(
-                                      fontFamily: 'Ubuntu',
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  FutureBuilder(
+                                      future: controllerFoodB.getAllCalRecordsB(id),
+                                      builder: (context, snapshotS) {
+                                        if (snapshotS.connectionState == ConnectionState.done) {
+                                          if (snapshotS.hasData) {
+                                            return Text(
+                                              snapshotS.data!.cal_b.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          } else {
+                                            return Text(
+                                              '0.0',
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          }
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      }),
                                   Text(
                                     'Калории',
                                     style: TextStyle(
@@ -301,33 +459,15 @@ class _FoodScreenState extends State<FoodScreen> {
                             future: controllerF.getAllFRecords(),
                             builder: (context, snapshotAll) {
                               try {
-                                foodPageCal.PageCal = 0;
-                                foodPageCal.PageCal_breakfast = 0;
-                                foodPageCal.PageCal_protein = 0;
-                                foodPageCal.PageCal_carb = 0;
-                                foodPageCal.PageCal_fats = 0;
-                                foodPageCal.PageCal_all = 0;
-                                foodPageCal.PageCal_p = 0;
-                                foodPageCal.PageCal_protein_perc = '0';
-                                foodPageCal.PageCal_carb_perc = '0';
-                                foodPageCal.PageCal_fats_perc = '0';
-                                id = snapshotAll.data?[0].id;
+                                id = snapshotAll.data![0].id!;
                               } catch (e) {}
+                              le = snapshotAll.data?.length ?? 0;
+                              if(le > 0){
                               return FutureBuilder(
                                   future: controllerFoodB.getAllFoodRecords(id.toString()),
                                   builder: (context, snapshotB) {
                                     if (snapshotB.connectionState == ConnectionState.done) {
                                       if (snapshotB.data!.length > 0 && snapshotB.hasData) {
-                                        Future(() {
-                                          for (int i = 0; i < snapshotB.data!.length; i++) {
-                                            foodPageCal.PageCal = foodPageCal.PageCal + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal_protein = foodPageCal.PageCal_protein + int.parse(snapshotB.data![i].protein.toString());
-                                            foodPageCal.PageCal_breakfast = foodPageCal.PageCal_breakfast + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal_carb = foodPageCal.PageCal_carb + int.parse(snapshotB.data![i].carb.toString());
-                                            foodPageCal.PageCal_fats = foodPageCal.PageCal_fats + int.parse(snapshotB.data![i].fats.toString());
-                                          }
-                                          foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
-                                        });
                                         return SizedBox(
                                           height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
@@ -345,93 +485,266 @@ class _FoodScreenState extends State<FoodScreen> {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      SizedBox(
-                                                        height: 35,
-                                                        width: 35,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            showDialog<void>(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return AlertDialog(
-                                                                    backgroundColor: Colors.blueGrey,
-                                                                    title: Text(
-                                                                      'Удаления записи',
-                                                                      style: TextStyle(
-                                                                          fontFamily: 'Ubuntu',
-                                                                          color: Colors.white,
-                                                                          fontSize: 28,
-                                                                          fontStyle: FontStyle.normal,
-                                                                          fontWeight: FontWeight.bold
-                                                                      ),
-                                                                    ),
-                                                                    content: const Text(
-                                                                      'Вы точно хотите удалить запись?',
-                                                                      style: TextStyle(
-                                                                        fontFamily: 'Ubuntu',
-                                                                        color: Colors.white,
-                                                                        fontSize: 22,
-                                                                        fontStyle: FontStyle.normal,
-                                                                      ),
-                                                                    ),
-                                                                    actions: [
-                                                                      ElevatedButton(
-                                                                        onPressed: () async {
-                                                                          try{
-                                                                            controllerFoodB.deleteFoodB(snapshotB.data![index].id.toString(), id.toString());
-                                                                            Navigator.of(context).pop();
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                          }
-                                                                          catch(e){
-                                                                          }
-                                                                        },
-                                                                        child: Text(
-                                                                          'Да',
-                                                                          style: TextStyle(
+                                                      FutureBuilder(
+                                                        future: controllerFoodB.getAllCalRecordsB(id),
+                                                        builder: (context, snapshotS) {
+                                                         if (snapshotB.data!.length > 1) {
+                                                           try{
+                                                           id_b = snapshotS.data!.id;
+                                                           cal_break = snapshotS.data!.cal_b.toString();
+                                                           } catch(e){
+                                                           }
+                                                          return FutureBuilder(
+                                                          future: controllerFoodB.getAllRecordsPFC(id),
+                                                          builder: (context, snapshotPFC) {
+                                                            if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                              if(snapshotPFC.hasData){
+                                                                try{
+                                                                  id_pfc = snapshotPFC.data!.id;
+                                                                  prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                  fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                  carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                  calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                } catch(e){
+                                                                }
+                                                              return SizedBox(
+                                                              height: 35,
+                                                              width: 35,
+                                                              child: IconButton(
+                                                                onPressed: () {
+                                                                  showDialog<void>(
+                                                                      context: context,
+                                                                      builder: (BuildContext context) {
+                                                                        return AlertDialog(
+                                                                          backgroundColor: Colors.blueGrey,
+                                                                          title: Text(
+                                                                            'Удаление записи',
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Ubuntu',
+                                                                                color: Colors.white,
+                                                                                fontSize: 28,
+                                                                                fontStyle: FontStyle.normal,
+                                                                                fontWeight: FontWeight.bold
+                                                                            ),
+                                                                          ),
+                                                                          content: const Text(
+                                                                            'Вы точно хотите удалить запись?',
+                                                                            style: TextStyle(
                                                                               fontFamily: 'Ubuntu',
                                                                               color: Colors.white,
                                                                               fontSize: 22,
                                                                               fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                        onPressed: () {
-                                                                          Navigator.of(context).pop();
-                                                                        },
-                                                                        child: Text(
-                                                                          'Отменить',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
-                                                                          ),
-                                                                        ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                });
-                                                          },
-                                                          icon: Icon(LineAwesomeIcons.minus_circle),
-                                                          color: Colors.red,
-                                                          splashRadius: 16,
-                                                        ),
-                                                      ),
+                                                                          actions: [
+                                                                            ElevatedButton(
+                                                                              onPressed: () async {
+                                                                                try {
+                                                                                  final foodCal = CalModelB(
+                                                                                    cal_b: (double.parse(cal_break!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                  );
+                                                                                  final foodPCF = ModelPFC(
+                                                                                    protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                    fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                    carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                    calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                  );
+                                                                                  await controllerFoodB.updateCalB(foodCal, id, id_b.toString());
+                                                                                  controllerFoodB.deleteFoodB(snapshotB.data![index].id.toString(), id.toString());
+                                                                                  controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                  Navigator.of(context).pop();
+                                                                                  setState(() {
+                                                                                    foodPageCal.blbl = true;
+                                                                                  });
+                                                                                }
+                                                                                catch (e) {}
+                                                                              },
+                                                                              child: Text(
+                                                                                'Да',
+                                                                                style: TextStyle(
+                                                                                    fontFamily: 'Ubuntu',
+                                                                                    color: Colors.white,
+                                                                                    fontSize: 22,
+                                                                                    fontStyle: FontStyle.normal,
+                                                                                    fontWeight: FontWeight.bold
+                                                                                ),
+                                                                              ),
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Colors.black12,
+                                                                              ),
+                                                                            ),
+                                                                            ElevatedButton(
+                                                                              onPressed: () {
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                              child: Text(
+                                                                                'Отменить',
+                                                                                style: TextStyle(
+                                                                                    fontFamily: 'Ubuntu',
+                                                                                    color: Colors.white,
+                                                                                    fontSize: 22,
+                                                                                    fontStyle: FontStyle.normal,
+                                                                                    fontWeight: FontWeight.bold
+                                                                                ),
+                                                                              ),
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                backgroundColor: Colors.black12,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      });
+                                                                },
+                                                                icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                color: Colors.red,
+                                                                splashRadius: 16,
+                                                              ),
+                                                            );
+                                                          } else{
+                                                                return Center(child: Text('Ошибка!'),);
+                                                              }
+                                                            }
+                                                            else{
+                                                              return Center(
+                                                                child: Column(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      height: 25,
+                                                                    ),
+                                                                    CircularProgressIndicator(),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }});
+                                                        } else{
+                                                           try{
+                                                             id_b = snapshotS.data!.id;
+                                                             cal_break = snapshotS.data!.cal_b.toString();
+                                                           } catch(e){
+                                                           }
+                                                           return FutureBuilder(
+                                                               future: controllerFoodB.getAllRecordsPFC(id),
+                                                               builder: (context, snapshotPFC) {
+                                                                 if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                   if(snapshotPFC.hasData){
+                                                                     try{
+                                                                       id_pfc = snapshotPFC.data!.id;
+                                                                       prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                       fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                       carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                       calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                     } catch(e){
+                                                                     }
+                                                                     return SizedBox(
+                                                                       height: 35,
+                                                                       width: 35,
+                                                                       child: IconButton(
+                                                                         onPressed: () {
+                                                                           showDialog<void>(
+                                                                               context: context,
+                                                                               builder: (BuildContext context) {
+                                                                                 return AlertDialog(
+                                                                                   backgroundColor: Colors.blueGrey,
+                                                                                   title: Text(
+                                                                                     'Удаление записи',
+                                                                                     style: TextStyle(
+                                                                                         fontFamily: 'Ubuntu',
+                                                                                         color: Colors.white,
+                                                                                         fontSize: 28,
+                                                                                         fontStyle: FontStyle.normal,
+                                                                                         fontWeight: FontWeight.bold
+                                                                                     ),
+                                                                                   ),
+                                                                                   content: const Text(
+                                                                                     'Вы точно хотите удалить запись?',
+                                                                                     style: TextStyle(
+                                                                                       fontFamily: 'Ubuntu',
+                                                                                       color: Colors.white,
+                                                                                       fontSize: 22,
+                                                                                       fontStyle: FontStyle.normal,
+                                                                                     ),
+                                                                                   ),
+                                                                                   actions: [
+                                                                                     ElevatedButton(
+                                                                                       onPressed: () async {
+                                                                                         try {
+                                                                                           final foodCal = CalModelB(
+                                                                                             cal_b: (double.parse(cal_break!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                           );
+                                                                                           final foodPCF = ModelPFC(
+                                                                                             protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                             fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                             carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                             calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                           );
+                                                                                           await controllerFoodB.updateCalB(foodCal, id, id_b.toString());
+                                                                                           controllerFoodB.deleteFoodB(snapshotB.data![index].id.toString(), id.toString());
+                                                                                           controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                           Navigator.of(context).pop();
+                                                                                           setState(() {
+                                                                                             foodPageCal.blbl = true;
+                                                                                           });
+                                                                                         }
+                                                                                         catch (e) {}
+                                                                                       },
+                                                                                       child: Text(
+                                                                                         'Да',
+                                                                                         style: TextStyle(
+                                                                                             fontFamily: 'Ubuntu',
+                                                                                             color: Colors.white,
+                                                                                             fontSize: 22,
+                                                                                             fontStyle: FontStyle.normal,
+                                                                                             fontWeight: FontWeight.bold
+                                                                                         ),
+                                                                                       ),
+                                                                                       style: ElevatedButton.styleFrom(
+                                                                                         backgroundColor: Colors.black12,
+                                                                                       ),
+                                                                                     ),
+                                                                                     ElevatedButton(
+                                                                                       onPressed: () {
+                                                                                         Navigator.of(context).pop();
+                                                                                       },
+                                                                                       child: Text(
+                                                                                         'Отменить',
+                                                                                         style: TextStyle(
+                                                                                             fontFamily: 'Ubuntu',
+                                                                                             color: Colors.white,
+                                                                                             fontSize: 22,
+                                                                                             fontStyle: FontStyle.normal,
+                                                                                             fontWeight: FontWeight.bold
+                                                                                         ),
+                                                                                       ),
+                                                                                       style: ElevatedButton.styleFrom(
+                                                                                         backgroundColor: Colors.black12,
+                                                                                       ),
+                                                                                     ),
+                                                                                   ],
+                                                                                 );
+                                                                               });
+                                                                         },
+                                                                         icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                         color: Colors.red,
+                                                                         splashRadius: 16,
+                                                                       ),
+                                                                     );
+                                                                   } else{
+                                                                     return Center(child: Text('Ошибка!'),);
+                                                                   }
+                                                                 }
+                                                                 else{
+                                                                   return Center(
+                                                                     child: Column(
+                                                                       children: [
+                                                                         SizedBox(
+                                                                           height: 25,
+                                                                         ),
+                                                                         CircularProgressIndicator(),
+                                                                       ],
+                                                                     ),
+                                                                   );
+                                                                 }});
+                                                         }}),
                                                     ],
                                                   ),
                                                   Divider(color: Colors.blueGrey,),
@@ -524,7 +837,9 @@ class _FoodScreenState extends State<FoodScreen> {
                                         height: 5,
                                       );
                                     }
-                                  });
+                                  });} else{
+                                return SizedBox(height: 1,);
+                              }
                             }),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 8),
@@ -558,16 +873,39 @@ class _FoodScreenState extends State<FoodScreen> {
                                   )),
                               Column(
                                 children: [
-                                  Text(
-                                    foodPageCal.PageCal_o.toString(),
-                                    style: TextStyle(
-                                      fontFamily: 'Ubuntu',
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  FutureBuilder(
+                                      future: controllerFoodB.getAllCalRecordsO(id),
+                                      builder: (context, snapshotS) {
+                                        if (snapshotS.connectionState == ConnectionState.done) {
+                                          if (snapshotS.hasData) {
+                                            return Text(
+                                              snapshotS.data!.cal_o.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          } else {
+                                            return Text(
+                                              '0.0',
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          }
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      }),
                                   Text(
                                     'Калории',
                                     style: TextStyle(
@@ -626,23 +964,13 @@ class _FoodScreenState extends State<FoodScreen> {
                             builder: (context, snapshotAll) {
                               try {
                                 foodPageCal.PageCal_o = 0;
-                                id = snapshotAll.data?[0].id;
+                                id = snapshotAll.data![0].id!;
                               } catch (e) {}
                               return FutureBuilder(
                                   future: controllerFoodB.getAllFoodRecordsO(id.toString()),
                                   builder: (context, snapshotB) {
                                     if (snapshotB.connectionState == ConnectionState.done) {
                                       if (snapshotB.data!.length > 0 && snapshotB.hasData) {
-                                        Future(() {
-                                          for (int i = 0; i < snapshotB.data!.length; i++) {
-                                            foodPageCal.PageCal = foodPageCal.PageCal + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal_o = foodPageCal.PageCal_o + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal_protein = foodPageCal.PageCal_protein + int.parse(snapshotB.data![i].protein.toString());
-                                            foodPageCal.PageCal_carb = foodPageCal.PageCal_carb + int.parse(snapshotB.data![i].carb.toString());
-                                            foodPageCal.PageCal_fats = foodPageCal.PageCal_fats + int.parse(snapshotB.data![i].fats.toString());
-                                          }
-                                          foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
-                                        });
                                         return SizedBox(
                                           height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
@@ -660,93 +988,266 @@ class _FoodScreenState extends State<FoodScreen> {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      SizedBox(
-                                                        height: 35,
-                                                        width: 35,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            showDialog<void>(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return AlertDialog(
-                                                                    backgroundColor: Colors.blueGrey,
-                                                                    title: Text(
-                                                                      'Удаления записи',
-                                                                      style: TextStyle(
-                                                                          fontFamily: 'Ubuntu',
-                                                                          color: Colors.white,
-                                                                          fontSize: 28,
-                                                                          fontStyle: FontStyle.normal,
-                                                                          fontWeight: FontWeight.bold
-                                                                      ),
-                                                                    ),
-                                                                    content: const Text(
-                                                                      'Вы точно хотите удалить запись?',
-                                                                      style: TextStyle(
-                                                                        fontFamily: 'Ubuntu',
-                                                                        color: Colors.white,
-                                                                        fontSize: 22,
-                                                                        fontStyle: FontStyle.normal,
-                                                                      ),
-                                                                    ),
-                                                                    actions: [
-                                                                      ElevatedButton(
-                                                                        onPressed: () async {
-                                                                          try{
-                                                                            controllerFoodB.deleteFoodO(snapshotB.data![index].id.toString(), id.toString());
-                                                                            Navigator.of(context).pop();
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                          }
-                                                                          catch(e){
-                                                                          }
-                                                                        },
-                                                                        child: Text(
-                                                                          'Да',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                      FutureBuilder(
+                                                          future: controllerFoodB.getAllCalRecordsO(id),
+                                                          builder: (context, snapshotS) {
+                                                            if (snapshotB.data!.length > 1) {
+                                                              try{
+                                                                cal_o = snapshotS.data!.cal_o.toString();
+                                                                id_o = snapshotS.data!.id;
+                                                              } catch(e){
+                                                              }
+                                                              return FutureBuilder(
+                                                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                                                  builder: (context, snapshotPFC) {
+                                                                    if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                      if(snapshotPFC.hasData){
+                                                                        try{
+                                                                          id_pfc = snapshotPFC.data!.id;
+                                                                          prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                          fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                          carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                          calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                        } catch(e){
+                                                                        }
+                                                                        return SizedBox(
+                                                                          height: 35,
+                                                                          width: 35,
+                                                                          child: IconButton(
+                                                                            onPressed: () {
+                                                                              showDialog<void>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      backgroundColor: Colors.blueGrey,
+                                                                                      title: Text(
+                                                                                        'Удаление записи',
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'Ubuntu',
+                                                                                            color: Colors.white,
+                                                                                            fontSize: 28,
+                                                                                            fontStyle: FontStyle.normal,
+                                                                                            fontWeight: FontWeight.bold
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: const Text(
+                                                                                        'Вы точно хотите удалить запись?',
+                                                                                        style: TextStyle(
+                                                                                          fontFamily: 'Ubuntu',
+                                                                                          color: Colors.white,
+                                                                                          fontSize: 22,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              final foodCal = CalModelO(
+                                                                                                cal_o: (double.parse(cal_o!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              final foodPCF = ModelPFC(
+                                                                                                protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                                fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                                carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                                calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              await controllerFoodB.updateCalO(foodCal, id, id_o.toString());
+                                                                                              controllerFoodB.deleteFoodO(snapshotB.data![index].id.toString(), id.toString());
+                                                                                              controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                              Navigator.of(context).pop();
+                                                                                              setState(() {
+                                                                                                foodPageCal.blbl = true;
+                                                                                              });
+                                                                                            }
+                                                                                            catch (e) {}
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Да',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.of(context).pop();
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Отменить',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                            color: Colors.red,
+                                                                            splashRadius: 16,
                                                                           ),
+                                                                        );
+                                                                      } else{
+                                                                        return Center(child: Text('Ошибка!'),);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      return Center(
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 25,
+                                                                            ),
+                                                                            CircularProgressIndicator(),
+                                                                          ],
                                                                         ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                        onPressed: () {
-                                                                          Navigator.of(context).pop();
-                                                                        },
-                                                                        child: Text(
-                                                                          'Отменить',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                                      );
+                                                                    }});
+                                                            } else{
+                                                              try{
+                                                                cal_o = snapshotS.data!.cal_o.toString();
+                                                                id_o = snapshotS.data!.id;
+                                                              } catch(e){
+                                                              }
+                                                              return FutureBuilder(
+                                                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                                                  builder: (context, snapshotPFC) {
+                                                                    if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                      if(snapshotPFC.hasData){
+                                                                        try{
+                                                                          id_pfc = snapshotPFC.data!.id;
+                                                                          prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                          fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                          carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                          calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                        } catch(e){
+                                                                        }
+                                                                        return SizedBox(
+                                                                          height: 35,
+                                                                          width: 35,
+                                                                          child: IconButton(
+                                                                            onPressed: () {
+                                                                              showDialog<void>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      backgroundColor: Colors.blueGrey,
+                                                                                      title: Text(
+                                                                                        'Удаление записи',
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'Ubuntu',
+                                                                                            color: Colors.white,
+                                                                                            fontSize: 28,
+                                                                                            fontStyle: FontStyle.normal,
+                                                                                            fontWeight: FontWeight.bold
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: const Text(
+                                                                                        'Вы точно хотите удалить запись?',
+                                                                                        style: TextStyle(
+                                                                                          fontFamily: 'Ubuntu',
+                                                                                          color: Colors.white,
+                                                                                          fontSize: 22,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              final foodCal = CalModelO(
+                                                                                                cal_o: (double.parse(cal_o!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              final foodPCF = ModelPFC(
+                                                                                                protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                                fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                                carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                                calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              await controllerFoodB.updateCalO(foodCal, id, id_o.toString());
+                                                                                              controllerFoodB.deleteFoodO(snapshotB.data![index].id.toString(), id.toString());
+                                                                                              controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                              Navigator.of(context).pop();
+                                                                                              setState(() {
+                                                                                                foodPageCal.blbl = true;
+                                                                                              });
+                                                                                            }
+                                                                                            catch (e) {}
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Да',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.of(context).pop();
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Отменить',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                            color: Colors.red,
+                                                                            splashRadius: 16,
                                                                           ),
+                                                                        );
+                                                                      } else{
+                                                                        return Center(child: Text('Ошибка!'),);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      return Center(
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 25,
+                                                                            ),
+                                                                            CircularProgressIndicator(),
+                                                                          ],
                                                                         ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                });
-                                                          },
-                                                          icon: Icon(LineAwesomeIcons.minus_circle),
-                                                          color: Colors.red,
-                                                          splashRadius: 16,
-                                                        ),
-                                                      ),
+                                                                      );
+                                                                    }});
+                                                            }}),
                                                     ],
                                                   ),
                                                   Divider(color: Colors.blueGrey,),
@@ -873,16 +1374,39 @@ class _FoodScreenState extends State<FoodScreen> {
                                   )),
                               Column(
                                 children: [
-                                  Text(
-                                    foodPageCal.PageCal_u.toString(),
-                                    style: TextStyle(
-                                      fontFamily: 'Ubuntu',
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  FutureBuilder(
+                                      future: controllerFoodB.getAllCalRecordsU(id),
+                                      builder: (context, snapshotS) {
+                                        if (snapshotS.connectionState == ConnectionState.done) {
+                                          if (snapshotS.hasData) {
+                                            return Text(
+                                              snapshotS.data!.cal_u.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          } else {
+                                            return Text(
+                                              '0.0',
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          }
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      }),
                                   Text(
                                     'Калории',
                                     style: TextStyle(
@@ -941,23 +1465,13 @@ class _FoodScreenState extends State<FoodScreen> {
                             builder: (context, snapshotAll) {
                               try {
                                 foodPageCal.PageCal_u = 0;
-                                id = snapshotAll.data?[0].id;
+                                id = snapshotAll.data![0].id!;
                               } catch (e) {}
                               return FutureBuilder(
                                   future: controllerFoodB.getAllFoodRecordsU(id.toString()),
                                   builder: (context, snapshotB) {
                                     if (snapshotB.connectionState == ConnectionState.done) {
                                       if (snapshotB.data!.length > 0 && snapshotB.hasData) {
-                                        Future(() {
-                                          for (int i = 0; i < snapshotB.data!.length; i++) {
-                                            foodPageCal.PageCal_u = foodPageCal.PageCal_u + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal = foodPageCal.PageCal + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal_protein = foodPageCal.PageCal_protein + int.parse(snapshotB.data![i].protein.toString());
-                                            foodPageCal.PageCal_carb = foodPageCal.PageCal_carb + int.parse(snapshotB.data![i].carb.toString());
-                                            foodPageCal.PageCal_fats = foodPageCal.PageCal_fats + int.parse(snapshotB.data![i].fats.toString());
-                                          }
-                                          foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
-                                        });
                                         return SizedBox(
                                           height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
@@ -975,93 +1489,268 @@ class _FoodScreenState extends State<FoodScreen> {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      SizedBox(
-                                                        height: 35,
-                                                        width: 35,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            showDialog<void>(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return AlertDialog(
-                                                                    backgroundColor: Colors.blueGrey,
-                                                                    title: Text(
-                                                                      'Удаления записи',
-                                                                      style: TextStyle(
-                                                                          fontFamily: 'Ubuntu',
-                                                                          color: Colors.white,
-                                                                          fontSize: 28,
-                                                                          fontStyle: FontStyle.normal,
-                                                                          fontWeight: FontWeight.bold
-                                                                      ),
-                                                                    ),
-                                                                    content: const Text(
-                                                                      'Вы точно хотите удалить запись?',
-                                                                      style: TextStyle(
-                                                                        fontFamily: 'Ubuntu',
-                                                                        color: Colors.white,
-                                                                        fontSize: 22,
-                                                                        fontStyle: FontStyle.normal,
-                                                                      ),
-                                                                    ),
-                                                                    actions: [
-                                                                      ElevatedButton(
-                                                                        onPressed: () async {
-                                                                          try{
-                                                                            controllerFoodB.deleteFoodU(snapshotB.data![index].id.toString(), id.toString());
-                                                                            Navigator.of(context).pop();
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                          }
-                                                                          catch(e){
-                                                                          }
-                                                                        },
-                                                                        child: Text(
-                                                                          'Да',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                      FutureBuilder(
+                                                          future: controllerFoodB.getAllCalRecordsU(id),
+                                                          builder: (context, snapshotS) {
+                                                            if (snapshotB.data!.length > 1) {
+                                                              try{
+                                                                cal_u = snapshotS.data!.cal_u.toString();
+                                                                id_u = snapshotS.data!.id;
+                                                              } catch(e){
+                                                              }
+                                                              return FutureBuilder(
+                                                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                                                  builder: (context, snapshotPFC) {
+                                                                    if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                      if(snapshotPFC.hasData){
+                                                                        try{
+                                                                          id_pfc = snapshotPFC.data!.id;
+                                                                          prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                          fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                          carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                          calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                        } catch(e){
+                                                                        }
+                                                                        return SizedBox(
+                                                                          height: 35,
+                                                                          width: 35,
+                                                                          child: IconButton(
+                                                                            onPressed: () {
+                                                                              showDialog<void>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      backgroundColor: Colors.blueGrey,
+                                                                                      title: Text(
+                                                                                        'Удаление записи',
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'Ubuntu',
+                                                                                            color: Colors.white,
+                                                                                            fontSize: 28,
+                                                                                            fontStyle: FontStyle.normal,
+                                                                                            fontWeight: FontWeight.bold
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: const Text(
+                                                                                        'Вы точно хотите удалить запись?',
+                                                                                        style: TextStyle(
+                                                                                          fontFamily: 'Ubuntu',
+                                                                                          color: Colors.white,
+                                                                                          fontSize: 22,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              final foodCal = CalModelU(
+                                                                                                cal_u: (double.parse(cal_u!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              final foodPCF = ModelPFC(
+                                                                                                protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                                fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                                carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                                calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              await controllerFoodB.updateCalU(foodCal, id, id_u.toString());
+                                                                                              controllerFoodB.deleteFoodU(snapshotB.data![index].id.toString(), id.toString());
+                                                                                              controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                              Navigator.of(context).pop();
+                                                                                              setState(() {
+                                                                                                foodPageCal.blbl = true;
+                                                                                              });
+                                                                                            }
+                                                                                            catch (e) {}
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Да',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.of(context).pop();
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Отменить',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                            color: Colors.red,
+                                                                            splashRadius: 16,
                                                                           ),
+                                                                        );
+                                                                      } else{
+                                                                        return Center(child: Text('Ошибка!'),);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      return Center(
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 25,
+                                                                            ),
+                                                                            CircularProgressIndicator(),
+                                                                          ],
                                                                         ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                        onPressed: () {
-                                                                          Navigator.of(context).pop();
-                                                                        },
-                                                                        child: Text(
-                                                                          'Отменить',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                                      );
+                                                                    }});
+                                                            } else{
+                                                              try{
+                                                                cal_u = snapshotS.data!.cal_u.toString();
+                                                                id_u = snapshotS.data!.id;
+                                                              } catch(e){
+                                                              }
+                                                              return FutureBuilder(
+                                                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                                                  builder: (context, snapshotPFC) {
+                                                                    if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                      if(snapshotPFC.hasData){
+                                                                        try{
+                                                                          id_pfc = snapshotPFC.data!.id;
+                                                                          prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                          fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                          carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                          calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                        } catch(e){
+                                                                        }
+                                                                        return SizedBox(
+                                                                          height: 35,
+                                                                          width: 35,
+                                                                          child: IconButton(
+                                                                            onPressed: () {
+                                                                              showDialog<void>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      backgroundColor: Colors.blueGrey,
+                                                                                      title: Text(
+                                                                                        'Удаление записи',
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'Ubuntu',
+                                                                                            color: Colors.white,
+                                                                                            fontSize: 28,
+                                                                                            fontStyle: FontStyle.normal,
+                                                                                            fontWeight: FontWeight.bold
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: const Text(
+                                                                                        'Вы точно хотите удалить запись?',
+                                                                                        style: TextStyle(
+                                                                                          fontFamily: 'Ubuntu',
+                                                                                          color: Colors.white,
+                                                                                          fontSize: 22,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              cal_u = snapshotS.data!.cal_u.toString();
+                                                                                              id_u = snapshotS.data!.id;
+                                                                                              final foodCal = CalModelU(
+                                                                                                cal_u: (double.parse(cal_u!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              final foodPCF = ModelPFC(
+                                                                                                protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                                fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                                carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                                calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              await controllerFoodB.updateCalU(foodCal, id, id_u.toString());
+                                                                                              controllerFoodB.deleteFoodU(snapshotB.data![index].id.toString(), id.toString());
+                                                                                              controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                              Navigator.of(context).pop();
+                                                                                              setState(() {
+                                                                                                foodPageCal.blbl = true;
+                                                                                              });
+                                                                                            }
+                                                                                            catch (e) {}
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Да',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.of(context).pop();
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Отменить',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                            color: Colors.red,
+                                                                            splashRadius: 16,
                                                                           ),
+                                                                        );
+                                                                      } else{
+                                                                        return Center(child: Text('Ошибка!'),);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      return Center(
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 25,
+                                                                            ),
+                                                                            CircularProgressIndicator(),
+                                                                          ],
                                                                         ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                });
-                                                          },
-                                                          icon: Icon(LineAwesomeIcons.minus_circle),
-                                                          color: Colors.red,
-                                                          splashRadius: 16,
-                                                        ),
-                                                      ),
+                                                                      );
+                                                                    }});
+                                                            }}),
                                                     ],
                                                   ),
                                                   Divider(color: Colors.blueGrey,),
@@ -1188,15 +1877,39 @@ class _FoodScreenState extends State<FoodScreen> {
                                   )),
                               Column(
                                 children: [
-                                  Text(
-                                    foodPageCal.PageCal_p.toString(),
-                                    style: TextStyle(
-                                      fontFamily: 'Ubuntu',
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                  ),
+                                  FutureBuilder(
+                                      future: controllerFoodB.getAllCalRecordsP(id),
+                                      builder: (context, snapshotS) {
+                                        if (snapshotS.connectionState == ConnectionState.done) {
+                                          if (snapshotS.hasData) {
+                                            return Text(
+                                              snapshotS.data!.cal_p.toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          } else {
+                                            return Text(
+                                              '0.0',
+                                              style: TextStyle(
+                                                fontFamily: 'Ubuntu',
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          }
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      }),
                                   Text(
                                     'Калории',
                                     style: TextStyle(
@@ -1255,32 +1968,13 @@ class _FoodScreenState extends State<FoodScreen> {
                             builder: (context, snapshotAll) {
                               try {
                                 foodPageCal.PageCal_p = 0;
-                                id = snapshotAll.data?[0].id;
+                                id = snapshotAll.data![0].id!;
                               } catch (e) {}
                               return FutureBuilder(
                                   future: controllerFoodB.getAllFoodRecordsP(id.toString()),
                                   builder: (context, snapshotB) {
                                     if (snapshotB.connectionState == ConnectionState.done) {
-                                      if (true) {
-                                        Future.delayed(const Duration(milliseconds: 1), () {
-                                          for (int i = 0; i < snapshotB.data!.length; i++) {
-                                            foodPageCal.PageCal_p = foodPageCal.PageCal_p + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal = foodPageCal.PageCal + int.parse(snapshotB.data![i].calorie.toString());
-                                            foodPageCal.PageCal_protein = foodPageCal.PageCal_protein + int.parse(snapshotB.data![i].protein.toString());
-                                            foodPageCal.PageCal_carb = foodPageCal.PageCal_carb + int.parse(snapshotB.data![i].carb.toString());
-                                            foodPageCal.PageCal_fats = foodPageCal.PageCal_fats + int.parse(snapshotB.data![i].fats.toString());
-                                          }
-                                          foodPageCal.PageCal_all = foodPageCal.PageCal_protein + foodPageCal.PageCal_carb + foodPageCal.PageCal_fats;
-
-                                          foodPageCal.PageCal_protein_perc = (foodPageCal.PageCal_protein.toDouble() / (foodPageCal.PageCal_all / 100).toDouble()).toStringAsFixed(0);
-                                          foodPageCal.PageCal_carb_perc = (foodPageCal.PageCal_carb.toDouble() / (foodPageCal.PageCal_all / 100).toDouble()).toStringAsFixed(0);
-                                          foodPageCal.PageCal_fats_perc = (foodPageCal.PageCal_fats.toDouble() / (foodPageCal.PageCal_all / 100).toDouble()).toStringAsFixed(0);
-                                          if (foodPageCal.blbl) {
-                                            setState(() {
-                                              foodPageCal.blbl = false;
-                                            });
-                                          }
-                                        });
+                                      if (snapshotB.hasData) {
                                         return SizedBox(
                                           height: 120 * double.parse(snapshotB.data!.length.toString()),
                                           child: ListView.separated(
@@ -1298,90 +1992,268 @@ class _FoodScreenState extends State<FoodScreen> {
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
-                                                      //IconButton(onPressed: () {}, icon: Icon(LineAwesomeIcons.edit), color: Colors.white, splashRadius: 16),
-                                                      SizedBox(
-                                                        height: 35,
-                                                        width: 35,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            showDialog<void>(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return AlertDialog(
-                                                                    backgroundColor: Colors.blueGrey,
-                                                                    title: Text(
-                                                                      'Удаления записи',
-                                                                      style: TextStyle(
-                                                                          fontFamily: 'Ubuntu',
-                                                                          color: Colors.white,
-                                                                          fontSize: 28,
-                                                                          fontStyle: FontStyle.normal,
-                                                                          fontWeight: FontWeight.bold
-                                                                      ),
-                                                                    ),
-                                                                    content: const Text(
-                                                                      'Вы точно хотите удалить запись?',
-                                                                      style: TextStyle(
-                                                                        fontFamily: 'Ubuntu',
-                                                                        color: Colors.white,
-                                                                        fontSize: 22,
-                                                                        fontStyle: FontStyle.normal,
-                                                                      ),
-                                                                    ),
-                                                                    actions: [
-                                                                      ElevatedButton(
-                                                                        onPressed: () async {
-                                                                          try{
-                                                                            controllerFoodB.deleteFoodP(snapshotB.data![index].id.toString(), id.toString());
-                                                                            Navigator.of(context).pop();
-                                                                            setState(() {
-                                                                              foodPageCal.blbl = true;
-                                                                            });
-                                                                          }
-                                                                          catch(e){
-                                                                          }
-                                                                        },
-                                                                        child: Text(
-                                                                          'Да',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                      FutureBuilder(
+                                                          future: controllerFoodB.getAllCalRecordsP(id),
+                                                          builder: (context, snapshotS) {
+                                                            if (snapshotB.data!.length > 1) {
+                                                              try{
+                                                                cal_p = snapshotS.data!.cal_p.toString();
+                                                                id_p = snapshotS.data!.id;
+                                                              } catch(e){
+                                                              }
+                                                              return FutureBuilder(
+                                                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                                                  builder: (context, snapshotPFC) {
+                                                                    if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                      if(snapshotPFC.hasData){
+                                                                        try{
+                                                                          id_pfc = snapshotPFC.data!.id;
+                                                                          prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                          fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                          carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                          calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                        } catch(e){
+                                                                        }
+                                                                        return SizedBox(
+                                                                          height: 35,
+                                                                          width: 35,
+                                                                          child: IconButton(
+                                                                            onPressed: () {
+                                                                              showDialog<void>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      backgroundColor: Colors.blueGrey,
+                                                                                      title: Text(
+                                                                                        'Удаление записи',
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'Ubuntu',
+                                                                                            color: Colors.white,
+                                                                                            fontSize: 28,
+                                                                                            fontStyle: FontStyle.normal,
+                                                                                            fontWeight: FontWeight.bold
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: const Text(
+                                                                                        'Вы точно хотите удалить запись?',
+                                                                                        style: TextStyle(
+                                                                                          fontFamily: 'Ubuntu',
+                                                                                          color: Colors.white,
+                                                                                          fontSize: 22,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              final foodCal = CalModelP(
+                                                                                                cal_p: (double.parse(cal_p!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              final foodPCF = ModelPFC(
+                                                                                                protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                                fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                                carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                                calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              await controllerFoodB.updateCalP(foodCal, id, id_p.toString());
+                                                                                              controllerFoodB.deleteFoodP(snapshotB.data![index].id.toString(), id.toString());
+                                                                                              controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                              Navigator.of(context).pop();
+                                                                                              setState(() {
+                                                                                                foodPageCal.blbl = true;
+                                                                                              });
+                                                                                            }
+                                                                                            catch (e) {}
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Да',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.of(context).pop();
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Отменить',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                            color: Colors.red,
+                                                                            splashRadius: 16,
                                                                           ),
+                                                                        );
+                                                                      } else{
+                                                                        return Center(child: Text('Ошибка!'),);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      return Center(
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 25,
+                                                                            ),
+                                                                            CircularProgressIndicator(),
+                                                                          ],
                                                                         ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                        onPressed: () {
-                                                                          Navigator.of(context).pop();
-                                                                        },
-                                                                        child: Text(
-                                                                          'Отменить',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'Ubuntu',
-                                                                              color: Colors.white,
-                                                                              fontSize: 22,
-                                                                              fontStyle: FontStyle.normal,
-                                                                              fontWeight: FontWeight.bold
+                                                                      );
+                                                                    }});
+                                                            } else{
+                                                              try{
+                                                                cal_p = snapshotS.data!.cal_p.toString();
+                                                                id_p = snapshotS.data!.id;
+                                                              } catch(e){
+                                                              }
+                                                              return FutureBuilder(
+                                                                  future: controllerFoodB.getAllRecordsPFC(id),
+                                                                  builder: (context, snapshotPFC) {
+                                                                    if (snapshotPFC.connectionState == ConnectionState.done) {
+                                                                      if(snapshotPFC.hasData){
+                                                                        try{
+                                                                          id_pfc = snapshotPFC.data!.id;
+                                                                          prot_value = snapshotPFC.data!.protein_value.toString();
+                                                                          fats_value = snapshotPFC.data!.fats_value.toString();
+                                                                          carb_value = snapshotPFC.data!.carb_value.toString();
+                                                                          calories_value = snapshotPFC.data!.calories_value.toString();
+                                                                        } catch(e){
+                                                                        }
+                                                                        return SizedBox(
+                                                                          height: 35,
+                                                                          width: 35,
+                                                                          child: IconButton(
+                                                                            onPressed: () {
+                                                                              showDialog<void>(
+                                                                                  context: context,
+                                                                                  builder: (BuildContext context) {
+                                                                                    return AlertDialog(
+                                                                                      backgroundColor: Colors.blueGrey,
+                                                                                      title: Text(
+                                                                                        'Удаление записи',
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'Ubuntu',
+                                                                                            color: Colors.white,
+                                                                                            fontSize: 28,
+                                                                                            fontStyle: FontStyle.normal,
+                                                                                            fontWeight: FontWeight.bold
+                                                                                        ),
+                                                                                      ),
+                                                                                      content: const Text(
+                                                                                        'Вы точно хотите удалить запись?',
+                                                                                        style: TextStyle(
+                                                                                          fontFamily: 'Ubuntu',
+                                                                                          color: Colors.white,
+                                                                                          fontSize: 22,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                        ),
+                                                                                      ),
+                                                                                      actions: [
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () async {
+                                                                                            try {
+                                                                                              cal_p = snapshotS.data!.cal_p.toString();
+                                                                                              id_p = snapshotS.data!.id;
+                                                                                              final foodCal = CalModelP(
+                                                                                                cal_p: (double.parse(cal_p!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              final foodPCF = ModelPFC(
+                                                                                                protein_value: (double.parse(prot_value!) - (double.parse(snapshotB.data![index].protein.toString()))).toStringAsFixed(1),
+                                                                                                fats_value: (double.parse(fats_value!) - (double.parse(snapshotB.data![index].fats.toString()))).toStringAsFixed(1),
+                                                                                                carb_value: (double.parse(carb_value!) - (double.parse(snapshotB.data![index].carb.toString()))).toStringAsFixed(1),
+                                                                                                calories_value: (double.parse(calories_value!) - (double.parse(snapshotB.data![index].calorie.toString()))).toStringAsFixed(1),
+                                                                                              );
+                                                                                              await controllerFoodB.updateCalP(foodCal, id, id_p.toString());
+                                                                                              controllerFoodB.deleteFoodP(snapshotB.data![index].id.toString(), id.toString());
+                                                                                              controllerFoodB.updatePFC(foodPCF, id.toString(), id_pfc.toString());
+                                                                                              Navigator.of(context).pop();
+                                                                                              setState(() {
+                                                                                                foodPageCal.blbl = true;
+                                                                                              });
+                                                                                            }
+                                                                                            catch (e) {}
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Да',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            Navigator.of(context).pop();
+                                                                                          },
+                                                                                          child: Text(
+                                                                                            'Отменить',
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'Ubuntu',
+                                                                                                color: Colors.white,
+                                                                                                fontSize: 22,
+                                                                                                fontStyle: FontStyle.normal,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                            ),
+                                                                                          ),
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            backgroundColor: Colors.black12,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  });
+                                                                            },
+                                                                            icon: Icon(LineAwesomeIcons.minus_circle),
+                                                                            color: Colors.red,
+                                                                            splashRadius: 16,
                                                                           ),
+                                                                        );
+                                                                      } else{
+                                                                        return Center(child: Text('Ошибка!'),);
+                                                                      }
+                                                                    }
+                                                                    else{
+                                                                      return Center(
+                                                                        child: Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 25,
+                                                                            ),
+                                                                            CircularProgressIndicator(),
+                                                                          ],
                                                                         ),
-                                                                        style: ElevatedButton.styleFrom(
-                                                                          backgroundColor: Colors.black12,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                });
-                                                          },
-                                                          icon: Icon(LineAwesomeIcons.minus_circle),
-                                                          color: Colors.red,
-                                                          splashRadius: 16,
-                                                        ),
-                                                      ),
+                                                                      );
+                                                                    }});
+                                                            }}),
                                                     ],
                                                   ),
                                                   Divider(color: Colors.blueGrey,),
@@ -1497,29 +2369,80 @@ class _FoodScreenState extends State<FoodScreen> {
                         ),
                         Column(
                           children: [
-                            SizedBox(
-                              height: 120,
-                              child: PieChart(PieChartData(centerSpaceRadius: 35, borderData: FlBorderData(show: false), sections: [
-                                PieChartSectionData(
-                                    value: 1 + foodPageCal.PageCal_carb.toDouble(),
-                                    color: Colors.redAccent,
-                                    radius: 30,
-                                    title: 'У',
-                                    titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
-                                PieChartSectionData(
-                                    value: 1 + foodPageCal.PageCal_fats.toDouble(),
-                                    color: Colors.yellow,
-                                    radius: 30,
-                                    title: 'Ж',
-                                    titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
-                                PieChartSectionData(
-                                    value: 1 + foodPageCal.PageCal_protein.toDouble(),
-                                    color: Colors.lightBlueAccent,
-                                    radius: 30,
-                                    title: 'Б',
-                                    titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10))
-                              ])),
-                            ),
+                            FutureBuilder(
+                                future: controllerFoodB.getAllRecordsPFC(id),
+                                builder: (context, snapshotS) {
+                                  if (snapshotS.connectionState == ConnectionState.done) {
+                                    if (snapshotS.hasData) {
+                                      if(double.parse((double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                        prot_nan = '0';
+                                      } else{
+                                        prot_nan = (double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                      }
+                                      if(double.parse((double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                        fats_nan = '0';
+                                      } else{
+                                        fats_nan = (double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                      }
+                                      if(double.parse((double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                        carb_nan = '0';
+                                      } else{
+                                        carb_nan = (double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                      }
+                                      return SizedBox(
+                                        height: 120,
+                                        child: PieChart(PieChartData(centerSpaceRadius: 35, borderData: FlBorderData(show: false), sections: [
+                                          PieChartSectionData(
+                                              value: 1 + double.parse(carb_nan),
+                                              color: Colors.redAccent,
+                                              radius: 30,
+                                              title: 'У',
+                                              titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
+                                          PieChartSectionData(
+                                              value: 1 + double.parse(fats_nan),
+                                              color: Colors.yellow,
+                                              radius: 30,
+                                              title: 'Ж',
+                                              titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
+                                          PieChartSectionData(
+                                              value: 1 + double.parse(prot_nan),
+                                              color: Colors.lightBlueAccent,
+                                              radius: 30,
+                                              title: 'Б',
+                                              titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10))
+                                        ])),
+                                      );
+                                    } else {
+                                      return SizedBox(
+                                        height: 120,
+                                        child: PieChart(PieChartData(centerSpaceRadius: 35, borderData: FlBorderData(show: false), sections: [
+                                          PieChartSectionData(
+                                              value: 1,
+                                              color: Colors.redAccent,
+                                              radius: 30,
+                                              title: 'У',
+                                              titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
+                                          PieChartSectionData(
+                                              value: 1,
+                                              color: Colors.yellow,
+                                              radius: 30,
+                                              title: 'Ж',
+                                              titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
+                                          PieChartSectionData(
+                                              value: 1,
+                                              color: Colors.lightBlueAccent,
+                                              radius: 30,
+                                              title: 'Б',
+                                              titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10))
+                                        ])),
+                                      );
+                                    }
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                }),
                             SizedBox(
                               height: 25,
                             ),
@@ -1540,26 +2463,88 @@ class _FoodScreenState extends State<FoodScreen> {
                                     SizedBox(
                                       width: 15,
                                     ),
-                                    Text(
-                                      'Белки: ' + foodPageCal.PageCal_protein_perc + '%',
-                                      style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                    ),
+                                    FutureBuilder(
+                                        future: controllerFoodB.getAllRecordsPFC(id),
+                                        builder: (context, snapshotS) {
+                                          if (snapshotS.connectionState == ConnectionState.done) {
+                                            if (snapshotS.hasData) {
+                                              if(double.parse((double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                prot_nan = '0';
+                                              } else{
+                                                prot_nan = (double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              if(double.parse((double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                fats_nan = '0';
+                                              } else{
+                                                fats_nan = (double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              if(double.parse((double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                carb_nan = '0';
+                                              } else{
+                                                carb_nan = (double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              return Text('Белки: ' + (double.parse(prot_nan)).toStringAsFixed(2) + '%',
+                                                style: TextStyle(
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            } else {
+                                              return Text(
+                                                'Белки: 0.00%',
+                                                style: TextStyle(
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          }
+                                        }),
                                   ],
                                 ),
-                                Text(
-                                  'Всего б: ' + foodPageCal.PageCal_protein.toString() + ' г.',
-                                  style: TextStyle(
-                                    fontFamily: 'Ubuntu',
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
+                                FutureBuilder(
+                                    future: controllerFoodB.getAllRecordsPFC(id),
+                                    builder: (context, snapshotS) {
+                                      if (snapshotS.connectionState == ConnectionState.done) {
+                                        if (snapshotS.hasData) {
+                                          return Text(
+                                              'Всего б: ' + snapshotS.data!.protein_value.toString() + ' г.',
+                                            style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return Text(
+                                            'Всего б: 0 г.',
+                                            style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        }
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
                               ],
                             ),
                             SizedBox(
@@ -1581,26 +2566,88 @@ class _FoodScreenState extends State<FoodScreen> {
                                     SizedBox(
                                       width: 15,
                                     ),
-                                    Text(
-                                      'Жиры: ' + foodPageCal.PageCal_fats_perc + '%',
-                                      style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                    ),
+                                    FutureBuilder(
+                                        future: controllerFoodB.getAllRecordsPFC(id),
+                                        builder: (context, snapshotS) {
+                                          if (snapshotS.connectionState == ConnectionState.done) {
+                                            if (snapshotS.hasData) {
+                                              if(double.parse((double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                prot_nan = '0';
+                                              } else{
+                                                prot_nan = (double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              if(double.parse((double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                fats_nan = '0';
+                                              } else{
+                                                fats_nan = (double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              if(double.parse((double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                carb_nan = '0';
+                                              } else{
+                                                carb_nan = (double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              return Text('Жиры: ' + (double.parse(fats_nan)).toStringAsFixed(2) + '%',
+                                                style: TextStyle(
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            } else {
+                                              return Text(
+                                                'Жиры: 0.00%',
+                                                style: TextStyle(
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          }
+                                        }),
                                   ],
                                 ),
-                                Text(
-                                  'Всего ж: ' + foodPageCal.PageCal_fats.toString() + ' г.',
-                                  style: TextStyle(
-                                    fontFamily: 'Ubuntu',
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
+                                FutureBuilder(
+                                    future: controllerFoodB.getAllRecordsPFC(id),
+                                    builder: (context, snapshotS) {
+                                      if (snapshotS.connectionState == ConnectionState.done) {
+                                        if (snapshotS.hasData) {
+                                          return Text(
+                                            'Всего ж: ' + snapshotS.data!.fats_value.toString() + ' г.',
+                                            style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return Text(
+                                            'Всего ж: 0 г.',
+                                            style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        }
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
                               ],
                             ),
                             SizedBox(
@@ -1622,26 +2669,95 @@ class _FoodScreenState extends State<FoodScreen> {
                                     SizedBox(
                                       width: 15,
                                     ),
-                                    Text(
-                                      'Углеводы: ' + foodPageCal.PageCal_carb_perc + '%',
-                                      style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                    ),
+                                    FutureBuilder(
+                                        future: controllerFoodB.getAllRecordsPFC(id),
+                                        builder: (context, snapshotS) {
+                                          if (snapshotS.connectionState == ConnectionState.done) {
+                                            if (snapshotS.hasData) {
+                                              if(double.parse((double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                prot_nan = '0';
+                                              } else{
+                                                prot_nan = (double.parse(snapshotS.data!.protein_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              if(double.parse((double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                fats_nan = '0';
+                                              } else{
+                                                fats_nan = (double.parse(snapshotS.data!.fats_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              if(double.parse((double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2)).isNaN){
+                                                carb_nan = '0';
+                                              } else{
+                                                carb_nan = (double.parse(snapshotS.data!.carb_value.toString()) / ((double.parse(snapshotS.data!.protein_value.toString()) + double.parse(snapshotS.data!.fats_value.toString()) + double.parse(snapshotS.data!.carb_value.toString())) / 100)).toStringAsFixed(2);
+                                              }
+                                              return Text('Углеводы: ' + (double.parse(carb_nan)).toStringAsFixed(2) + '%',
+                                                style: TextStyle(
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            } else {
+                                              return Text(
+                                                'Углеводы: 0.00%',
+                                                style: TextStyle(
+                                                  fontFamily: 'Ubuntu',
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          }
+                                        }),
                                   ],
                                 ),
-                                Text(
-                                  'Всего у: ' + foodPageCal.PageCal_carb.toString() + ' г.',
-                                  style: TextStyle(
-                                    fontFamily: 'Ubuntu',
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
+                                FutureBuilder(
+                                    future: controllerFoodB.getAllRecordsPFC(id),
+                                    builder: (context, snapshotS) {
+                                      if (snapshotS.connectionState == ConnectionState.done) {
+                                        Future.delayed(const Duration(milliseconds: 1), () {
+                                          if (foodPageCal.blbl) {
+                                            setState(() {
+                                              foodPageCal.blbl = false;
+                                            });
+                                          }
+                                        });
+                                        if (snapshotS.hasData) {
+                                          return Text(
+                                            'Всего у: ' + snapshotS.data!.carb_value.toString() + ' г.',
+                                            style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return Text(
+                                            'Всего у: 0 г.',
+                                            style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        }
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                    }),
                               ],
                             ),
                           ],

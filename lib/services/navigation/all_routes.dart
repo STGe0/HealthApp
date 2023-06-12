@@ -15,4 +15,5 @@ class AllRoutes{
   static const String add_o = '/add_o';
   static const String add_u = '/add_u';
   static const String add_p = '/add_p';
+  static const String settings = '/settings';
 }

@@ -69,6 +69,7 @@ class _AccountScreenState extends State<AccountScreen>{
             return IconButton(
                 splashRadius: 24,
                 onPressed: () {
+                  foodPageCal.blbl = true;
                   widget.goTR.goToRoute(AllRoutes.food);
                 },
                 icon: Icon(LineAwesomeIcons.angle_left)
@@ -184,7 +185,7 @@ class _AccountScreenState extends State<AccountScreen>{
                       SizedBox(
                         height: 20,
                       ),
-                      MenuProfileButton(title: 'Настройки', icon: LineAwesomeIcons.cog, textColor: Colors.white, onPress: (){},),
+                      MenuProfileButton(title: 'Настройки', icon: LineAwesomeIcons.cog, textColor: Colors.white, onPress: (){widget.goTR.goToRoute(AllRoutes.settings);},),
                       SizedBox(
                         height: 10,
                       ),

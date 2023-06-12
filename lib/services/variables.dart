@@ -75,8 +75,8 @@ class userEmail{
 }
 
 class foodPageCal{
+  static DateTime valueF = DateTime.now();
   static int PageCal = 0;
-  static int PageCal_breakfast = 0;
   static int PageCal_o = 0;
   static int PageCal_u = 0;
   static int PageCal_p = 0;
@@ -88,4 +88,6 @@ class foodPageCal{
   static String PageCal_carb_perc = '0';
   static String PageCal_fats_perc = '0';
   static bool blbl = true;
+
+
 }

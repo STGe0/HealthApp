@@ -289,7 +289,7 @@ class _SleepScreenState extends State<SleepScreen> {
                                           return AlertDialog(
                                             backgroundColor: Colors.blueGrey,
                                             title: Text(
-                                              'Удаления записи',
+                                              'Удаление записи',
                                               style: TextStyle(
                                                   fontFamily: 'Ubuntu',
                                                   color: Colors.white,
