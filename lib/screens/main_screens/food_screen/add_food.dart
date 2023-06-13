@@ -430,31 +430,129 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                       final calories_value = snapshotPFC.data!.calories_value.toString();
                                       return ElevatedButton(
                                         onPressed: () async {
-                                          foodPageCal.blbl = true;
-                                          final foodRecord = FoodModel(
-                                            name_product: txtCon.text.trim(),
-                                            weight_product: wCon.text.trim(),
-                                            protein: (double.parse(pCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                            carb: (double.parse(cCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                            fats: (double.parse(fCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                            calorie: ((((double.parse(pCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(cCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(fCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 9)).toStringAsFixed(1),
-                                          );
-                                          String ui = foodRecord.calorie.toString();
-                                          final foodCal = CalModelB(
-                                            cal_b: (double.parse(cal_break) + double.parse(ui)).toStringAsFixed(1),
-                                          );
-                                          final foodPCF = ModelPFC(
-                                            protein_value: (double.parse(protein_value) + double.parse(foodRecord.protein.toString())).toStringAsFixed(1),
-                                            fats_value: (double.parse(fats_value) + double.parse(foodRecord.fats.toString())).toStringAsFixed(1),
-                                            carb_value: (double.parse(carb_value) + double.parse(foodRecord.carb.toString())).toStringAsFixed(1),
-                                            calories_value: (double.parse(calories_value) + double.parse(foodRecord.calorie.toString())).toStringAsFixed(1),
-                                          );
-                                          final foodRepo = Get.put(FoodRepository());
-                                          foodRepo.createFoodRecord(foodRecord, id.toString());
-                                          await controllerFoodB.updateCalB(foodCal, id, id_b.toString());
-                                          foodRepo.updatePFC(foodPCF, id.toString(), id_PFC.toString());
-                                          widget.goTR.goToRoute(AllRoutes.food);
-                                        },
+                                          try{
+                                          if(txtCon.text.trim().isNotEmpty) {
+                                            foodPageCal.blbl = true;
+                                            final foodRecord = FoodModel(
+                                              name_product: txtCon.text.trim(),
+                                              weight_product: wCon.text.trim(),
+                                              protein: (double.parse(pCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                              carb: (double.parse(cCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                              fats: (double.parse(fCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                              calorie: ((((double.parse(pCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(cCon.text.trim())) * (double.parse(wCon.text
+                                                  .trim()) / 100)) * 4) + (((double.parse(fCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 9)).toStringAsFixed(1),
+                                            );
+                                            String ui = foodRecord.calorie.toString();
+                                            final foodCal = CalModelB(
+                                              cal_b: (double.parse(cal_break) + double.parse(ui)).toStringAsFixed(1),
+                                            );
+                                            final foodPCF = ModelPFC(
+                                              protein_value: (double.parse(protein_value) + double.parse(foodRecord.protein.toString())).toStringAsFixed(1),
+                                              fats_value: (double.parse(fats_value) + double.parse(foodRecord.fats.toString())).toStringAsFixed(1),
+                                              carb_value: (double.parse(carb_value) + double.parse(foodRecord.carb.toString())).toStringAsFixed(1),
+                                              calories_value: (double.parse(calories_value) + double.parse(foodRecord.calorie.toString())).toStringAsFixed(1),
+                                            );
+                                            final foodRepo = Get.put(FoodRepository());
+                                            foodRepo.createFoodRecord(foodRecord, id.toString());
+                                            await controllerFoodB.updateCalB(foodCal, id, id_b.toString());
+                                            foodRepo.updatePFC(foodPCF, id.toString(), id_PFC.toString());
+                                            widget.goTR.goToRoute(AllRoutes.food);
+                                          } else{
+                                            showDialog<void>(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: Colors.blueGrey,
+                                                    title: Text(
+                                                      'Поля не заполнены',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 28,
+                                                          fontStyle: FontStyle.normal,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    content: const Text(
+                                                      'Для добавления записи заполните поля',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                            Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Ок',
+                                                          style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                              fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.black12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                        }catch(e){
+                                            showDialog<void>(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: Colors.blueGrey,
+                                                    title: Text(
+                                                      'Поля не заполнены',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 28,
+                                                          fontStyle: FontStyle.normal,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    content: const Text(
+                                                      'Для добавления записи заполните поля',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Ок',
+                                                          style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                              fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.black12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          }},
                                         child: Text(
                                           'Добавить',
                                           style: TextStyle(fontFamily: 'Ubuntu',
@@ -475,31 +573,129 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                     } else{
                                       return ElevatedButton(
                                         onPressed: () async {
-                                          foodPageCal.blbl = true;
-                                          final foodRecord = FoodModel(
-                                            name_product: txtCon.text.trim(),
-                                            weight_product: wCon.text.trim(),
-                                            protein: (double.parse(pCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                            carb: (double.parse(cCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                            fats: (double.parse(fCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                            calorie: ((((double.parse(pCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(cCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(fCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 9)).toStringAsFixed(1),
-                                          );
-                                          String ui = foodRecord.calorie.toString();
-                                          final foodCal = CalModelB(
-                                            cal_b: (double.parse(cal_break) + double.parse(ui)).toStringAsFixed(1),
-                                          );
-                                          final foodPCF = ModelPFC(
-                                            protein_value: foodRecord.protein,
-                                            fats_value: foodRecord.fats,
-                                            carb_value: foodRecord.carb,
-                                            calories_value: foodRecord.calorie,
-                                          );
-                                          final foodRepo = Get.put(FoodRepository());
-                                          foodRepo.createFoodRecord(foodRecord, id.toString());
-                                          await controllerFoodB.updateCalB(foodCal, id, id_b.toString());
-                                          foodRepo.createFoodPFC(foodPCF, id.toString());
-                                          widget.goTR.goToRoute(AllRoutes.food);
-                                        },
+                                          try{
+                                          if(txtCon.text.trim().isNotEmpty) {
+                                            foodPageCal.blbl = true;
+                                            final foodRecord = FoodModel(
+                                              name_product: txtCon.text.trim(),
+                                              weight_product: wCon.text.trim(),
+                                              protein: (double.parse(pCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                              carb: (double.parse(cCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                              fats: (double.parse(fCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                              calorie: ((((double.parse(pCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(cCon.text.trim())) * (double.parse(wCon.text
+                                                  .trim()) / 100)) * 4) + (((double.parse(fCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 9)).toStringAsFixed(1),
+                                            );
+                                            String ui = foodRecord.calorie.toString();
+                                            final foodCal = CalModelB(
+                                              cal_b: (double.parse(cal_break) + double.parse(ui)).toStringAsFixed(1),
+                                            );
+                                            final foodPCF = ModelPFC(
+                                              protein_value: foodRecord.protein,
+                                              fats_value: foodRecord.fats,
+                                              carb_value: foodRecord.carb,
+                                              calories_value: foodRecord.calorie,
+                                            );
+                                            final foodRepo = Get.put(FoodRepository());
+                                            foodRepo.createFoodRecord(foodRecord, id.toString());
+                                            await controllerFoodB.updateCalB(foodCal, id, id_b.toString());
+                                            foodRepo.createFoodPFC(foodPCF, id.toString());
+                                            widget.goTR.goToRoute(AllRoutes.food);
+                                          } else{
+                                            showDialog<void>(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: Colors.blueGrey,
+                                                    title: Text(
+                                                      'Поля не заполнены',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 28,
+                                                          fontStyle: FontStyle.normal,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    content: const Text(
+                                                      'Для добавления записи заполните поля',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Ок',
+                                                          style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                              fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.black12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                          }catch(e){
+                                            showDialog<void>(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: Colors.blueGrey,
+                                                    title: Text(
+                                                      'Поля не заполнены',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 28,
+                                                          fontStyle: FontStyle.normal,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    content: const Text(
+                                                      'Для добавления записи заполните поля',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Ок',
+                                                          style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                              fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.black12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          }},
                                         child: Text(
                                           'Добавить',
                                           style: TextStyle(fontFamily: 'Ubuntu',
@@ -832,30 +1028,129 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                         final calories_value = snapshotPFC.data!.calories_value.toString();
                                         return ElevatedButton(
                                           onPressed: () {
-                                            foodPageCal.blbl = true;
-                                            final foodRecord = FoodModel(
-                                              name_product: txtCon.text.trim(),
-                                              weight_product: wCon.text.trim(),
-                                              protein: (double.parse(pCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                              carb: (double.parse(cCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                              fats: (double.parse(fCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
-                                              calorie: ((((double.parse(pCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(cCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(fCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 9)).toStringAsFixed(1),
-                                            );
-                                            final foodCal = CalModelB(
-                                              cal_b: foodRecord.calorie,
-                                            );
-                                            final foodPCF = ModelPFC(
-                                              protein_value: (double.parse(protein_value) + double.parse(foodRecord.protein.toString())).toStringAsFixed(1),
-                                              fats_value: (double.parse(fats_value) + double.parse(foodRecord.fats.toString())).toStringAsFixed(1),
-                                              carb_value: (double.parse(carb_value) + double.parse(foodRecord.carb.toString())).toStringAsFixed(1),
-                                              calories_value: (double.parse(calories_value) + double.parse(foodRecord.calorie.toString())).toStringAsFixed(1),
-                                            );
-                                            final foodRepo = Get.put(FoodRepository());
-                                            foodRepo.createFoodRecord(foodRecord, id.toString());
-                                            foodRepo.createFoodCalB(foodCal, id.toString());
-                                            foodRepo.updatePFC(foodPCF, id.toString(), id_PFC.toString());
-                                            widget.goTR.goToRoute(AllRoutes.food);
-                                          },
+                                            try{
+                                            if(txtCon.text.trim().isNotEmpty) {
+                                              foodPageCal.blbl = true;
+                                              final foodRecord = FoodModel(
+                                                name_product: txtCon.text.trim(),
+                                                weight_product: wCon.text.trim(),
+                                                protein: (double.parse(pCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                                carb: (double.parse(cCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                                fats: (double.parse(fCon.text.trim()) * (double.parse(wCon.text.trim()) / 100)).toStringAsFixed(1),
+                                                calorie: ((((double.parse(pCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 4) + (((double.parse(cCon.text.trim())) * (double.parse(wCon
+                                                    .text.trim()) / 100)) * 4) + (((double.parse(fCon.text.trim())) * (double.parse(wCon.text.trim()) / 100)) * 9)).toStringAsFixed(1),
+                                              );
+                                              final foodCal = CalModelB(
+                                                cal_b: foodRecord.calorie,
+                                              );
+                                              final foodPCF = ModelPFC(
+                                                protein_value: (double.parse(protein_value) + double.parse(foodRecord.protein.toString())).toStringAsFixed(1),
+                                                fats_value: (double.parse(fats_value) + double.parse(foodRecord.fats.toString())).toStringAsFixed(1),
+                                                carb_value: (double.parse(carb_value) + double.parse(foodRecord.carb.toString())).toStringAsFixed(1),
+                                                calories_value: (double.parse(calories_value) + double.parse(foodRecord.calorie.toString())).toStringAsFixed(1),
+                                              );
+                                              final foodRepo = Get.put(FoodRepository());
+                                              foodRepo.createFoodRecord(foodRecord, id.toString());
+                                              foodRepo.createFoodCalB(foodCal, id.toString());
+                                              foodRepo.updatePFC(foodPCF, id.toString(), id_PFC.toString());
+                                              widget.goTR.goToRoute(AllRoutes.food);
+                                            } else{
+                                              showDialog<void>(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      backgroundColor: Colors.blueGrey,
+                                                      title: Text(
+                                                        'Поля не заполнены',
+                                                        style: TextStyle(
+                                                            fontFamily: 'Ubuntu',
+                                                            color: Colors.white,
+                                                            fontSize: 28,
+                                                            fontStyle: FontStyle.normal,
+                                                            fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                      content: const Text(
+                                                        'Для добавления записи заполните поля',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 22,
+                                                          fontStyle: FontStyle.normal,
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                          child: Text(
+                                                            'Ок',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 22,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: FontWeight.bold
+                                                            ),
+                                                          ),
+                                                          style: ElevatedButton.styleFrom(
+                                                            backgroundColor: Colors.black12,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                            }
+                                            }catch(e){
+                                              showDialog<void>(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      backgroundColor: Colors.blueGrey,
+                                                      title: Text(
+                                                        'Поля не заполнены',
+                                                        style: TextStyle(
+                                                            fontFamily: 'Ubuntu',
+                                                            color: Colors.white,
+                                                            fontSize: 28,
+                                                            fontStyle: FontStyle.normal,
+                                                            fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                      content: const Text(
+                                                        'Для добавления записи заполните поля',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 22,
+                                                          fontStyle: FontStyle.normal,
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                          child: Text(
+                                                            'Ок',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 22,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: FontWeight.bold
+                                                            ),
+                                                          ),
+                                                          style: ElevatedButton.styleFrom(
+                                                            backgroundColor: Colors.black12,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                            }
+                                            },
                                           child: Text(
                                             'Добавить',
                                             style: TextStyle(fontFamily: 'Ubuntu',
@@ -876,6 +1171,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                       } else{
                                       return ElevatedButton(
                                         onPressed: () {
+                                          try{
+                                          if(txtCon.text.trim().isNotEmpty){
                                           foodPageCal.blbl = true;
                                           final foodRecord = FoodModel(
                                             name_product: txtCon.text.trim(),
@@ -899,7 +1196,103 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                           foodRepo.createFoodCalB(foodCal, id.toString());
                                           foodRepo.createFoodPFC(foodPCF, id.toString());
                                           widget.goTR.goToRoute(AllRoutes.food);
-                                        },
+                                        } else{
+                                            showDialog<void>(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: Colors.blueGrey,
+                                                    title: Text(
+                                                      'Поля не заполнены',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 28,
+                                                          fontStyle: FontStyle.normal,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    content: const Text(
+                                                      'Для добавления записи заполните поля',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Ок',
+                                                          style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                              fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.black12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                          }catch (e){
+                                            showDialog<void>(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor: Colors.blueGrey,
+                                                    title: Text(
+                                                      'Поля не заполнены',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Ubuntu',
+                                                          color: Colors.white,
+                                                          fontSize: 28,
+                                                          fontStyle: FontStyle.normal,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    content: const Text(
+                                                      'Для добавления записи заполните поля',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Ubuntu',
+                                                        color: Colors.white,
+                                                        fontSize: 22,
+                                                        fontStyle: FontStyle.normal,
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Ок',
+                                                          style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                              fontWeight: FontWeight.bold
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: Colors.black12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                          } ,
                                         child: Text(
                                           'Добавить',
                                           style: TextStyle(fontFamily: 'Ubuntu',

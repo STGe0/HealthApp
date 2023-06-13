@@ -144,7 +144,7 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                               child: Column(
                                 children: [
                                   Text(
-                                    'Продукт на обед',
+                                    'Продукт на перекус',
                                     style: TextStyle(
                                       fontFamily: 'Ubuntu',
                                       color: Colors.white,
@@ -432,6 +432,8 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                             final calories_value = snapshotPFC.data!.calories_value.toString();
                                             return ElevatedButton(
                                               onPressed: () async {
+                                                try{
+                                                  if(txtCon.text.trim().isNotEmpty){
                                                 foodPageCal.blbl = true;
                                                 final foodRecord = FoodModel(
                                                   name_product: txtCon.text.trim(),
@@ -456,7 +458,101 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                                 await controllerFoodB.updateCalP(foodCal, id, id_b.toString());
                                                 foodRepo.updatePFC(foodPCF, id.toString(), id_PFC.toString());
                                                 widget.goTR.goToRoute(AllRoutes.food);
-                                              },
+                                              }else{
+                                                    showDialog<void>(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            backgroundColor: Colors.blueGrey,
+                                                            title: Text(
+                                                              'Поля не заполнены',
+                                                              style: TextStyle(
+                                                                  fontFamily: 'Ubuntu',
+                                                                  color: Colors.white,
+                                                                  fontSize: 28,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  fontWeight: FontWeight.bold
+                                                              ),
+                                                            ),
+                                                            content: const Text(
+                                                              'Для добавления записи заполните поля',
+                                                              style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 22,
+                                                                fontStyle: FontStyle.normal,
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                child: Text(
+                                                                  'Ок',
+                                                                  style: TextStyle(
+                                                                      fontFamily: 'Ubuntu',
+                                                                      color: Colors.white,
+                                                                      fontSize: 22,
+                                                                      fontStyle: FontStyle.normal,
+                                                                      fontWeight: FontWeight.bold
+                                                                  ),
+                                                                ),
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.black12,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
+                                                  }}catch(e){
+                                                  showDialog<void>(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          backgroundColor: Colors.blueGrey,
+                                                          title: Text(
+                                                            'Поля не заполнены',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 28,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: FontWeight.bold
+                                                            ),
+                                                          ),
+                                                          content: const Text(
+                                                            'Для добавления записи заполните поля',
+                                                            style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                              child: Text(
+                                                                'Ок',
+                                                                style: TextStyle(
+                                                                    fontFamily: 'Ubuntu',
+                                                                    color: Colors.white,
+                                                                    fontSize: 22,
+                                                                    fontStyle: FontStyle.normal,
+                                                                    fontWeight: FontWeight.bold
+                                                                ),
+                                                              ),
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.black12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                }},
                                               child: Text(
                                                 'Добавить',
                                                 style: TextStyle(fontFamily: 'Ubuntu',
@@ -477,6 +573,8 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                           } else{
                                             return ElevatedButton(
                                               onPressed: () async {
+                                                try{
+                                                  if(txtCon.text.trim().isNotEmpty){
                                                 foodPageCal.blbl = true;
                                                 final foodRecord = FoodModel(
                                                   name_product: txtCon.text.trim(),
@@ -501,7 +599,101 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                                 await controllerFoodB.updateCalP(foodCal, id, id_b.toString());
                                                 foodRepo.createFoodPFC(foodPCF, id.toString());
                                                 widget.goTR.goToRoute(AllRoutes.food);
-                                              },
+                                              }else{
+                                                    showDialog<void>(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            backgroundColor: Colors.blueGrey,
+                                                            title: Text(
+                                                              'Поля не заполнены',
+                                                              style: TextStyle(
+                                                                  fontFamily: 'Ubuntu',
+                                                                  color: Colors.white,
+                                                                  fontSize: 28,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  fontWeight: FontWeight.bold
+                                                              ),
+                                                            ),
+                                                            content: const Text(
+                                                              'Для добавления записи заполните поля',
+                                                              style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 22,
+                                                                fontStyle: FontStyle.normal,
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                child: Text(
+                                                                  'Ок',
+                                                                  style: TextStyle(
+                                                                      fontFamily: 'Ubuntu',
+                                                                      color: Colors.white,
+                                                                      fontSize: 22,
+                                                                      fontStyle: FontStyle.normal,
+                                                                      fontWeight: FontWeight.bold
+                                                                  ),
+                                                                ),
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.black12,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
+                                                  }}catch(e){
+                                                  showDialog<void>(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          backgroundColor: Colors.blueGrey,
+                                                          title: Text(
+                                                            'Поля не заполнены',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 28,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: FontWeight.bold
+                                                            ),
+                                                          ),
+                                                          content: const Text(
+                                                            'Для добавления записи заполните поля',
+                                                            style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                              child: Text(
+                                                                'Ок',
+                                                                style: TextStyle(
+                                                                    fontFamily: 'Ubuntu',
+                                                                    color: Colors.white,
+                                                                    fontSize: 22,
+                                                                    fontStyle: FontStyle.normal,
+                                                                    fontWeight: FontWeight.bold
+                                                                ),
+                                                              ),
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.black12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                }},
                                               child: Text(
                                                 'Добавить',
                                                 style: TextStyle(fontFamily: 'Ubuntu',
@@ -543,7 +735,7 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                               child: Column(
                                 children: [
                                   Text(
-                                    'Продукт на обед',
+                                    'Продукт на перекус',
                                     style: TextStyle(
                                       fontFamily: 'Ubuntu',
                                       color: Colors.white,
@@ -834,6 +1026,8 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                             final calories_value = snapshotPFC.data!.calories_value.toString();
                                             return ElevatedButton(
                                               onPressed: () {
+                                                try{
+                                                  if(txtCon.text.trim().isNotEmpty){
                                                 foodPageCal.blbl = true;
                                                 final foodRecord = FoodModel(
                                                   name_product: txtCon.text.trim(),
@@ -857,7 +1051,101 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                                 foodRepo.createFoodCalP(foodCal, id.toString());
                                                 foodRepo.updatePFC(foodPCF, id.toString(), id_PFC.toString());
                                                 widget.goTR.goToRoute(AllRoutes.food);
-                                              },
+                                              }else{
+                                                    showDialog<void>(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            backgroundColor: Colors.blueGrey,
+                                                            title: Text(
+                                                              'Поля не заполнены',
+                                                              style: TextStyle(
+                                                                  fontFamily: 'Ubuntu',
+                                                                  color: Colors.white,
+                                                                  fontSize: 28,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  fontWeight: FontWeight.bold
+                                                              ),
+                                                            ),
+                                                            content: const Text(
+                                                              'Для добавления записи заполните поля',
+                                                              style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 22,
+                                                                fontStyle: FontStyle.normal,
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                child: Text(
+                                                                  'Ок',
+                                                                  style: TextStyle(
+                                                                      fontFamily: 'Ubuntu',
+                                                                      color: Colors.white,
+                                                                      fontSize: 22,
+                                                                      fontStyle: FontStyle.normal,
+                                                                      fontWeight: FontWeight.bold
+                                                                  ),
+                                                                ),
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.black12,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
+                                                  }}catch(e){
+                                                  showDialog<void>(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          backgroundColor: Colors.blueGrey,
+                                                          title: Text(
+                                                            'Поля не заполнены',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 28,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: FontWeight.bold
+                                                            ),
+                                                          ),
+                                                          content: const Text(
+                                                            'Для добавления записи заполните поля',
+                                                            style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                              child: Text(
+                                                                'Ок',
+                                                                style: TextStyle(
+                                                                    fontFamily: 'Ubuntu',
+                                                                    color: Colors.white,
+                                                                    fontSize: 22,
+                                                                    fontStyle: FontStyle.normal,
+                                                                    fontWeight: FontWeight.bold
+                                                                ),
+                                                              ),
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.black12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                }},
                                               child: Text(
                                                 'Добавить',
                                                 style: TextStyle(fontFamily: 'Ubuntu',
@@ -878,6 +1166,8 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                           } else{
                                             return ElevatedButton(
                                               onPressed: () {
+                                                try{
+                                                  if(txtCon.text.trim().isNotEmpty){
                                                 foodPageCal.blbl = true;
                                                 final foodRecord = FoodModel(
                                                   name_product: txtCon.text.trim(),
@@ -901,7 +1191,101 @@ class _AddFoodScreenPState extends State<AddFoodScreenP> {
                                                 foodRepo.createFoodCalP(foodCal, id.toString());
                                                 foodRepo.createFoodPFC(foodPCF, id.toString());
                                                 widget.goTR.goToRoute(AllRoutes.food);
-                                              },
+                                              }else{
+                                                    showDialog<void>(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            backgroundColor: Colors.blueGrey,
+                                                            title: Text(
+                                                              'Поля не заполнены',
+                                                              style: TextStyle(
+                                                                  fontFamily: 'Ubuntu',
+                                                                  color: Colors.white,
+                                                                  fontSize: 28,
+                                                                  fontStyle: FontStyle.normal,
+                                                                  fontWeight: FontWeight.bold
+                                                              ),
+                                                            ),
+                                                            content: const Text(
+                                                              'Для добавления записи заполните поля',
+                                                              style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 22,
+                                                                fontStyle: FontStyle.normal,
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                child: Text(
+                                                                  'Ок',
+                                                                  style: TextStyle(
+                                                                      fontFamily: 'Ubuntu',
+                                                                      color: Colors.white,
+                                                                      fontSize: 22,
+                                                                      fontStyle: FontStyle.normal,
+                                                                      fontWeight: FontWeight.bold
+                                                                  ),
+                                                                ),
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.black12,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
+                                                  }}catch(e){
+                                                  showDialog<void>(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          backgroundColor: Colors.blueGrey,
+                                                          title: Text(
+                                                            'Поля не заполнены',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Ubuntu',
+                                                                color: Colors.white,
+                                                                fontSize: 28,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: FontWeight.bold
+                                                            ),
+                                                          ),
+                                                          content: const Text(
+                                                            'Для добавления записи заполните поля',
+                                                            style: TextStyle(
+                                                              fontFamily: 'Ubuntu',
+                                                              color: Colors.white,
+                                                              fontSize: 22,
+                                                              fontStyle: FontStyle.normal,
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                              child: Text(
+                                                                'Ок',
+                                                                style: TextStyle(
+                                                                    fontFamily: 'Ubuntu',
+                                                                    color: Colors.white,
+                                                                    fontSize: 22,
+                                                                    fontStyle: FontStyle.normal,
+                                                                    fontWeight: FontWeight.bold
+                                                                ),
+                                                              ),
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.black12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                }},
                                               child: Text(
                                                 'Добавить',
                                                 style: TextStyle(fontFamily: 'Ubuntu',
