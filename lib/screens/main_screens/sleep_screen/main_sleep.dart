@@ -102,6 +102,7 @@ class _SleepScreenState extends State<SleepScreen> {
 
   @override
   Widget build(BuildContext context) {
+    foodPageCal.valueS = DateTime.now();
     final controller = Get.put(SleepController());
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),

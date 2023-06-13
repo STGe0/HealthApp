@@ -963,7 +963,6 @@ class _FoodScreenState extends State<FoodScreen> {
                             future: controllerF.getAllFRecords(),
                             builder: (context, snapshotAll) {
                               try {
-                                foodPageCal.PageCal_o = 0;
                                 id = snapshotAll.data![0].id!;
                               } catch (e) {}
                               return FutureBuilder(
@@ -1464,7 +1463,6 @@ class _FoodScreenState extends State<FoodScreen> {
                             future: controllerF.getAllFRecords(),
                             builder: (context, snapshotAll) {
                               try {
-                                foodPageCal.PageCal_u = 0;
                                 id = snapshotAll.data![0].id!;
                               } catch (e) {}
                               return FutureBuilder(
@@ -1967,7 +1965,6 @@ class _FoodScreenState extends State<FoodScreen> {
                             future: controllerF.getAllFRecords(),
                             builder: (context, snapshotAll) {
                               try {
-                                foodPageCal.PageCal_p = 0;
                                 id = snapshotAll.data![0].id!;
                               } catch (e) {}
                               return FutureBuilder(

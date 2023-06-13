@@ -160,6 +160,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
     final minutes = time.minute.toString().padLeft(2, '0');
     final controllerUser = Get.put(ProfileController());
     String status = 'Нормально';
+    String id = '0';
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 27, 35, 36),
       appBar: AppBar(
@@ -179,6 +180,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
             return IconButton(
                 splashRadius: 24,
                 onPressed: () {
+
                   widget.goTR.goToRoute(AllRoutes.sleep);
                 },
                 icon: Icon(LineAwesomeIcons.angle_left));
@@ -221,6 +223,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                             onPressed: (){
                               setState(() {
                                 _value = _value.subtract(Duration(days: 1));
+                                foodPageCal.valueS = _value;
                               });
                             },
                           ),
@@ -245,6 +248,7 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                               } else {
                                 setState(() {
                                   _value = _value.add(Duration(days: 1));
+                                  foodPageCal.valueS = _value;
                                 });
                               }
                             },
@@ -308,48 +312,113 @@ class _AddSleepScreenState extends State<AddSleepScreen> {
                       SizedBox(
                         height: 55,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          try {
-                            if(int.parse(hours) <= 6){
-                              setState(() {
-                                status = 'Недостаток сна';
-                              });
-                            } else{
-                              if(int.parse(hours) >= 10){
+                      FutureBuilder(
+                      future: controller.getAllSleepRecordsS(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if(snapshot.data!.isEmpty) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            try {
+                              if (int.parse(hours) <= 6) {
                                 setState(() {
-                                  status = 'Выше нормы';
+                                  status = 'Недостаток сна';
                                 });
+                              } else {
+                                if (int.parse(hours) >= 10) {
+                                  setState(() {
+                                    status = 'Выше нормы';
+                                  });
+                                }
                               }
-                            }
-                            final sleepRecord = SleepModel(
+                              final sleepRecord = SleepModel(
                                 Email_user: userData.email.toString(),
                                 Date_record: _dateFormatter(_value),
                                 Duration: '${hours}:${minutes}',
                                 Status: status,
-                            );
-                            final sleepRepo = Get.put(SleepRepository());
-                            sleepRepo.createSleepRecord(sleepRecord);
+                              );
+                              final sleepRepo = Get.put(SleepRepository());
+                              sleepRepo.createSleepRecord(sleepRecord);
 
-                            widget.goTR.goToRoute(AllRoutes.sleep);
-                          } catch (e) {}
-                        },
-                        child: Text(
-                          'Добавить',
-                          style: TextStyle(
-                              fontFamily: 'Ubuntu',
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.bold
+                              widget.goTR.goToRoute(AllRoutes.sleep);
+                            } catch (e) {}
+                          },
+                          child: Text(
+                            'Добавить',
+                            style: TextStyle(
+                                fontFamily: 'Ubuntu',
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          side: BorderSide.none,
-                          shape: const StadiumBorder(),
-                          backgroundColor: Colors.blueGrey,
-                          minimumSize: Size(150, 50),
-                        ),
+                          style: ElevatedButton.styleFrom(
+                            side: BorderSide.none,
+                            shape: const StadiumBorder(),
+                            backgroundColor: Colors.blueGrey,
+                            minimumSize: Size(150, 50),
+                          ),
+                        );
+                      } else{
+                            id = snapshot.data![0].id.toString();
+                            return ElevatedButton(
+                              onPressed: () {
+                                try {
+                                  if (int.parse(hours) <= 6) {
+                                    setState(() {
+                                      status = 'Недостаток сна';
+                                    });
+                                  } else {
+                                    if (int.parse(hours) >= 10) {
+                                      setState(() {
+                                        status = 'Выше нормы';
+                                      });
+                                    }
+                                  }
+                                  final sleepRecord = SleepModel(
+                                    Email_user: userData.email.toString(),
+                                    Date_record: _dateFormatter(_value),
+                                    Duration: '${hours}:${minutes}',
+                                    Status: status,
+                                  );
+                                  final sleepRepo = Get.put(SleepRepository());
+                                  sleepRepo.updateSleepRecord(sleepRecord, id);
+
+                                  widget.goTR.goToRoute(AllRoutes.sleep);
+                                } catch (e) {}
+                              },
+                              child: Text(
+                                'Добавить',
+                                style: TextStyle(
+                                    fontFamily: 'Ubuntu',
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                side: BorderSide.none,
+                                shape: const StadiumBorder(),
+                                backgroundColor: Colors.blueGrey,
+                                minimumSize: Size(150, 50),
+                              ),
+                            );
+                          }
+                        } else{
+                          return Center(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                CircularProgressIndicator(),
+                              ],
+                            ),
+                          );
+                        }
+                      }
                       ),
                     ],
                   ),

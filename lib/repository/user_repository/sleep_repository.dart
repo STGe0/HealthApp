@@ -18,8 +18,8 @@ class SleepRepository extends GetxController{
     return sleepData;
   }
 
-  Future<void> updateSleepRecord(SleepModel sleep) async{
-    await _db.collection("sleep").doc(sleep.id).update(sleep.toJsonSleep());
+  Future<void> updateSleepRecord(SleepModel sleep, String id) async{
+    await _db.collection("sleep").doc(id).update(sleep.toJsonSleep());
   }
 
   Future<void> deleteSleepRecord(SleepModel sleep) async{
@@ -29,6 +29,15 @@ class SleepRepository extends GetxController{
   Future<List<SleepModel>> allSleepRecords(String email) async{
     final snapshot = await _db.collection("sleep")
         .where("Email_user", isEqualTo: email)
+        .get();
+    final sleepRecords = snapshot.docs.map((e) => SleepModel.fromSnapshot(e)).toList();
+
+    return sleepRecords;
+  }
+
+  Future<List<SleepModel>> allSleepRecordsS(String email, String date) async{
+    final snapshot = await _db.collection("sleep")
+        .where("Email_user", isEqualTo: email).where("Date_record", isEqualTo: date)
         .get();
     final sleepRecords = snapshot.docs.map((e) => SleepModel.fromSnapshot(e)).toList();
 
