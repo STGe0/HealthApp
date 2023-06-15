@@ -68,6 +68,7 @@ class workoutVarGym{
 
 class imtSector{
   final String colIMT = 'red';
+  static bool settings = false;
 }
 
 class userEmail{

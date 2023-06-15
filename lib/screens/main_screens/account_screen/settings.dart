@@ -64,8 +64,8 @@ class _SettingsScreenState extends State<SettingsScreen>{
                   ),
                   Center(
                     child: Switch.adaptive(
-                      value: value,
-                      onChanged: (newValue) => setState(() => value = newValue),
+                      value: imtSector.settings,
+                      onChanged: (newValue) => setState(() => imtSector.settings = newValue),
                       inactiveTrackColor: Colors.blueGrey,
                       activeColor: Colors.lightGreenAccent,
                     ),

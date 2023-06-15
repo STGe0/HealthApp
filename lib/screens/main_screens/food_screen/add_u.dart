@@ -155,6 +155,19 @@ class _AddFoodScreenUState extends State<AddFoodScreenU> {
                                   SizedBox(
                                     height: 15,
                                   ),
+                                  Text(
+                                    'Укажите данные с упаковки продукта (БЖУ на 100 грамм)',
+                                    style: TextStyle(
+                                      fontFamily: 'Ubuntu',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   TextFormField(
                                     maxLength: 16,
                                     controller: txtCon,
@@ -740,6 +753,19 @@ class _AddFoodScreenUState extends State<AddFoodScreenU> {
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.bold,
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text(
+                                    'Укажите данные с упаковки продукта (БЖУ на 100 грамм)',
+                                    style: TextStyle(
+                                      fontFamily: 'Ubuntu',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                   SizedBox(
                                     height: 15,
